@@ -1,0 +1,462 @@
+[
+  {
+    "family_name": "12.12 Youtube Special",
+    "family_code": "55246d33-3754-4448-9136-ca9534d8a51e",
+    "is_enterprise": false
+  },
+  {
+    "family_name": "Akrab",
+    "family_code": "f4fd69c7-12a4-4047-a1f2-f4072a7c543e",
+    "is_enterprise": false
+  },
+  {
+    "family_name": "Akrab",
+    "family_code": "6e469cb2-443d-402f-ba77-681b032ead6a",
+    "is_enterprise": false
+  },
+  {
+    "family_name": "Akrab",
+    "family_code": "7b24c274-3aa8-42df-ae80-e4e94e33e331",
+    "is_enterprise": false
+  },
+  {
+    "family_name": "Akrab Add On",
+    "family_code": "c5dbcb2d-31cc-462c-afe8-b3a767c6d404",
+    "is_enterprise": false
+  },
+  {
+    "family_name": "Akrab Package",
+    "family_code": "4889cc43-55c9-47dd-8f7e-d3ac9fae6022",
+    "is_enterprise": false
+  },
+  {
+    "family_name": "All Operators",
+    "family_code": "8a8b0f20-4bff-4596-939b-a5cf2dc860b5",
+    "is_enterprise": false
+  },
+  {
+    "family_name": "Apps Quota Xtra Combo Plus 13GB",
+    "family_code": "c4cdefeb-d730-4a1f-be59-1380fa64606c",
+    "is_enterprise": false
+  },
+  {
+    "family_name": "Apps Quota Xtra Combo Plus 18GB",
+    "family_code": "4e7eeac9-ba2c-4f01-9527-e9c9094eac17",
+    "is_enterprise": false
+  },
+  {
+    "family_name": "Apps Quota Xtra Combo Plus 1GB",
+    "family_code": "8080ddcf-18c5-4d6d-86a4-89eb8ca5f2d1",
+    "is_enterprise": false
+  },
+  {
+    "family_name": "Apps Quota Xtra Combo Plus 22GB",
+    "family_code": "ae1ddaa2-28b4-45e1-8105-10b992677f69",
+    "is_enterprise": false
+  },
+  {
+    "family_name": "Apps Quota Xtra Combo Plus 25GB",
+    "family_code": "c35e2543-09f4-435e-98fc-8ed109b7b5d4",
+    "is_enterprise": false
+  },
+  {
+    "family_name": "Apps Quota Xtra Combo Plus 2GB",
+    "family_code": "580c1f94-7dc4-416e-96f6-8faf26567516",
+    "is_enterprise": false
+  },
+  {
+    "family_name": "Apps Quota Xtra Combo Plus 5GB",
+    "family_code": "7e24eb63-9f1c-432d-a25d-8e2363fd0ba7",
+    "is_enterprise": false
+  },
+  {
+    "family_name": "Apps Quota Xtra Combo Plus 8GB",
+    "family_code": "5f2f5a37-f362-4907-894f-c273ca2ed5c5",
+    "is_enterprise": false
+  },
+  {
+    "family_name": "Apps Quota Xtra Combo Plus 8GB",
+    "family_code": "7b01caae-ccbe-48d0-84f2-16453b775978",
+    "is_enterprise": false
+  },
+  {
+    "family_name": "Bebas Puas",
+    "family_code": "d0a349a7-0b3a-4552-bc1d-3fd9ac0a17ee",
+    "is_enterprise": false
+  },
+  {
+    "family_name": "Bebas Puas",
+    "family_code": "eb2f99e5-4fa3-4f34-951f-6769ec9e38a1",
+    "is_enterprise": false
+  },
+  {
+    "family_name": "BIZ Data+",
+    "family_code": "53de8ac3-521d-43f5-98ce-749ad0481709",
+    "is_enterprise": true
+  },
+  {
+    "family_name": "BIZ Manufacture",
+    "family_code": "f3303d95-8454-4e80-bb25-38513d358a11",
+    "is_enterprise": true
+  },
+  {
+    "family_name": "BIZ Prepaid",
+    "family_code": "20342db0-e03e-4dfd-b2d0-cd315d7ddc36",
+    "is_enterprise": true
+  },
+  {
+    "family_name": "Bonus Activation",
+    "family_code": "0069ab97-3e54-41ef-87ea-807621d1922c",
+    "is_enterprise": false
+  },
+  {
+    "family_name": "Bonus Bebas Puas",
+    "family_code": "7e5eb288-58a0-44d0-8002-b66bad210f21",
+    "is_enterprise": false
+  },
+  {
+    "family_name": "Bonus Flex",
+    "family_code": "1b42d4f6-a76e-4986-aa5c-e2979da952f4",
+    "is_enterprise": false
+  },
+  {
+    "family_name": "Bonus myRewards",
+    "family_code": "07461ed8-8a81-4d89-a8f2-4dd0271efdde",
+    "is_enterprise": false
+  },
+  {
+    "family_name": "Bonus Paket Akrab",
+    "family_code": "a677d649-3c5a-46c2-a043-cb69ac841208",
+    "is_enterprise": false
+  },
+  {
+    "family_name": "Bonus XL Circle",
+    "family_code": "6bda0cc4-2f7d-4613-a82d-1edbbb9c4500",
+    "is_enterprise": false
+  },
+  {
+    "family_name": "Booster Akrab",
+    "family_code": "5452eed8-91f3-4e9c-b7bb-0985759d5440",
+    "is_enterprise": false
+  },
+  {
+    "family_name": "Bundling",
+    "family_code": "6bcc96f4-f196-4e8f-969f-e45a121d21bd",
+    "is_enterprise": false
+  },
+  {
+    "family_name": "Daily Bonus Quota",
+    "family_code": "1134d040-52f8-4889-8682-2f200b7b9d03",
+    "is_enterprise": false
+  },
+  {
+    "family_name": "EduConference",
+    "family_code": "fcf982c8-523b-4748-9258-5fca2c0b703d",
+    "is_enterprise": true
+  },
+  {
+    "family_name": "Extend Active Period",
+    "family_code": "44e8b7fa-63ee-490a-9ac2-9308be4a4310",
+    "is_enterprise": false
+  },
+  {
+    "family_name": "family buat hide2 paket ADD ON - prepaid",
+    "family_code": "31c9605f-1a3a-4410-ae45-362650bb507d",
+    "is_enterprise": false
+  },
+  {
+    "family_name": "Fav Roaming Data",
+    "family_code": "eff1d7c3-b780-40f5-88cd-5e2c7f34ccd3",
+    "is_enterprise": false
+  },
+  {
+    "family_name": "KlikFilm Premium",
+    "family_code": "6ce4d213-ff51-4c96-b78c-9c9e273ed5c8",
+    "is_enterprise": false
+  },
+  {
+    "family_name": "Kuota Aplikasi Xtra Combo Plus 10GB",
+    "family_code": "7658c955-a0b9-405f-bb17-de7f43d1a946",
+    "is_enterprise": false
+  },
+  {
+    "family_name": "Kuota Aplikasi Xtra Combo Plus 15GB",
+    "family_code": "45c3a622-8c06-4bb1-8e56-bba1f3434600",
+    "is_enterprise": false
+  },
+  {
+    "family_name": "Kuota Aplikasi Xtra Combo Plus 3GB",
+    "family_code": "cfa1f80d-1979-4237-8207-bce318d0a579",
+    "is_enterprise": false
+  },
+  {
+    "family_name": "Kuota Aplikasi Xtra Combo Plus 4GB",
+    "family_code": "972c285a-1c1b-4b0b-8bed-3957eb05b840",
+    "is_enterprise": false
+  },
+  {
+    "family_name": "Kuota Aplikasi Xtra Combo Plus 6GB",
+    "family_code": "5412b964-474e-42d3-9c86-f5692da627db",
+    "is_enterprise": false
+  },
+  {
+    "family_name": "Kuota Aplikasi Xtra Combo Plus 9GB",
+    "family_code": "4609ecfe-5077-4048-915d-bf9a16b5805e",
+    "is_enterprise": false
+  },
+  {
+    "family_name": "Kuota Bersama",
+    "family_code": "d018a3ad-172f-433c-b291-f574f4b6fbad",
+    "is_enterprise": false
+  },
+  {
+    "family_name": "Kuota Bersama Prepaid",
+    "family_code": "434a1449-1d18-43f8-b059-10b3d5e3f5c3",
+    "is_enterprise": false
+  },
+  {
+    "family_name": "Kuota Gaming",
+    "family_code": "fc77cc03-4b05-4e79-8e42-5308c3f81fd1",
+    "is_enterprise": false
+  },
+  {
+    "family_name": "Music Streaming",
+    "family_code": "98e02b8d-53cf-4b19-a091-cc57d6d91cc7",
+    "is_enterprise": false
+  },
+  {
+    "family_name": "Navigation",
+    "family_code": "971dd733-602a-4440-abdd-9dbe9bfa951d",
+    "is_enterprise": false
+  },
+  {
+    "family_name": "Newcomer Promo",
+    "family_code": "6bc5a34d-7901-4bf9-8629-5bd7de28c89f",
+    "is_enterprise": false
+  },
+  {
+    "family_name": "Night Quota",
+    "family_code": "64e63f53-6889-4d12-a0b4-ef9ea77b9efc",
+    "is_enterprise": false
+  },
+  {
+    "family_name": "Pilkada Damai",
+    "family_code": "e3b2c02e-0e2f-4275-a6de-84fb9efab992",
+    "is_enterprise": false
+  },
+  {
+    "family_name": "Prepaid Placeholder",
+    "family_code": "86d86765-65a6-4ece-8056-ab2b220429e4",
+    "is_enterprise": false
+  },
+  {
+    "family_name": "ShopeePay 12.12",
+    "family_code": "a95ff678-d7aa-48a5-9ab5-103bcc295e92",
+    "is_enterprise": false
+  },
+  {
+    "family_name": "Social Media",
+    "family_code": "2f2ecdb9-0766-4e15-b4de-000b2d6ce359",
+    "is_enterprise": false
+  },
+  {
+    "family_name": "Special 12.12",
+    "family_code": "3f12a163-d66d-47dd-b9c5-2307d7c9a07b",
+    "is_enterprise": false
+  },
+  {
+    "family_name": "Special For You",
+    "family_code": "6fda76ee-e789-4897-89fb-9114da47b805",
+    "is_enterprise": false
+  },
+  {
+    "family_name": "Special For You",
+    "family_code": "c795cf08-66f4-4374-99b0-1ae24b7404af",
+    "is_enterprise": false
+  },
+  {
+    "family_name": "Special Package",
+    "family_code": "97f309d9-e5cc-40a4-940e-8bbdfedb2a12",
+    "is_enterprise": false
+  },
+  {
+    "family_name": "Testing BSS",
+    "family_code": "d738d292-64fb-4f27-a8e9-01d9a57f20e2",
+    "is_enterprise": false
+  },
+  {
+    "family_name": "Umrah & Hajj",
+    "family_code": "8358dc90-0717-45e8-8fb1-7ca8470d6562",
+    "is_enterprise": false
+  },
+  {
+    "family_name": "Umroh Plus",
+    "family_code": "7360a68a-737c-467d-b617-3022ff0a9235",
+    "is_enterprise": false
+  },
+  {
+    "family_name": "Unlimited Turbo",
+    "family_code": "08a3b1e6-8e78-4e45-a540-b40f06871cfe",
+    "is_enterprise": false
+  },
+  {
+    "family_name": "Video & Music",
+    "family_code": "05c159a8-5f64-4bb5-9ec3-7b47c8dfb7c5",
+    "is_enterprise": false
+  },
+  {
+    "family_name": "Vidio Diamond",
+    "family_code": "68fd16bd-bf70-42f7-8479-903e1cc36a31",
+    "is_enterprise": false
+  },
+  {
+    "family_name": "Vidio Platinum",
+    "family_code": "18d5ea5c-c1bf-4450-9f3e-43b40ef69dad",
+    "is_enterprise": false
+  },
+  {
+    "family_name": "Vidio Platinum Extra",
+    "family_code": "ce36962f-c56d-4568-9195-24cc61d4d703",
+    "is_enterprise": false
+  },
+  {
+    "family_name": "Vidio Ultimate",
+    "family_code": "e2dbb9ed-bc4c-4d09-9e1f-78d54ec9917d",
+    "is_enterprise": false
+  },
+  {
+    "family_name": "Vision+ Premium Sports",
+    "family_code": "6abdce39-3f45-46b0-8cbe-f760e774101e",
+    "is_enterprise": false
+  },
+  {
+    "family_name": "Viu Premium",
+    "family_code": "2faefba5-6d74-45fe-abcd-9517c6d1697d",
+    "is_enterprise": false
+  },
+  {
+    "family_name": "Voucher",
+    "family_code": "96d99f87-8963-40e4-a522-8bea86504fee",
+    "is_enterprise": false
+  },
+  {
+    "family_name": "Work & School",
+    "family_code": "5d63dddd-4f90-4f4c-8438-2f005c20151f",
+    "is_enterprise": false
+  },
+  {
+    "family_name": "XL PASS",
+    "family_code": "fff99b6b-5a5d-4ba4-a55b-38f6aca6f91d",
+    "is_enterprise": false
+  },
+  {
+    "family_name": "XL PASS LITE",
+    "family_code": "7fed7aa1-946f-44ce-9eb4-488a7e15c68a",
+    "is_enterprise": false
+  },
+  {
+    "family_name": "XL Poin",
+    "family_code": "784be350-9364-4f03-8efa-e7cf31e8baa2",
+    "is_enterprise": false
+  },
+  {
+    "family_name": "Xtra Combo Flex",
+    "family_code": "4a1acab0-da54-462c-84b1-25fd0efa9318",
+    "is_enterprise": false
+  },
+  {
+    "family_name": "Xtra Combo Flex",
+    "family_code": "3a6a256f-1524-4dc3-a989-35584f31c265",
+    "is_enterprise": false
+  },
+  {
+    "family_name": "Xtra Combo Flex",
+    "family_code": "3c71892a-852c-4a0f-8cb5-9cf731e26508",
+    "is_enterprise": false
+  },
+  {
+    "family_name": "Xtra Combo Flex - Latest",
+    "family_code": "3fc46cbb-6092-426f-84a0-117e586ec5f0",
+    "is_enterprise": false
+  },
+  {
+    "family_name": "Xtra Combo Flex - SP After",
+    "family_code": "ccb162e6-b7cf-4162-8e3f-662e67cbb4cb",
+    "is_enterprise": false
+  },
+  {
+    "family_name": "Xtra Combo Lite",
+    "family_code": "fd0dc5d5-1c1b-4525-90b6-86ac2ee10ad0",
+    "is_enterprise": false
+  },
+  {
+    "family_name": "Xtra Combo Mini",
+    "family_code": "ad176860-49d4-4bdd-9161-ab38dc6a631b",
+    "is_enterprise": false
+  },
+  {
+    "family_name": "Xtra Combo Mini (Gift)",
+    "family_code": "e3c4aedb-88c8-436a-af01-d773b2533907",
+    "is_enterprise": false
+  },
+  {
+    "family_name": "Xtra Combo Plus",
+    "family_code": "23b71540-8785-4abe-816d-e9b4efa48f95",
+    "is_enterprise": false
+  },
+  {
+    "family_name": "Xtra Combo Plus",
+    "family_code": "f6197a91-343c-4154-8d6a-b35f2110ce58",
+    "is_enterprise": false
+  },
+  {
+    "family_name": "Xtra Combo Plus",
+    "family_code": "e0f9605b-5dad-486e-a378-cf40d5b7f2ba",
+    "is_enterprise": false
+  },
+  {
+    "family_name": "Xtra Combo Plus (CHOOSE)",
+    "family_code": "81fa3263-a5f8-4962-b2f8-ffd08b05dbc4",
+    "is_enterprise": false
+  },
+  {
+    "family_name": "XTRA Combo Plus (Gift)",
+    "family_code": "0895946e-d277-4218-914c-b663c09debf7",
+    "is_enterprise": false
+  },
+  {
+    "family_name": "Xtra Combo Plus (Old)",
+    "family_code": "364d5764-77d3-41b8-9c22-575b555bf9df",
+    "is_enterprise": false
+  },
+  {
+    "family_name": "Xtra Combo Special",
+    "family_code": "3e6d45f1-f314-4acd-a75b-be40c0726198",
+    "is_enterprise": false
+  },
+  {
+    "family_name": "Xtra Main Quota",
+    "family_code": "b903c49b-04bb-41cc-bdce-d103f151bd5c",
+    "is_enterprise": false
+  },
+  {
+    "family_name": "Xtra On",
+    "family_code": "5cc06efb-cdc4-4656-afdc-0c1597245c9e",
+    "is_enterprise": false
+  },
+  {
+    "family_name": "XTRA Surprise",
+    "family_code": "f3a514f7-1828-4738-a6f0-fc9836328f4e",
+    "is_enterprise": false
+  },
+  {
+    "family_name": "Xtra Unlimited Turbo untuk HotRod Baru",
+    "family_code": "74eb925a-4a05-4ede-b04b-edd90786419b",
+    "is_enterprise": false
+  },
+  {
+    "family_name": "YouTube Quota Promo",
+    "family_code": "1fe292a5-5fef-430e-917b-e0eaeeb89f93",
+    "is_enterprise": false
+  }
+]
