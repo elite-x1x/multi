@@ -3,9 +3,39 @@ load_dotenv()
 
 import sys, json, random
 from datetime import datetime
-from app3.config.imports import *
-from app3.menus.util import clear_screenx
-from app3.menus.sharing import show_balance_allotment_menu
+from app2.config.imports import *
+from app2.menus.util import clear_screenx
+from app2.menus.sharing import show_balance_allotment_menu
+from app2.menus.purchase import redeem_looping
+from app2.menus.family import show_family_input_menu
+from rich.text import Text
+
+
+def render_quota_bar(remaining: int, total: int) -> Text:
+    if total <= 0:
+        return Text("Tidak ada kuota", style="bold red")
+    ratio = remaining / total
+    bar_length = 20
+    filled = int(ratio * bar_length)
+    empty = bar_length - filled
+
+    if ratio > 0.5:
+        color = "green"
+        emoji = "🚀"
+    elif ratio > 0.2:
+        color = "yellow"
+        emoji = "📊"
+    else:
+        color = "red"
+        emoji = "⚠️"
+
+    angka = f"{emoji} {remaining/1e9:.2f} / {total/1e9:.2f} GB"
+    bar = f"    {'▓'*filled}{'░'*empty}"
+
+    text = Text()
+    text.append(f"{angka}\n", style="bold")
+    text.append(bar, style=color)
+    return text
 
 
 def show_main_menu(profile: dict, display_quota: str, segments: dict):
@@ -20,17 +50,17 @@ def show_main_menu(profile: dict, display_quota: str, segments: dict):
     info_table.add_column(justify="left", style=get_theme_style("border_info"))
     info_table.add_column(justify="left", style=get_theme_style("text_body"))
 
-    info_table.add_row(" Nomor", f": 📞 [bold {theme['text_body']}]{profile['number']}[/]")
-    info_table.add_row(" Type", f": 🧾 [{theme['text_body']}]{profile['subscription_type']} ({profile['subscriber_id']})[/]")
-    info_table.add_row(" Pulsa", f": 💰 Rp [{theme['text_money']}]{pulsa_str}[/]")
-    info_table.add_row(" Kuota", f": 📊 [{theme['text_date']}]{display_quota}[/]")
-    info_table.add_row(" Tiering", f": 🏅 [{theme['text_date']}]{profile['point_info']}[/]")
-    info_table.add_row(" Masa Aktif", f": ⏳ [{theme['text_date']}]{expired_at_dt}[/]")
+    info_table.add_row(" 📞 Nomor", f"👉 [{theme['text_body']}]{profile['number']}[/]")
+    info_table.add_row(" 🧾 Tipe", f"🤙 [{theme['text_body']}]{profile['subscription_type']} ({profile['subscriber_id']})[/]")
+    info_table.add_row(" 💰 Pulsa", f"💸 Rp [{theme['text_money']}]{pulsa_str}[/]")
+    info_table.add_row(" 📊 Kuota", Text("⚡") + display_quota)
+    info_table.add_row(" 🏅 Tiering", f"🔥 [{theme['text_date']}]{profile['point_info']}[/]")
+    info_table.add_row(" ⏳ Masa Aktif", f"⌛ [{theme['text_date']}]{expired_at_dt}[/]")
 
     console.print(
         Panel(
             info_table,
-            title=f"[{get_theme_style('text_title')}][ Informasi Akun ][/]",
+            title=f"[{get_theme_style('text_title')}]✨✨✨ Info Akun Lo ✨✨✨[/]",
             title_align="center",
             border_style=get_theme_style("border_info"),
             padding=(1, 2),
@@ -38,62 +68,34 @@ def show_main_menu(profile: dict, display_quota: str, segments: dict):
         )
     )
 
-    special_packages = segments.get("special_packages", [])
-    if special_packages:
-        best = random.choice(special_packages)
-        name = best.get("name", "-")
-        diskon_percent = best.get("diskon_percent", 0)
-        diskon_price = best.get("diskon_price", 0)
-        original_price = best.get("original_price", 0)
-        emoji_diskon = "💸" if diskon_percent >= 50 else ""
-        emoji_kuota = "🔥" if best.get("kuota_gb", 0) >= 100 else ""
-
-        special_text = (
-            f"[bold {theme['text_title']}]🔥🔥🔥 Paket Special Buat Lo! 🔥🔥🔥[/{theme['text_title']}]\n\n"
-            f"[{theme['text_body']}]{emoji_kuota} {name}[/{theme['text_body']}]\n"
-            f"Diskon {diskon_percent}% {emoji_diskon} "
-            f"Rp[{theme['text_err']}][strike]{get_rupiah(original_price)}[/strike][/{theme['text_err']}] ➡️ "
-            f"Rp[{theme['text_money']}]{get_rupiah(diskon_price)}[/{theme['text_money']}]"
-        )
-
-        console.print(
-            Panel(
-                Align.center(special_text),
-                border_style=theme["border_warning"],
-                padding=(0, 2),
-                width=console.size.width,
-            )
-        )
-        console.print(Align.center(f"[{theme['text_sub']}]Pilih [Y] buat lihat semua paket special[/{theme['text_sub']}]"))
-
     menu_table = Table(show_header=False, box=MINIMAL_DOUBLE_HEAD, expand=True)
     menu_table.add_column("Kode", justify="right", style=get_theme_style("text_key"), width=6)
     menu_table.add_column("Aksi", style=get_theme_style("text_body"))
 
-    menu_table.add_row("1", "🔐 Login / Ganti akun")
-    menu_table.add_row("2", "📑 Lihat paket aktif")
-    menu_table.add_row("3", "📜 Riwayat Transaksi")
-    menu_table.add_row("4", "🔥 Beli paket Hot promo")
-    menu_table.add_row("5", "🔥 Beli paket Hot promo-2")
-    menu_table.add_row("6", "💴 Beli paket via Option Code")
-    menu_table.add_row("7", "💵 Beli paket via Family Code")
-    menu_table.add_row("8", "🔁 Borong semua paket di Family Code")
-    menu_table.add_row("9", "🔂 Auto Loop target Paket by Family")
-    menu_table.add_row("", "")
-    menu_table.add_row("[D]", "🎭 Bikin bundle paket ala decoy")
-    menu_table.add_row("[F]", "💾 Save/Kelola Family Code lo")
-    menu_table.add_row("[B]", "📌 Bookmark paket favorit")
-    menu_table.add_row("[C]", f"[{theme['text_body']}]🧹 Bersihin cache akun[/]")
-    menu_table.add_row("[M]", f"[{theme['text_body']}]☕ Lanjut ke menu berikutnya...[/]")
-    menu_table.add_row("", "")
-    menu_table.add_row("66", f"[{theme['border_warning']}]📢 Info kode unlock akun[/]")
-    menu_table.add_row("69", f"[{theme['text_sub']}]🎨 Ganti tema CLI biar kece[/]")
-    menu_table.add_row("99", f"[{theme['text_err']}]⛔ Cabut / Tutup aplikasi[/]")
+    menu_table.add_row("1", "🔐 Login / Ganti akun (biar ga salah orang 😎)")
+    menu_table.add_row("2", "📑 Cek paket aktif (jangan sampe zonk 🫠)")
+    menu_table.add_row("3", "📜 Riwayat transaksi (flashback belanja 💳)")
+    menu_table.add_row("4", "🔥 Hot promo paket (murah meriah 💥)")
+    menu_table.add_row("5", "⚡ Hot promo-2 (lebih ngebut ⚡)")
+    menu_table.add_row("6", "🧩 Via Option Code (kode rahasia 🕵️)")
+    menu_table.add_row("7", "💵 Via Family Code (patungan geng 👨‍👩‍👧‍👦)")
+    menu_table.add_row("8", "🛒 Borong semua paket Family Code (all in 🛍️)")
+    menu_table.add_row("9", "🔂 Auto Loop target Paket (auto pilot 🤖)")
+    menu_table.add_row("10", "🎁 Claim Bonus Bebas Puas (gas terus 🎉)")
+    menu_table.add_row("[D]", "🎭 Bundle paket decoy (kamuflase 🥷)")
+    menu_table.add_row("[F]", "💾 Simpan/Kelola Family Code (arsip family 🗂️)")
+    menu_table.add_row("[G]", "📂 Tools Family Code (alat tempur 🛠️)")
+    menu_table.add_row("[B]", "⭐ Bookmark paket favorit (biar ga ribet 🌟)")
+    menu_table.add_row("[C]", "🧹 Bersihin cache akun (reset vibes 🧼)")
+    menu_table.add_row("[M]", "☕ Lanjut ke menu-2 (next level 🚪)")
+    menu_table.add_row("66", "📢 Info kode unlock (rahasia ilahi 🔑)")
+    menu_table.add_row("69", "🎨 Ganti tema CLI (biar makin estetik 🎨)")
+    menu_table.add_row("99", "⛔ Keluar / Tutup aplikasi (cabut duluan 🏃‍♂️)")
 
     console.print(
         Panel(
             menu_table,
-            title=f"[{get_theme_style('text_title')}]✨ Menu Utama ✨[/]",
+            title=f"[{get_theme_style('text_title')}]🍻 Menu Utama 🍻[/]",
             title_align="center",
             border_style=get_theme_style("border_primary"),
             padding=(0, 1),
