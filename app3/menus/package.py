@@ -553,9 +553,9 @@ def get_packages_by_family(
                 continue
 
 
-def format_unix_date_with_diff(ts: int, mode: str = "future") -> str:
+def format_unix_date_with_diff(ts: int, mode: str = "future", theme=None) -> Text:
     if not ts or ts <= 0:
-        return "N/A"
+        return Text("N/A", style=theme["text_err"] if theme else "bold red")
     try:
         dt = datetime.fromtimestamp(ts)
         bulan = [
@@ -569,36 +569,37 @@ def format_unix_date_with_diff(ts: int, mode: str = "future") -> str:
         delta = dt - now
         total_seconds = int(delta.total_seconds())
 
+        txt = Text()
+        txt.append(f"{tanggal} ", style=theme["text_body"])
+        # 🔴 jam pakai warna dari theme
+        txt.append(jam, style=theme["text_err"])
+
         if mode == "future":
             if total_seconds >= 0:
                 if delta.days > 0:
-                    return f"{tanggal} {jam} (sisa {delta.days} hari)"
+                    txt.append(f" (sisa {delta.days} hari)", style=theme["text_sub"])
                 elif total_seconds >= 3600:
-                    jam_sisa = total_seconds // 3600
-                    return f"{tanggal} {jam} (sisa {jam_sisa} jam)"
+                    txt.append(f" (sisa {total_seconds//3600} jam)", style=theme["text_sub"])
                 elif total_seconds >= 60:
-                    menit_sisa = total_seconds // 60
-                    return f"{tanggal} {jam} (sisa {menit_sisa} menit)"
+                    txt.append(f" (sisa {total_seconds//60} menit)", style=theme["text_sub"])
                 else:
-                    return f"{tanggal} {jam} (sisa {total_seconds} detik)"
+                    txt.append(f" (sisa {total_seconds} detik)", style=theme["text_sub"])
             else:
-                return f"{tanggal} {jam}"  # sudah lewat
-        else:  # mode == "past"
+                txt.append(" (sudah lewat)", style=theme["text_err"])
+        else:
             if total_seconds < 0:
                 if abs(delta.days) > 0:
-                    return f"{tanggal} {jam} ({abs(delta.days)} hari yang lalu)"
+                    txt.append(f" ({abs(delta.days)} hari yang lalu)", style=theme["text_sub"])
                 elif abs(total_seconds) >= 3600:
-                    jam_lalu = abs(total_seconds) // 3600
-                    return f"{tanggal} {jam} ({jam_lalu} jam yang lalu)"
+                    txt.append(f" ({abs(total_seconds)//3600} jam yang lalu)", style=theme["text_sub"])
                 elif abs(total_seconds) >= 60:
-                    menit_lalu = abs(total_seconds) // 60
-                    return f"{tanggal} {jam} ({menit_lalu} menit yang lalu)"
+                    txt.append(f" ({abs(total_seconds)//60} menit yang lalu)", style=theme["text_sub"])
                 else:
-                    return f"{tanggal} {jam} ({abs(total_seconds)} detik yang lalu)"
-            else:
-                return f"{tanggal} {jam}"
+                    txt.append(f" ({abs(total_seconds)} detik yang lalu)", style=theme["text_sub"])
+        return txt
     except Exception:
-        return str(ts)
+        return Text(str(ts), style=theme["text_err"] if theme else "bold red")
+
 
 def fetch_my_packages():
     theme = get_theme()
