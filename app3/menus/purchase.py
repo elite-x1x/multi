@@ -11,10 +11,134 @@ from app3.menus.util import (
     get_rupiah,
     display_html,
     simple_number,
+    delay_inline,
     format_quota_byte
 )
 
+from app3.client.purchase.redeem import settlement_bounty
+
+
 console = Console()
+
+bonus_bookmarks = [
+    {
+        "family_name": "Bonus Bebas Puas",
+        "family_code": "7e5eb288-58a0-44d0-8002-b66bad210f21",
+        "variant_name": "Bonus Bebas Puas",
+        "option_name": "Kuota Youtube & Tiktok 3.13GB",
+        "order": 200
+    },
+    {
+        "family_name": "Bonus Bebas Puas",
+        "family_code": "7e5eb288-58a0-44d0-8002-b66bad210f21",
+        "variant_name": "Bonus Bebas Puas",
+        "option_name": "Kuota Utama 1.25GB",
+        "order": 201
+    },
+    {
+        "family_name": "Bonus Bebas Puas",
+        "family_code": "7e5eb288-58a0-44d0-8002-b66bad210f21",
+        "variant_name": "Bonus Bebas Puas",
+        "option_name": "Kuota Malam 3.75GB",
+        "order": 199
+    }
+]
+
+def redeem_looping(loop_count: int, pause_on_success=True):
+    theme = get_theme()
+    api_key = AuthInstance.api_key
+
+    for i in range(loop_count):
+        tokens = AuthInstance.get_active_tokens() or {}
+
+        if i > 0:
+            clear_cache()
+
+        console.rule()
+        console.print(f"[{theme['text_title']}]🔁 Redeem Looping ke-{i+1}/{loop_count}[/]")
+
+        successful = []
+        failed = []
+
+        for bm in bonus_bookmarks:
+            family_code = bm["family_code"]
+            order = bm["order"]
+            option_name = bm["option_name"]
+
+            console.print(f"🎯 Claim bonus: {bm['variant_name']} - {option_name}")
+
+            try:
+                family_data = get_family(api_key, tokens, family_code)
+                if not family_data:
+                    failed.append(option_name)
+                    print_panel("❌ Gagal", f"Ga bisa ambil data family buat {option_name} 😅")
+                    continue
+
+                target_variant = next(
+                    (v for v in family_data["package_variants"] if v["name"] == bm["variant_name"]),
+                    None
+                )
+                if not target_variant:
+                    failed.append(option_name)
+                    print_panel("⚠️ Error", f"Variant ga ketemu buat {option_name} 🤔")
+                    continue
+
+                target_package_detail = get_package_details(
+                    api_key,
+                    tokens,
+                    family_code,
+                    target_variant["package_variant_code"],
+                    order,
+                    None,
+                    None,
+                )
+
+                if not target_package_detail or "package_option" not in target_package_detail:
+                    failed.append(option_name)
+                    print_panel("⚠️ Error", f"Detail paket ga ada buat {option_name} 📦")
+                    continue
+
+                res = settlement_bounty(
+                    api_key=api_key,
+                    tokens=tokens,
+                    token_confirmation=target_package_detail.get("token_confirmation", ""),
+                    ts_to_sign=target_package_detail.get("timestamp", ""),
+                    payment_target=target_package_detail["package_option"]["package_option_code"],
+                    price=target_package_detail["package_option"]["price"],
+                    item_name=target_package_detail["package_option"]["name"],
+                )
+
+                if res and res.get("status", "") == "SUCCESS":
+                    successful.append(option_name)
+                    print_panel("✅ Mantap", f"Redeem sukses: {option_name} 🎉")
+                    if pause_on_success:
+                        pause()
+                else:
+                    msg = res.get("message", "Ga jelas alasannya") if isinstance(res, dict) else "Error"
+                    failed.append(option_name)
+                    print_panel("❌ Gagal", f"Redeem gagal: {msg} 💥")
+
+            except Exception as e:
+                failed.append(option_name)
+                print_panel("💥 Error", f"Redeem {option_name} kena masalah: {e}")
+
+        console.rule()
+        summary_text = f"📊 Selesai looping {i+1}/{loop_count}\n" \
+                       f"✅ Berhasil: {len(successful)}\n" \
+                       f"❌ Gagal: {len(failed)}"
+        console.print(Panel(summary_text, border_style=theme["border_info"]))
+        if successful:
+            console.print("🎉 Daftar sukses:")
+            for s in successful:
+                console.print(f"   - {s}")
+        if failed:
+            console.print("💔 Daftar gagal:")
+            for f in failed:
+                console.print(f"   - {f}")
+
+        if i < loop_count - 1:
+            console.print(f"[{theme['text_sub']}]⏳ Chill dulu 11 menit sebelum looping berikutnya... ☕[/]")
+            delay_inline(660)
 
 
 def purchase_loop(
