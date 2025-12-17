@@ -1,6 +1,4 @@
-import os
-import re
-import textwrap
+import os, re, time, textwrap
 from html.parser import HTMLParser
 
 from rich.progress import Progress, BarColumn, TextColumn, TimeRemainingColumn
