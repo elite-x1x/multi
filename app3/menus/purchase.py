@@ -137,7 +137,7 @@ def redeem_looping(loop_count: int, pause_on_success=True):
                 console.print(f"   - {f}")
 
         if i < loop_count - 1:
-            console.print(f"[{theme['text_sub']}]⏳ Chill dulu 11 menit sebelum looping berikutnya... ☕[/]")
+            console.print(f"[{theme['text_sub']}]☕ Tunggu 11 menit sebelum looping berikutnya...[/]")
             delay_inline(660)
 
 
