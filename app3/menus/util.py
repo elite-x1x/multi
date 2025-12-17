@@ -179,12 +179,12 @@ def delay_inline(seconds: int):
     with Progress(
         TextColumn("⏳ [bold blue]{task.description}"),
         BarColumn(bar_width=None),
-        TextColumn("⌛ {task.completed}/{task.total} detik"),
+        TextColumn("{task.completed}/{task.total} detik"),
         TimeRemainingColumn(),
         console=console,
         refresh_per_second=4,
     ) as progress:
-        task = progress.add_task("Nunggu dulu bro...", total=seconds)
+        task = progress.add_task("", total=seconds)
         for _ in range(seconds):
             time.sleep(1)
             progress.update(task, advance=1)
