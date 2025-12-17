@@ -2,6 +2,7 @@ import json
 import sys
 import requests
 
+from rich.text import Text
 from datetime import datetime
 from app3.config.imports import *
 from app.type_dict import PaymentItem
