@@ -57,7 +57,7 @@ def clear_screenx():
            /:::/    /            \:::\    \         
           /:::/    /              \:::\____\        
           \::/    /                \::/    /        
-           \/____/                  \/____/ v8.9.1"""
+           \/____/                  \/____/ v8.10.0"""
 
     console.print(
         Padding(
@@ -72,7 +72,7 @@ def print_banner():
     """Print CLI banner with version information."""
     theme = get_theme()
     banner_text = Align.center(
-        "[bold]myXL CLI v8.9.1 sunset[/]",
+        "[bold]myXL CLI v8.10.0 sunset[/]",
         vertical="middle"
     )
     console.print(Panel(
@@ -117,7 +117,7 @@ __________             ___.
 |______  /(____  /__|  |___  /\___  >__/\_ \     ▀█▀█▀
        \/      \/          \/     \/      \/"""
 
-    version_text = f"[{get_theme_style('text_body')}]myXL CLI v8.9.1 sunset[/{get_theme_style('text_body')}]"
+    version_text = f"[{get_theme_style('text_body')}]myXL CLI v8.10.0 sunset[/{get_theme_style('text_body')}]"
     
     content = f"{ascii_art}\n                  {version_text}"
     console.print(
