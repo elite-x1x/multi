@@ -7,7 +7,7 @@ from app3.config.imports import *
 from app3.menus.util import clear_screenx
 from app3.menus.sharing import show_balance_allotment_menu
 from app2.menus.purchase import redeem_looping
-from app2.menus.family import show_family_input_menu
+from app3.menus.family import show_family_input_menu
 from rich.text import Text
 
 def render_quota_bar(remaining: int, total: int) -> Text:
