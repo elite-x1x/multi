@@ -1,6 +1,7 @@
 import os, re, time, textwrap
 from html.parser import HTMLParser
 
+from rich.progress import Progress, BarColumn, TextColumn, TimeRemainingColumn
 from rich.console import Console
 from rich.panel import Panel
 from rich.live import Live
