@@ -586,15 +586,6 @@ def format_unix_date_with_diff(ts: int, mode: str = "future") -> str:
     except Exception:
         return str(ts)
 
-def render_quota_bar(remaining: int, total: int) -> str:
-    if total <= 0:
-        return "Tidak ada kuota"
-    ratio = remaining / total
-    bar_length = 20
-    filled = int(ratio * bar_length)
-    empty = bar_length - filled
-    return f"{'▓'*filled}{'░'*empty} {format_quota_byte(remaining)} / {format_quota_byte(total)}"
-
 def render_quota_bar(remaining: int, total: int) -> Text:
     if total <= 0:
         return Text("Tidak ada kuota", style="bold red")
@@ -687,14 +678,6 @@ def fetch_my_packages():
                 benefit_table.add_column("Jenis", style=theme["text_body"])
                 benefit_table.add_column("Kuota", style=theme["text_body"], justify="right")
 
-                #for b in benefits:
-                #    name = b.get("name", "")
-                #    dt = b.get("data_type", "N/A")
-                #    r = b.get("remaining", 0)
-                #    t = b.get("total", 0)
-
-                #    quota_bar = render_quota_bar(r, t)
-                #    benefit_table.add_row(name, dt, quota_bar)
                 for b in benefits:
                     name = b.get("name", "")
                     dt = b.get("data_type", "N/A")
