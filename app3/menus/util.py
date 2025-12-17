@@ -177,7 +177,7 @@ def live_loading(text: str, theme: dict):
 def delay_inline(seconds: int):
     theme = get_theme()
     with Progress(
-        TextColumn("⏳ [bold blue]{task.description}"),
+        TextColumn("⏳[bold blue]{task.description}"),
         BarColumn(bar_width=None),
         TextColumn("{task.completed}/{task.total} detik"),
         TimeRemainingColumn(),
