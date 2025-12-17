@@ -21,13 +21,13 @@ def render_quota_bar(remaining: int, total: int) -> Text:
 
     if ratio > 0.5:
         color = "green"
-        emoji = "🚀"
+        emoji = ""
     elif ratio > 0.2:
         color = "yellow"
-        emoji = "📊"
+        emoji = ""
     else:
         color = "red"
-        emoji = "⚠️"
+        emoji = ""
 
     angka = f"{emoji} {remaining/1e9:.2f} / {total/1e9:.2f} GB"
     bar = f"    {'▓'*filled}{'░'*empty}"
@@ -49,13 +49,13 @@ def show_main_menu(profile: dict, display_quota: str, segments: dict):
     info_table.add_column(justify="left", style=get_theme_style("border_info"))
     info_table.add_column(justify="left", style=get_theme_style("text_body"))
 
-    info_table.add_row(" Nomor", f":📞 [{theme['text_body']}]{profile['number']}[/]")
-    info_table.add_row(" Tipe", f":🧾 [{theme['text_body']}]{profile['subscription_type']} ({profile['subscriber_id']})[/]")
-    info_table.add_row(" Pulsa", f":💰 Rp [{theme['text_money']}]{pulsa_str}[/]")
+    info_table.add_row(" Nomor", f": [{theme['text_body']}]{profile['number']}[/]")
+    info_table.add_row(" Tipe", f": [{theme['text_body']}]{profile['subscription_type']} ({profile['subscriber_id']})[/]")
+    info_table.add_row(" Pulsa", f": Rp [{theme['text_money']}]{pulsa_str}[/]")
     #info_table.add_row(" Kuota", f": 📊 [{theme['text_date']}]{display_quota}[/]")
     info_table.add_row(" Kuota", Text(":") + display_quota)
-    info_table.add_row(" Tiering", f":🏅 [{theme['text_date']}]{profile['point_info']}[/]")
-    info_table.add_row(" Masa Aktif", f":⏳ [{theme['text_date']}]{expired_at_dt}[/]")
+    info_table.add_row(" Tiering", f": [{theme['text_date']}]{profile['point_info']}[/]")
+    info_table.add_row(" Masa Aktif", f": [{theme['text_date']}]{expired_at_dt}[/]")
 
     console.print(
         Panel(
@@ -100,31 +100,31 @@ def show_main_menu(profile: dict, display_quota: str, segments: dict):
     menu_table.add_column("Kode", justify="right", style=get_theme_style("text_key"), width=6)
     menu_table.add_column("Aksi", style=get_theme_style("text_body"))
 
-    menu_table.add_row("1", "🔐 Login / Ganti akun")
-    menu_table.add_row("2", "📑 Lihat paket aktif")
-    menu_table.add_row("3", "📜 Riwayat Transaksi")
-    menu_table.add_row("4", "🔥 Beli paket Hot promo")
-    menu_table.add_row("5", "⚡ Beli paket Hot promo-2")
-    menu_table.add_row("6", "🧩 Beli paket via Option Code")
-    menu_table.add_row("7", "💵 Beli paket via Family Code")
-    menu_table.add_row("8", "🛒 Beli semua paket di Family Code")
-    menu_table.add_row("9", "🔂 Auto Loop target Paket by Family")
+    menu_table.add_row("1", "Login / Ganti akun")
+    menu_table.add_row("2", "Lihat paket aktif")
+    menu_table.add_row("3", "Riwayat Transaksi")
+    menu_table.add_row("4", "Beli paket Hot promo")
+    menu_table.add_row("5", "Beli paket Hot promo-2")
+    menu_table.add_row("6", "Beli paket via Option Code")
+    menu_table.add_row("7", "Beli paket via Family Code")
+    menu_table.add_row("8", "Beli semua paket di Family Code")
+    menu_table.add_row("9", "Auto Loop target Paket by Family")
     menu_table.add_row("", "")
-    menu_table.add_row("10", "🎁 Claim Bonus Bebas Puas (Looping)")
+    menu_table.add_row("10", "Claim Bonus Bebas Puas (Looping)")
     menu_table.add_row("", "  -Kuota Youtube & Tiktok 3.13 GB ")
     menu_table.add_row("", "  -Kuota Utama 1.25 GB ")
     menu_table.add_row("", "  -Kuota Malam 3.75 GB ")
     menu_table.add_row("", "")
-    menu_table.add_row("[D]", "🎭 Buat bundle paket decoy")
-    menu_table.add_row("[F]", "💾 Simpan/Kelola Family Code")
-    menu_table.add_row("[G]", "📂 Tools Family Code")
-    menu_table.add_row("[B]", "⭐ Bookmark paket favorit")
-    menu_table.add_row("[C]", f"[{theme['text_body']}]🧹 Bersihkan cache akun[/]")
-    menu_table.add_row("[M]", f"[{theme['text_body']}]☕ Lanjut ke menu berikutnya[/]")
+    menu_table.add_row("[D]", "Buat bundle paket decoy")
+    menu_table.add_row("[F]", "Simpan/Kelola Family Code")
+    #menu_table.add_row("[G]", "Tools Family Code")
+    menu_table.add_row("[B]", "Bookmark paket favorit")
+    menu_table.add_row("[C]", f"[{theme['text_body']}]Bersihkan cache akun[/]")
+    menu_table.add_row("[M]", f"[{theme['text_body']}]Lanjut ke menu berikutnya[/]")
     menu_table.add_row("", "")
-    menu_table.add_row("66", f"[{theme['border_warning']}]📢 Informasi kode unlock[/]")
-    menu_table.add_row("69", f"[{theme['text_sub']}]🎨 Ganti tema CLI[/]")
-    menu_table.add_row("99", f"[{theme['text_err']}]⛔ Keluar / Tutup aplikasi[/]")
+    menu_table.add_row("66", f"[{theme['border_warning']}]Informasi kode unlock[/]")
+    menu_table.add_row("69", f"[{theme['text_sub']}]Ganti tema CLI[/]")
+    menu_table.add_row("99", f"[{theme['text_err']}]Keluar / Tutup aplikasi[/]")
 
     console.print(
         Panel(
@@ -161,21 +161,21 @@ def show_main_menu2(active_user: dict, profile: dict):
         menu_table.add_column("Kode", justify="right", style=theme["text_key"], width=6)
         menu_table.add_column("Aksi", style=theme["text_body"])
 
-        menu_table.add_row("1", "🔐 Login / Ganti akun")
-        menu_table.add_row("11", "🤝 Family Plan/Akrab Organizer")
-        menu_table.add_row("12", "👥 Circle")
-        menu_table.add_row("13", "🏬 Segmen Store")
-        menu_table.add_row("14", "📂 Family List Paket")
-        menu_table.add_row("15", "📦 Paket Store")
-        menu_table.add_row("16", "🎁 Redeem Reward/Bonus")
+        menu_table.add_row("1", "Login / Ganti akun")
+        menu_table.add_row("11", "Family Plan/Akrab Organizer")
+        menu_table.add_row("12", "Circle")
+        menu_table.add_row("13", "Segmen Store")
+        menu_table.add_row("14", "Family List Paket")
+        menu_table.add_row("15", "Paket Store")
+        menu_table.add_row("16", "Redeem Reward/Bonus")
         menu_table.add_row("", "")
-        menu_table.add_row("[TF]", "💸 Transfer Pulsa")
-        menu_table.add_row("[N]", "🔔 Cek Notifikasi")
-        menu_table.add_row("[R]", "📝 Registrasi MSISDN")
-        menu_table.add_row("[V]", "✅ Validasi Nomor (MSISDN)")
+        menu_table.add_row("[TF]", "Transfer Pulsa")
+        menu_table.add_row("[N]", "Cek Notifikasi")
+        menu_table.add_row("[R]", "Registrasi MSISDN")
+        menu_table.add_row("[V]", "Validasi Nomor (MSISDN)")
         menu_table.add_row("", "")
-        menu_table.add_row("00", f"[{theme['text_sub']}]🏠 Kembali ke menu utama[/]")
-        menu_table.add_row("99", f"[{theme['text_err']}]⛔ Keluar / Tutup aplikasi[/]")
+        menu_table.add_row("00", f"[{theme['text_sub']}]Kembali ke menu utama[/]")
+        menu_table.add_row("99", f"[{theme['text_err']}]Keluar / Tutup aplikasi[/]")
 
         console.print(Panel(
             menu_table,
