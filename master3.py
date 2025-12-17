@@ -14,7 +14,7 @@ def render_quota_bar(remaining: int, total: int) -> Text:
     if total <= 0:
         return Text("Tidak ada kuota", style="bold red")
     ratio = remaining / total
-    if ratio > 1:  # clamp biar nggak overflow
+    if ratio > 1:
         ratio = 1
     bar_length = 20
     filled = int(ratio * bar_length)
