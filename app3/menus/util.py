@@ -3,6 +3,7 @@ import re
 import textwrap
 from html.parser import HTMLParser
 
+from rich.progress import Progress, BarColumn, TextColumn, TimeRemainingColumn
 from rich.console import Console
 from rich.panel import Panel
 from rich.table import Table
@@ -89,11 +90,6 @@ __________             ___.
         style=get_theme_style("text_sub")
     )
 
-
-#def pause():
-#    console.print(Panel("⏸️ Press Enter to continue...", border_style=get_theme_style("border_info")))
-#    input()
-
 def pause():
     theme = get_theme()
     console.print(f"\n[bold {theme['text_sub']}]⏸️ Tekan Enter buat lanjut bro ✌️[/]")
@@ -178,6 +174,29 @@ def nav_range(label: str, count: int) -> str:
 
 def live_loading(text: str, theme: dict):
     return console.status(f"[{theme['border_info']}]{text}[/{theme['border_info']}]", spinner="dots")
+
+
+def delay_inline(seconds: int):
+    theme = get_theme()
+    with Progress(
+        TextColumn("⏳ [bold blue]{task.description}"),
+        BarColumn(bar_width=None),
+        TextColumn("⌛ {task.completed}/{task.total} detik"),
+        TimeRemainingColumn(),
+        console=console,
+        refresh_per_second=4,
+    ) as progress:
+        task = progress.add_task("Nunggu dulu bro...", total=seconds)
+        for _ in range(seconds):
+            time.sleep(1)
+            progress.update(task, advance=1)
+
+    console.print(Panel(
+        "✅ Delay kelar, gaskeun lagi bro! 🚀",
+        title="Selesai",
+        border_style=theme["border_success"]
+    ))
+    time.sleep(0.5)
 
 
 def print_panel(title, content, border_style=None):
