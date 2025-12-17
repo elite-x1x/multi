@@ -2,6 +2,7 @@ import json
 import sys
 import requests
 
+from datetime import datetime
 from app3.config.imports import *
 from app.type_dict import PaymentItem
 from app3.menus.util import live_loading, clear_screen, pause, display_html, print_panel, get_rupiah, format_quota_byte, nav_range, simple_number
@@ -552,6 +553,36 @@ def get_packages_by_family(
                 continue
 
 
+def format_unix_date_with_diff(ts: int, mode: str = "future") -> str:
+    if not ts or ts <= 0:
+        return "N/A"
+    try:
+        dt = datetime.fromtimestamp(ts)
+        bulan = [
+            "Jan", "Feb", "Mar", "Apr", "Mei", "Jun",
+            "Jul", "Agu", "Sep", "Okt", "Nov", "Des"
+        ]
+        tanggal = f"{dt.day} {bulan[dt.month - 1]} {dt.year}"
+        jam = dt.strftime("%H:%M:%S")
+
+        now = datetime.now()
+        delta = dt - now
+        selisih_hari = abs(delta.days)
+
+        if mode == "future":
+            if delta.days >= 0:
+                return f"{tanggal} {jam} (sisa {selisih_hari} hari)"
+            else:
+                return f"{tanggal} {jam}"  # (sudah lewat)"
+        else:  # mode == "past"
+            if delta.days < 0:
+                return f"{tanggal} {jam}"  # ({selisih_hari} hari yang lalu)"
+            else:
+                return f"{tanggal} {jam}"
+    except Exception:
+        return str(ts)
+
+
 def fetch_my_packages():
     theme = get_theme()
     api_key = AuthInstance.api_key
@@ -604,6 +635,18 @@ def fetch_my_packages():
             product_subscription_type = quota.get("product_subscription_type", "")
             product_domain = quota.get("product_domain", "")
 
+            active_date = quota.get("active_date", 0)
+            reset_date = quota.get("end_date", 0)
+
+            active_str = format_unix_date_with_diff(active_date, mode="past")
+
+            if reset_date and reset_date > 0:
+                reset_str = format_unix_date_with_diff(reset_date, mode="future")
+                reset_label = "Reset Kuota"
+            else:
+                reset_str = format_unix_date_with_diff(active_date, mode="future")
+                reset_label = "Aktif Sampai"
+
             benefits = quota.get("benefits", [])
             benefit_table = None
             if benefits:
@@ -647,6 +690,10 @@ def fetch_my_packages():
             package_text.append(f"{family_code}\n", style=theme["border_warning"])
             package_text.append("Group Code: ", style=theme["border_info"])
             package_text.append(f"{group_code}\n", style=theme["text_body"])
+            package_text.append("Aktif Sejak: ", style=theme["border_info"])
+            package_text.append(f"{active_str}\n", style=theme["text_body"])
+            package_text.append(f"{reset_label}: ", style=theme["border_info"])
+            package_text.append(f"{reset_str}\n", style=theme["text_body"])
 
             panel_content = [package_text]
             if benefit_table:
