@@ -15,6 +15,8 @@ def render_quota_bar(remaining: int, total: int) -> Text:
     if total <= 0:
         return Text("Tidak ada kuota", style="bold red")
     ratio = remaining / total
+    if ratio > 1:
+        ratio = 1
     bar_length = 20
     filled = int(ratio * bar_length)
     empty = bar_length - filled
@@ -30,11 +32,13 @@ def render_quota_bar(remaining: int, total: int) -> Text:
         emoji = ""
 
     angka = f"{emoji} {remaining/1e9:.2f} / {total/1e9:.2f} GB"
-    bar = f"  {'▓'*filled}{'░'*empty}"
+    bar = f":  {'▓'*filled}{'░'*empty}"
+    persen = f" {ratio*100:.1f}%"
 
     text = Text()
     text.append(f"{angka}\n", style="bold")
     text.append(bar, style=color)
+    text.append(persen, style=color)
     return text
 
 def show_main_menu(profile: dict, display_quota: str, segments: dict):
