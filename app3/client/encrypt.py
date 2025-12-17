@@ -25,7 +25,7 @@ from app.service.service_git import (
     decrypt_circle_msisdn as decrypt_msisdn,
 )
 
-API_KEY = os.getenv("API_KEY")
+API_KEY = "vT8tINqHaOxXbGE7eOWAhA=="
 AES_KEY_ASCII = os.getenv("AES_KEY_ASCII")
 AX_FP_KEY = os.getenv("AX_FP_KEY")
 ENCRYPTED_FIELD_KEY = "5dccbf08920a5527"
