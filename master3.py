@@ -56,7 +56,7 @@ def show_main_menu(profile: dict, display_quota: str, segments: dict):
     info_table.add_row(" Type", f":🧾 [{theme['text_body']}]{profile['subscription_type']} ({profile['subscriber_id']})[/]")
     info_table.add_row(" Pulsa", f":💰 Rp [{theme['text_money']}]{pulsa_str}[/]")
     info_table.add_row(" Kuota", Text(":") + display_quota)
-    info_table.add_row(" Tiering", f":🏅 [{theme['text_body']}]{profile['point_info']}[/]")
+    info_table.add_row(" Tiering", f":🏅 [{theme['text_money']}]{profile['point_info']}[/]")
     info_table.add_row(" Masa Aktif", f":⏳ [{theme['text_date']}]{expired_at_dt}[/]")
 
     console.print(
