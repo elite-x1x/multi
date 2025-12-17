@@ -20,16 +20,16 @@ def render_quota_bar(remaining: int, total: int) -> Text:
 
     if ratio > 0.5:
         color = "green"
-        emoji = "🚀"
+        emoji = " 🚀"
     elif ratio > 0.2:
         color = "yellow"
-        emoji = "📊"
+        emoji = " 📊"
     else:
         color = "red"
-        emoji = "⚠️"
+        emoji = " ⚠️"
 
     angka = f"{emoji} {remaining/1e9:.2f} / {total/1e9:.2f} GB"
-    bar = f"    {'▓'*filled}{'░'*empty}"
+    bar = f"     {'▓'*filled}{'░'*empty}"
 
     text = Text()
     text.append(f"{angka}\n", style="bold")
@@ -52,7 +52,6 @@ def show_main_menu(profile: dict, display_quota: str, segments: dict):
     info_table.add_row(" Nomor", f": 📞 [bold {theme['text_body']}]{profile['number']}[/]")
     info_table.add_row(" Type", f": 🧾 [{theme['text_body']}]{profile['subscription_type']} ({profile['subscriber_id']})[/]")
     info_table.add_row(" Pulsa", f": 💰 Rp [{theme['text_money']}]{pulsa_str}[/]")
-    #info_table.add_row(" Kuota", f": 📊 [{theme['text_date']}]{display_quota}[/]")
     info_table.add_row(" Kuota", Text(":") + display_quota)
     info_table.add_row(" Tiering", f": 🏅 [{theme['text_date']}]{profile['point_info']}[/]")
     info_table.add_row(" Masa Aktif", f": ⏳ [{theme['text_date']}]{expired_at_dt}[/]")
@@ -111,9 +110,9 @@ def show_main_menu(profile: dict, display_quota: str, segments: dict):
     menu_table.add_row("9", "🔂 Auto Loop target Paket by Family")
     menu_table.add_row("", "")
     menu_table.add_row("10", "🎁 Claim Bonus Bebas Puas (Looping)")
-    menu_table.add_row("", "  -Kuota Youtube & Tiktok 3.13 GB ")
-    menu_table.add_row("", "  -Kuota Utama 1.25 GB ")
-    menu_table.add_row("", "  -Kuota Malam 3.75 GB ")
+    menu_table.add_row("", "   -Kuota Youtube & Tiktok 3.13 GB ")
+    menu_table.add_row("", "   -Kuota Utama 1.25 GB ")
+    menu_table.add_row("", "   -Kuota Malam 3.75 GB ")
     menu_table.add_row("", "")
     menu_table.add_row("[D]", "🎭 Bikin bundle paket ala decoy")
     menu_table.add_row("[F]", "💾 Save/Kelola Family Code lo")
