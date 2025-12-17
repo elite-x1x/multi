@@ -193,6 +193,27 @@ THEMES = {
         "gradient_end": "#A78BFA"
     },
 
+    "dark_neon-x": {
+        "border_primary": "#06B6D4",
+        "border_info": "#7C3AED",
+        "border_success": "#10B981",
+        "border_warning": "#F59E0B",
+        "border_error": "#EF4444",
+        "text_title": "bold #E5E7EB",
+        "text_sub": "bold #22D3EE",
+        "text_ok": "bold #34D399",
+        "text_warn": "bold #FBBF24",
+        "text_err": "bold #F87171",
+        "text_body": "#D1D5DB",
+        "text_key": "#A78BFA",
+        "text_value": "bold #F3F4F6",
+        "text_money": "bold #34D399",
+        "text_date": "bold #FBBF24",
+        "text_number": "#C084FC",
+        "gradient_start": "#22D3EE",
+        "gradient_end": "#A78BFA"
+    },
+
     "solar_flare": {
         "border_primary": "#FF6B00",
         "border_info": "#FFA500",
