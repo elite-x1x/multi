@@ -271,10 +271,13 @@ def main():
             remaining = quota.get("remaining", 0)
             total = quota.get("total", 0)
             has_unlimited = quota.get("has_unlimited", False)
-            if total > 0 or has_unlimited:
-                display_quota = f"{remaining/1e9:.2f} / {total/1e9:.2f} GB" + (" (Unlimited)" if has_unlimited else "")
+            
+            if has_unlimited:
+                display_quota = Text("♾️ Unlimited", style=theme["text_money"])
+            elif total > 0:
+                display_quota = render_quota_bar(remaining, total)
             else:
-                display_quota = "-"
+                display_quota = Text("-", style=theme["text_err"])
 
             point_info = "Points: N/A | Tier: N/A"
             if active_user["subscription_type"] == "PREPAID":
