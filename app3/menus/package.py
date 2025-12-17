@@ -710,7 +710,7 @@ def fetch_my_packages():
             package_text.append("Group Code: ", style=theme["border_info"])
             package_text.append(f"{group_code}\n", style=theme["text_body"])
             package_text.append("Aktif Sejak: ", style=theme["border_info"])
-            package_text.append(f"{active_str}\n", style=theme["text_body"])
+            package_text.append(f"{active_str}\n", style=theme["text_sub"])
             package_text.append(f"{reset_label}: ", style=theme["border_info"])
             package_text.append(f"{reset_str}\n", style=theme["text_err"])
 
