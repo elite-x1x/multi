@@ -3,6 +3,7 @@ import sys
 import requests
 
 from rich.text import Text
+from rich.progress import Progress
 from datetime import datetime
 from app3.config.imports import *
 from app.type_dict import PaymentItem
@@ -601,6 +602,29 @@ def format_unix_date_with_diff(ts: int, mode: str = "future") -> str:
     except Exception:
         return str(ts)
 
+def render_quota_bar(remaining: int, total: int) -> Text:
+    if total <= 0:
+        return Text("Tidak ada kuota", style="bold red")
+    ratio = remaining / total
+    bar_length = 20
+    filled = int(ratio * bar_length)
+    empty = bar_length - filled
+
+    if ratio > 0.5:
+        color = "green"
+    elif ratio > 0.2:
+        color = "yellow"
+    else:
+        color = "red"
+
+    angka = f"{remaining/1e9:.2f} / {total/1e9:.2f} GB"
+    bar = f"{'▓'*filled}{'░'*empty}"
+
+    text = Text()
+    text.append(f"{angka}\n", style="bold")
+    text.append(bar, style=color)
+    return text
+
 
 def fetch_my_packages():
     theme = get_theme()
@@ -681,19 +705,15 @@ def fetch_my_packages():
                     t = b.get("total", 0)
 
                     if dt == "DATA":
-                        r_str = format_quota_byte(r)
-                        t_str = format_quota_byte(t)
+                        quota_bar = render_quota_bar(r, t)
                     elif dt == "VOICE":
-                        r_str = f"{r / 60:.2f} menit"
-                        t_str = f"{t / 60:.2f} menit"
+                        quota_bar = f"{r/60:.2f} / {t/60:.2f} menit"
                     elif dt == "TEXT":
-                        r_str = f"{r} SMS"
-                        t_str = f"{t} SMS"
+                        quota_bar = f"{r} / {t} SMS"
                     else:
-                        r_str = str(r)
-                        t_str = str(t)
+                        quota_bar = f"{r} / {t}"
 
-                    benefit_table.add_row(name, dt, f"{r_str} / {t_str}")
+                    benefit_table.add_row(name, dt, quota_bar)
 
             package_details = get_package(api_key, tokens, quota_code)
             if package_details:
@@ -736,7 +756,7 @@ def fetch_my_packages():
         nav_table = Table(show_header=False, box=MINIMAL_DOUBLE_HEAD, expand=True)
         nav_table.add_column(justify="right", style=theme["text_key"], width=6)
         nav_table.add_column(style=theme["text_body"])
-        nav_table.add_row("00", f"[{theme['text_sub']}]Balik ke menu utama[/]")
+        nav_table.add_row("00", f"[{theme['text_sub']}]Balik ke menu utama 🏠 [/]")
         nav_table.add_row(nav_range("", len(my_packages)), "Lihat detail paket 👀 ")
         nav_table.add_row(nav_range("del", len(my_packages)), f"[{theme['text_err']}]Hapus paket 🗑️ [/]")
 
