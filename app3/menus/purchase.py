@@ -155,7 +155,7 @@ def purchase_loop(
 
     family_data = get_family(api_key, tokens, family_code)
     if not family_data:
-        print_panel("⚠️ Ups", f"Gagal ngambil data family buat kode: {family_code} 🤯")
+        print_panel("⚠️ Peringatan", f"❌ Gagal ambil data family buat kode: {family_code} 😅")
         pause()
         return False
 
@@ -171,7 +171,7 @@ def purchase_loop(
             break
 
     if not target_option or not target_variant:
-        print_panel("⚠️ Ups", f"Option order {order} nggak ketemu di family {family_code} 🚨")
+        print_panel("⚠️ Peringatan", f"Option order {order} ga ketemu di family {family_code} 🤔")
         pause()
         return False
 
@@ -180,14 +180,14 @@ def purchase_loop(
     variant_code = target_variant["package_variant_code"]
 
     console.rule()
-    console.print(f"[{theme['text_title']}]🔥 Gas beli: {target_variant['name']} - {order}. {option_name} - Rp{option_price}[/]")
+    console.print(f"[{theme['text_title']}]🛒 Proses pembelian: {target_variant['name']} - {order}. {option_name} - Rp{option_price}[/]")
 
     decoy_package_detail = None
     if use_decoy:
         decoy = DecoyInstance.get_decoy("balance")
         decoy_package_detail = get_package(api_key, tokens, decoy["option_code"])
         if not decoy_package_detail:
-            print_panel("⚠️ Ups", "Gagal load detail paket decoy bro 🤯")
+            print_panel("⚠️ Peringatan", "❌ Gagal load detail paket decoy 😅")
             pause()
             return False
 
@@ -202,8 +202,8 @@ def purchase_loop(
             None,
         )
     except Exception as e:
-        print_panel("⚠️ Ups", f"Error pas ambil detail paket: {e} 🚨")
-        time.sleep(delay)
+        print_panel("💥 Kesalahan", f"Error pas ambil detail paket: {e}")
+        delay_inline(delay)
         return True
 
     payment_items = [
@@ -248,7 +248,7 @@ def purchase_loop(
             if "Bizz-err.Amount.Total" in error_msg:
                 error_msg_arr = error_msg.split("=")
                 valid_amount = int(error_msg_arr[1].strip())
-                print_panel("ℹ️ Santuy", f"Total amount di-adjust ke: {valid_amount}")
+                print_panel("ℹ️ Info", f"💡 Total amount disesuaikan jadi: {valid_amount}")
                 res = settlement_balance(
                     api_key,
                     tokens,
@@ -259,20 +259,17 @@ def purchase_loop(
                 )
 
         if res and res.get("status", "") == "SUCCESS":
-            print_panel("✅ Mantap", "Pembelian berhasil bro 🚀")
+            print_panel("✅ Sukses", f"Pembelian berhasil 🎉: {option_name}")
             if pause_on_success:
-                choice = console.input("Lanjut dor? (y/n): ").strip().lower()
+                choice = console.input("👉 Lanjut lagi bro? (y/n): ").strip().lower()
                 if choice == 'n':
                     return False
 
     except Exception as e:
-        print_panel("⚠️ Ups", f"Error pas bikin order: {e} 🚨")
+        print_panel("💥 Kesalahan", f"Error pas bikin order: {e}")
 
     if delay > 0:
-        for i in range(delay, 0, -1):
-            console.print(f"[{theme['text_sub']}]⏳ Nunggu {i} detik bro...[/]", end="\r")
-            time.sleep(1)
-        console.print()
+        delay_inline(delay)
 
     return True
 
@@ -296,21 +293,21 @@ def purchase_by_family(
         decoy = DecoyInstance.get_decoy("balance")
         decoy_package_detail = get_package(api_key, tokens, decoy["option_code"])
         if not decoy_package_detail:
-            print_panel("⚠️ Ups", "Gagal load detail paket decoy bro 🤯")
+            print_panel("⚠️ Peringatan", "❌ Gagal load detail paket decoy 😅")
             pause()
             return False
         
         balance_threshold = decoy_package_detail["package_option"]["price"]
-        console.print(f"[{theme['text_warn']}]⚠️ Pastikan sisa balance KURANG DARI Rp{balance_threshold} bro!!![/]")
-        balance_answer = console.input("Gas lanjut pembelian? (y/n): ").strip().lower()
+        console.print(f"[{theme['text_warn']}]💰 Pastikan sisa saldo KURANG DARI Rp{balance_threshold}[/]")
+        balance_answer = console.input("👉 Gas lanjut pembelian? (y/n): ").strip().lower()
         if balance_answer != "y":
-            print_panel("ℹ️ Santuy", "Pembelian dibatalin bro ✌️")
+            print_panel("ℹ️ Info", "Pembelian dibatalkan 🙅‍♂️")
             pause()
             return None
 
     family_data = get_family(api_key, tokens, family_code)
     if not family_data:
-        print_panel("⚠️ Ups", f"Gagal ngambil data family buat kode: {family_code} 🤯")
+        print_panel("⚠️ Peringatan", f"❌ Gagal ambil data family buat kode: {family_code}")
         pause()
         return None
     
@@ -332,15 +329,15 @@ def purchase_by_family(
             if not start_buying and option_order == start_from_option:
                 start_buying = True
             if not start_buying:
-                console.print(f"[{theme['text_sub']}]⏭️ Skip option {option_order}. {option['name']}[/]")
+                console.print(f"[{theme['text_sub']}]⏭️ Lewati option {option_order}. {option['name']}[/]")
                 continue
             
             option_name = option["name"]
             option_price = option["price"]
             
             purchase_count += 1
-            console.print(f"[{theme['text_title']}]🔥 Purchase {purchase_count} dari {packages_count}...[/]")
-            console.print(f"👉 Gas beli: {variant_name} - {option_order}. {option_name} - Rp{option_price}")
+            console.print(f"[{theme['text_title']}]🛒 Proses pembelian {purchase_count}/{packages_count}[/]")
+            console.print(f"👉 Lanjut beli: {variant_name} - {option_order}. {option_name} - Rp{option_price}")
             
             payment_items = []
             
@@ -349,7 +346,7 @@ def purchase_by_family(
                     decoy = DecoyInstance.get_decoy("balance")
                     decoy_package_detail = get_package(api_key, tokens, decoy["option_code"])
                     if not decoy_package_detail:
-                        print_panel("⚠️ Ups", "Gagal load detail paket decoy bro 🤯")
+                        print_panel("⚠️ Peringatan", "❌ Gagal load detail paket decoy 😅")
                         pause()
                         return False
                 
@@ -363,8 +360,8 @@ def purchase_by_family(
                     None,
                 )
             except Exception as e:
-                print_panel("⚠️ Ups", f"Error pas ambil detail paket: {e} 🚨")
-                console.print(f"Gagal ambil detail buat {variant_name} - {option_name}. Skip dulu bro ✌️")
+                print_panel("💥 Kesalahan", f"Error ambil detail paket: {e}")
+                console.print(f"❌ Gagal ambil detail buat {variant_name} - {option_name}, skip dulu bro.")
                 continue
 
             payment_items.append(
@@ -412,7 +409,7 @@ def purchase_by_family(
                     if "Bizz-err.Amount.Total" in error_msg:
                         error_msg_arr = error_msg.split("=")
                         valid_amount = int(error_msg_arr[1].strip())
-                        print_panel("ℹ️ Santuy", f"Total amount di-adjust ke: {valid_amount}")
+                        print_panel("ℹ️ Info", f"💡 Total amount disesuaikan jadi: {valid_amount}")
                         res = settlement_balance(
                             api_key,
                             tokens,
@@ -425,33 +422,32 @@ def purchase_by_family(
                         if res and res.get("status", "") == "SUCCESS":
                             error_msg = ""
                             successful_purchases.append(f"{variant_name}|{option_order}. {option_name} - Rp{option_price}")
-                            print_panel("✅ Mantap", "Pembelian berhasil bro 🚀")
+                            print_panel("✅ Sukses", "Pembelian berhasil 🎉")
                             if pause_on_success:
                                 pause()
                         else:
                             error_msg = res.get("message", "")
                 else:
                     successful_purchases.append(f"{variant_name}|{option_order}. {option_name} - Rp{option_price}")
-                    print_panel("✅ Mantap", "Pembelian berhasil bro 🚀")
+                    print_panel("✅ Sukses", "Pembelian berhasil 🎉")
                     if pause_on_success:
                         pause()
 
             except Exception as e:
-                print_panel("⚠️ Ups", f"Error pas bikin order: {e} 🚨")
+                print_panel("💥 Kesalahan", f"Error bikin order: {e}")
             
             console.rule()
             should_delay = error_msg == "" or "Failed call ipaas purchase" in error_msg
             if delay_seconds > 0 and should_delay:
-                console.print(f"[{theme['text_sub']}]⏳ Nunggu {delay_seconds} detik sebelum pembelian berikutnya bro...[/]")
-                time.sleep(delay_seconds)
+                delay_inline(delay_seconds)
 
-    console.print(f"[{theme['text_title']}]Family: {family_name}[/]")
-    console.print(f"✅ Total berhasil: {len(successful_purchases)}")
+    console.print(f"[{theme['text_title']}]👨‍👩‍👧 Family: {family_name}[/]")
+    console.print(f"📊 Total sukses: {len(successful_purchases)}")
     if successful_purchases:
         console.rule()
-        console.print("🎉 List pembelian sukses:")
+        console.print("🎉 Daftar pembelian sukses:")
         for purchase in successful_purchases:
-            console.print(f"- {purchase}")
+            console.print(f"   - {purchase}")
     console.rule()
     pause()
 
@@ -478,21 +474,21 @@ def purchase_n_times(
         decoy = DecoyInstance.get_decoy("balance")
         decoy_package_detail = get_package(api_key, tokens, decoy["option_code"])
         if not decoy_package_detail:
-            print_panel("⚠️ Ups", "Gagal load detail paket decoy bro 🤯")
+            print_panel("⚠️ Peringatan", "❌ Gagal load detail paket decoy 😅")
             pause()
             return False
         
         balance_threshold = decoy_package_detail["package_option"]["price"]
-        console.print(f"[{theme['text_warn']}]⚠️ Pastikan sisa balance KURANG DARI Rp{balance_threshold} bro!!![/]")
-        balance_answer = console.input("Gas lanjut pembelian? (y/n): ").strip().lower()
+        console.print(f"[{theme['text_warn']}]💰 Pastikan saldo KURANG DARI Rp{balance_threshold}[/]")
+        balance_answer = console.input("👉 Gas lanjut pembelian? (y/n): ").strip().lower()
         if balance_answer != "y":
-            print_panel("ℹ️ Santuy", "Pembelian dibatalin bro ✌️")
+            print_panel("ℹ️ Info", "Pembelian dibatalkan 🙅‍♂️")
             pause()
             return None
 
     family_data = get_family(api_key, tokens, family_code)
     if not family_data:
-        print_panel("⚠️ Ups", f"Gagal ngambil data family buat kode: {family_code} 🤯")
+        print_panel("⚠️ Peringatan", f"❌ Gagal ambil data family buat kode: {family_code}")
         pause()
         return None
     
@@ -500,13 +496,13 @@ def purchase_n_times(
     variants = family_data["package_variants"]
     target_variant = next((v for v in variants if v["package_variant_code"] == variant_code), None)
     if not target_variant:
-        print_panel("⚠️ Ups", f"Variant code {variant_code} nggak ketemu di family {family_name} 🚨")
+        print_panel("⚠️ Peringatan", f"Variant code {variant_code} ga ketemu di family {family_name} 🤔")
         pause()
         return None
     
     target_option = next((o for o in target_variant["package_options"] if o["order"] == option_order), None)
     if not target_option:
-        print_panel("⚠️ Ups", f"Option order {option_order} nggak ketemu di variant {target_variant['name']} 🚨")
+        print_panel("⚠️ Peringatan", f"Option order {option_order} ga ada di variant {target_variant['name']} 😅")
         pause()
         return None
     
@@ -516,8 +512,8 @@ def purchase_n_times(
     successful_purchases = []
     
     for i in range(n):
-        console.print(f"[{theme['text_title']}]🔥 Purchase {i + 1} dari {n}...[/]")
-        console.print(f"👉 Gas beli: {target_variant['name']} - {option_order}. {option_name} - Rp{option_price}")
+        console.print(f"[{theme['text_title']}]🛒 Proses pembelian {i + 1}/{n}[/]")
+        console.print(f"👉 Lanjut beli: {target_variant['name']} - {option_order}. {option_name} - Rp{option_price}")
         
         api_key = AuthInstance.api_key
         tokens: dict = AuthInstance.get_active_tokens() or {}
@@ -528,7 +524,7 @@ def purchase_n_times(
                 decoy = DecoyInstance.get_decoy("balance")
                 decoy_package_detail = get_package(api_key, tokens, decoy["option_code"])
                 if not decoy_package_detail:
-                    print_panel("⚠️ Ups", "Gagal load detail paket decoy bro 🤯")
+                    print_panel("⚠️ Peringatan", "❌ Gagal load detail paket decoy 😅")
                     pause()
                     return False
             
@@ -542,8 +538,8 @@ def purchase_n_times(
                 None,
             )
         except Exception as e:
-            print_panel("⚠️ Ups", f"Error pas ambil detail paket: {e} 🚨")
-            console.print(f"Gagal ambil detail buat {target_variant['name']} - {option_name}. Skip dulu bro ✌️")
+            print_panel("💥 Kesalahan", f"Error ambil detail paket: {e}")
+            console.print(f"❌ Gagal ambil detail buat {target_variant['name']} - {option_name}, skip dulu bro.")
             continue
 
         payment_items.append(
@@ -589,7 +585,7 @@ def purchase_n_times(
                 if "Bizz-err.Amount.Total" in error_msg:
                     error_msg_arr = error_msg.split("=")
                     valid_amount = int(error_msg_arr[1].strip())
-                    print_panel("ℹ️ Santuy", f"Total amount di-adjust ke: {valid_amount}")
+                    print_panel("ℹ️ Info", f"💡 Total amount disesuaikan jadi: {valid_amount}")
                     res = settlement_balance(
                         api_key,
                         tokens,
@@ -601,28 +597,27 @@ def purchase_n_times(
                     )
                     if res and res.get("status", "") == "SUCCESS":
                         successful_purchases.append(f"{target_variant['name']}|{option_order}. {option_name} - Rp{option_price}")
-                        print_panel("✅ Mantap", "Pembelian berhasil bro 🚀")
+                        print_panel("✅ Sukses", "Pembelian berhasil 🎉")
                         if pause_on_success:
                             pause()
             else:
                 successful_purchases.append(f"{target_variant['name']}|{option_order}. {option_name} - Rp{option_price}")
-                print_panel("✅ Mantap", "Pembelian berhasil bro 🚀")
+                print_panel("✅ Sukses", "Pembelian berhasil 🎉")
                 if pause_on_success:
                     pause()
         except Exception as e:
-            print_panel("⚠️ Ups", f"Error pas bikin order: {e} 🚨")
+            print_panel("💥 Kesalahan", f"Error bikin order: {e}")
         
         console.rule()
 
         if delay_seconds > 0 and i < n - 1:
-            console.print(f"[{theme['text_sub']}]⏳ Nunggu {delay_seconds} detik sebelum pembelian berikutnya bro...[/]")
-            time.sleep(delay_seconds)
+            delay_inline(delay_seconds)
 
-    console.print(f"[{theme['text_title']}]✅ Total pembelian sukses {len(successful_purchases)}/{n}[/]")
-    console.print(f"Family: {family_name}\nVariant: {target_variant['name']}\nOption: {option_order}. {option_name} - Rp{option_price}")
+    console.print(f"[{theme['text_title']}]📊 Total sukses {len(successful_purchases)}/{n}[/]")
+    console.print(f"👨‍👩‍👧 Family: {family_name}\n📦 Variant: {target_variant['name']}\n🎯 Option: {option_order}. {option_name} - Rp{option_price}")
     if successful_purchases:
         console.rule()
-        console.print("🎉 List pembelian sukses:")
+        console.print("🎉 Daftar pembelian sukses:")
         for idx, purchase in enumerate(successful_purchases, start=1):
             console.print(f"{idx}. {purchase}")
     console.rule()
@@ -650,15 +645,15 @@ def purchase_n_times_by_option_code(
         decoy = DecoyInstance.get_decoy("balance")
         decoy_package_detail = get_package(api_key, tokens, decoy["option_code"])
         if not decoy_package_detail:
-            print_panel("⚠️ Ups", "Gagal load detail paket decoy bro 🤯")
+            print_panel("⚠️ Peringatan", "❌ Gagal load detail paket decoy 😅")
             pause()
             return False
         
         balance_threshold = decoy_package_detail["package_option"]["price"]
-        console.print(f"[{theme['text_warn']}]⚠️ Pastikan sisa balance KURANG DARI Rp{balance_threshold} bro!!![/]")
-        balance_answer = console.input("Gas lanjut pembelian? (y/n): ").strip().lower()
+        console.print(f"[{theme['text_warn']}]💰 Pastikan saldo KURANG DARI Rp{balance_threshold}[/]")
+        balance_answer = console.input("👉 Gas lanjut pembelian? (y/n): ").strip().lower()
         if balance_answer != "y":
-            print_panel("ℹ️ Santuy", "Pembelian dibatalin bro ✌️")
+            print_panel("ℹ️ Info", "Pembelian dibatalkan 🙅‍♂️")
             pause()
             return None
     
@@ -666,7 +661,7 @@ def purchase_n_times_by_option_code(
     successful_purchases = []
     
     for i in range(n):
-        console.print(f"[{theme['text_title']}]🔥 Purchase {i + 1} dari {n}...[/]")
+        console.print(f"[{theme['text_title']}]🛒 Proses pembelian {i + 1}/{n}[/]")
         
         api_key = AuthInstance.api_key
         tokens: dict = AuthInstance.get_active_tokens() or {}
@@ -677,13 +672,13 @@ def purchase_n_times_by_option_code(
                 decoy = DecoyInstance.get_decoy("balance")
                 decoy_package_detail = get_package(api_key, tokens, decoy["option_code"])
                 if not decoy_package_detail:
-                    print_panel("⚠️ Ups", "Gagal load detail paket decoy bro 🤯")
+                    print_panel("⚠️ Peringatan", "❌ Gagal load detail paket decoy 😅")
                     pause()
                     return False
             
             target_package_detail = get_package(api_key, tokens, option_code)
         except Exception as e:
-            print_panel("⚠️ Ups", f"Error pas ambil detail paket: {e} 🚨")
+            print_panel("💥 Kesalahan", f"Error ambil detail paket: {e}")
             continue
 
         payment_items.append(
@@ -729,7 +724,7 @@ def purchase_n_times_by_option_code(
                 if "Bizz-err.Amount.Total" in error_msg:
                     error_msg_arr = error_msg.split("=")
                     valid_amount = int(error_msg_arr[1].strip())
-                    print_panel("ℹ️ Santuy", f"Total amount di-adjust ke: {valid_amount}")
+                    print_panel("ℹ️ Info", f"💡 Total amount disesuaikan jadi: {valid_amount}")
                     res = settlement_balance(
                         api_key,
                         tokens,
@@ -741,27 +736,26 @@ def purchase_n_times_by_option_code(
                     )
                     if res and res.get("status", "") == "SUCCESS":
                         successful_purchases.append(f"Purchase {i + 1}")
-                        print_panel("✅ Mantap", "Pembelian berhasil bro 🚀")
+                        print_panel("✅ Sukses", "Pembelian berhasil 🎉")
                         if pause_on_success:
                             pause()
             else:
                 successful_purchases.append(f"Purchase {i + 1}")
-                print_panel("✅ Mantap", "Pembelian berhasil bro 🚀")
+                print_panel("✅ Sukses", "Pembelian berhasil 🎉")
                 if pause_on_success:
                     pause()
         except Exception as e:
-            print_panel("⚠️ Ups", f"Error pas bikin order: {e} 🚨")
+            print_panel("💥 Kesalahan", f"Error bikin order: {e}")
         
         console.rule()
 
         if delay_seconds > 0 and i < n - 1:
-            console.print(f"[{theme['text_sub']}]⏳ Nunggu {delay_seconds} detik sebelum pembelian berikutnya bro...[/]")
-            time.sleep(delay_seconds)
+            delay_inline(delay_seconds)
 
-    console.print(f"[{theme['text_title']}]✅ Total pembelian sukses {len(successful_purchases)}/{n}[/]")
+    console.print(f"[{theme['text_title']}]📊 Total sukses {len(successful_purchases)}/{n}[/]")
     if successful_purchases:
         console.rule()
-        console.print("🎉 List pembelian sukses:")
+        console.print("🎉 Daftar pembelian sukses:")
         for idx, purchase in enumerate(successful_purchases, start=1):
             console.print(f"{idx}. {purchase}")
     console.rule()
