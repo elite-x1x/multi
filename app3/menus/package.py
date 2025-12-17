@@ -567,21 +567,38 @@ def format_unix_date_with_diff(ts: int, mode: str = "future") -> str:
 
         now = datetime.now()
         delta = dt - now
-        selisih_hari = abs(delta.days)
+        total_seconds = int(delta.total_seconds())
 
         if mode == "future":
-            if delta.days >= 0:
-                return f"{tanggal} {jam} (sisa {selisih_hari} hari)"
+            if total_seconds >= 0:
+                if delta.days > 0:
+                    return f"{tanggal} {jam} (sisa {delta.days} hari)"
+                elif total_seconds >= 3600:
+                    jam_sisa = total_seconds // 3600
+                    return f"{tanggal} {jam} (sisa {jam_sisa} jam)"
+                elif total_seconds >= 60:
+                    menit_sisa = total_seconds // 60
+                    return f"{tanggal} {jam} (sisa {menit_sisa} menit)"
+                else:
+                    return f"{tanggal} {jam} (sisa {total_seconds} detik)"
             else:
-                return f"{tanggal} {jam}"  # (sudah lewat)"
+                return f"{tanggal} {jam}"  # sudah lewat
         else:  # mode == "past"
-            if delta.days < 0:
-                return f"{tanggal} {jam}"  # ({selisih_hari} hari yang lalu)"
+            if total_seconds < 0:
+                if abs(delta.days) > 0:
+                    return f"{tanggal} {jam} ({abs(delta.days)} hari yang lalu)"
+                elif abs(total_seconds) >= 3600:
+                    jam_lalu = abs(total_seconds) // 3600
+                    return f"{tanggal} {jam} ({jam_lalu} jam yang lalu)"
+                elif abs(total_seconds) >= 60:
+                    menit_lalu = abs(total_seconds) // 60
+                    return f"{tanggal} {jam} ({menit_lalu} menit yang lalu)"
+                else:
+                    return f"{tanggal} {jam} ({abs(total_seconds)} detik yang lalu)"
             else:
                 return f"{tanggal} {jam}"
     except Exception:
         return str(ts)
-
 
 def fetch_my_packages():
     theme = get_theme()
