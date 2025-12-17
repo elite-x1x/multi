@@ -65,7 +65,7 @@ def settlement_bounty(api_key: str, tokens: dict,
         "x-signature": x_sig,
         "x-request-id": str(uuid.uuid4()),
         "x-request-at": java_like_timestamp(x_requested_at),
-        "x-version-app": "8.9.1",
+        "x-version-app": "8.10.0",
     }
 
     url = f"{BASE_API_URL}/{path}"
@@ -115,7 +115,7 @@ def settlement_loyalty(api_key: str, tokens: dict,
         "x-signature": x_sig,
         "x-request-id": str(uuid.uuid4()),
         "x-request-at": java_like_timestamp(x_requested_at),
-        "x-version-app": "8.9.1",
+        "x-version-app": "8.10.0",
     }
 
     url = f"{BASE_API_URL}/{path}"
@@ -168,7 +168,7 @@ def bounty_allotment(api_key: str, tokens: dict,
         "x-signature": x_sig,
         "x-request-id": str(uuid.uuid4()),
         "x-request-at": java_like_timestamp(x_requested_at),
-        "x-version-app": "8.9.1",
+        "x-version-app": "8.10.0",
     }
 
     url = f"{BASE_API_URL}/{path}"
