@@ -6,6 +6,35 @@ from datetime import datetime
 from app3.config.imports import *
 from app3.menus.util import clear_screenx
 from app3.menus.sharing import show_balance_allotment_menu
+from app2.menus.purchase import redeem_looping
+from app2.menus.family import show_family_input_menu
+from rich.text import Text
+
+def render_quota_bar(remaining: int, total: int) -> Text:
+    if total <= 0:
+        return Text("Tidak ada kuota", style="bold red")
+    ratio = remaining / total
+    bar_length = 20
+    filled = int(ratio * bar_length)
+    empty = bar_length - filled
+
+    if ratio > 0.5:
+        color = "green"
+        emoji = "🚀"
+    elif ratio > 0.2:
+        color = "yellow"
+        emoji = "📊"
+    else:
+        color = "red"
+        emoji = "⚠️"
+
+    angka = f"{emoji} {remaining/1e9:.2f} / {total/1e9:.2f} GB"
+    bar = f"    {'▓'*filled}{'░'*empty}"
+
+    text = Text()
+    text.append(f"{angka}\n", style="bold")
+    text.append(bar, style=color)
+    return text
 
 
 def show_main_menu(profile: dict, display_quota: str, segments: dict):
@@ -23,7 +52,8 @@ def show_main_menu(profile: dict, display_quota: str, segments: dict):
     info_table.add_row(" Nomor", f": 📞 [bold {theme['text_body']}]{profile['number']}[/]")
     info_table.add_row(" Type", f": 🧾 [{theme['text_body']}]{profile['subscription_type']} ({profile['subscriber_id']})[/]")
     info_table.add_row(" Pulsa", f": 💰 Rp [{theme['text_money']}]{pulsa_str}[/]")
-    info_table.add_row(" Kuota", f": 📊 [{theme['text_date']}]{display_quota}[/]")
+    #info_table.add_row(" Kuota", f": 📊 [{theme['text_date']}]{display_quota}[/]")
+    info_table.add_row(" Kuota", Text(":") + display_quota)
     info_table.add_row(" Tiering", f": 🏅 [{theme['text_date']}]{profile['point_info']}[/]")
     info_table.add_row(" Masa Aktif", f": ⏳ [{theme['text_date']}]{expired_at_dt}[/]")
 
@@ -80,8 +110,14 @@ def show_main_menu(profile: dict, display_quota: str, segments: dict):
     menu_table.add_row("8", "🔁 Borong semua paket di Family Code")
     menu_table.add_row("9", "🔂 Auto Loop target Paket by Family")
     menu_table.add_row("", "")
+    menu_table.add_row("10", "🎁 Claim Bonus Bebas Puas (Looping)")
+    menu_table.add_row("", "  -Kuota Youtube & Tiktok 3.13 GB ")
+    menu_table.add_row("", "  -Kuota Utama 1.25 GB ")
+    menu_table.add_row("", "  -Kuota Malam 3.75 GB ")
+    menu_table.add_row("", "")
     menu_table.add_row("[D]", "🎭 Bikin bundle paket ala decoy")
     menu_table.add_row("[F]", "💾 Save/Kelola Family Code lo")
+    #menu_table.add_row("[G]", "📂 Tools Family Code")
     menu_table.add_row("[B]", "📌 Bookmark paket favorit")
     menu_table.add_row("[C]", f"[{theme['text_body']}]🧹 Bersihin cache akun[/]")
     menu_table.add_row("[M]", f"[{theme['text_body']}]☕ Lanjut ke menu berikutnya...[/]")
@@ -330,10 +366,35 @@ def main():
                     if not should_continue:
                         break
                 continue
+
+            #elif choice == "10":
+            #    try:
+            #        loop_count = int(console.input("Berapa kali looping ? ") or 1)
+            #    except ValueError:
+            #        loop_count = 1
+            #    pause_on_success = console.input("Pause setiap sukses? (y/n): ").lower() == "y"
+            #    redeem_looping(loop_count, pause_on_success)
+  
+            elif choice == "10":
+                unlock_code = console.input(f"[{theme['text_sub']}]Masukkan kode unlock:[/{theme['text_sub']}] ").strip()
+                if unlock_code != "barbex":
+                    print_panel("Kesalahan", "Kode unlock salah, akses ditolak.")
+                    pause()
+                    continue
+            
+                try:
+                    loop_count = int(console.input(f"[{theme['text_sub']}]Berapa kali looping? :[/{theme['text_sub']}] ") or 1)
+                except ValueError:
+                    loop_count = 1
+                pause_on_success = console.input(f"[{theme['text_sub']}]Pause setiap sukses? (y/n): [/{theme['text_sub']}] ").lower() == "y"
+                redeem_looping(loop_count, pause_on_success)
+
             elif choice.lower() == "d":
                 show_bundle_menu()
             elif choice.lower() == "f":
                 show_family_grup_menu()
+            elif choice.lower() == "g":
+                show_family_input_menu()
             elif choice.lower() == "b":
                 show_bookmark_menu()
             elif choice.lower() == "m":
