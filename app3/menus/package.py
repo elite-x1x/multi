@@ -701,17 +701,17 @@ def fetch_my_packages():
 
             package_text = Text()
             package_text.append(f"📦 Paket {num}\n", style="bold")
-            package_text.append("Nama: ", style=theme["border_info"])
+            package_text.append("Nama: ", style=theme["text_body"])
             package_text.append(f"{quota_name}\n", style=theme["text_sub"])
-            package_text.append("Quota Code: ", style=theme["border_info"])
+            package_text.append("Quota Code: ", style=theme["text_body"])
             package_text.append(f"{quota_code}\n", style=theme["text_body"])
-            package_text.append("Family Code: ", style=theme["border_info"])
+            package_text.append("Family Code: ", style=theme["text_body"])
             package_text.append(f"{family_code}\n", style=theme["border_warning"])
-            package_text.append("Group Code: ", style=theme["border_info"])
+            package_text.append("Group Code: ", style=theme["text_body"])
             package_text.append(f"{group_code}\n", style=theme["text_body"])
-            package_text.append("Aktif Sejak: ", style=theme["border_info"])
+            package_text.append("Aktif Sejak: ", style=theme["text_body"])
             package_text.append(f"{active_str}\n", style=theme["text_sub"])
-            package_text.append(f"{reset_label}: ", style=theme["border_info"])
+            package_text.append(f"{reset_label}: ", style=theme["text_body"])
             package_text.append(f"{reset_str}\n", style=theme["text_err"])
 
             panel_content = [package_text]
