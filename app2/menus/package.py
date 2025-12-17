@@ -659,7 +659,7 @@ def fetch_my_packages():
         clear_screen()
         ensure_git()
         console.print(Panel(
-            Align.center("📦 Paket Aktif", vertical="middle"),
+            Align.center("Paket Aktif", vertical="middle"),
             border_style=theme["border_info"],
             padding=(1, 2),
             expand=True
@@ -718,9 +718,9 @@ def fetch_my_packages():
                 family_code = package_details["package_family"]["package_family_code"]
 
             package_text = Text()
-            package_text.append(f"📦 Paket {num}\n", style="bold")
+            package_text.append(f"Paket {num}\n", style="bold")
             package_text.append("Nama: ", style=theme["border_info"])
-            package_text.append(f"{quota_name}\n", style=theme["text_sub"])
+            package_text.append(f"{quota_name}\n", style=theme["text_title"])
             #package_text.append("Quota Code : ", style=theme["border_info"])
             #package_text.append(f"{quota_code}\n", style=theme["text_body"])
             package_text.append("Family Code: ", style=theme["border_info"])
