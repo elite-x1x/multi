@@ -14,28 +14,31 @@ def render_quota_bar(remaining: int, total: int) -> Text:
     if total <= 0:
         return Text("Tidak ada kuota", style="bold red")
     ratio = remaining / total
+    if ratio > 1:  # clamp biar nggak overflow
+        ratio = 1
     bar_length = 20
     filled = int(ratio * bar_length)
     empty = bar_length - filled
 
     if ratio > 0.5:
         color = "green"
-        emoji = " 🚀"
+        emoji = "🚀"
     elif ratio > 0.2:
         color = "yellow"
-        emoji = " 📊"
+        emoji = "📊"
     else:
         color = "red"
-        emoji = " ⚠️"
+        emoji = "⚠️"
 
     angka = f"{emoji} {remaining/1e9:.2f} / {total/1e9:.2f} GB"
-    bar = f"     {'▓'*filled}{'░'*empty}"
+    bar = f"{'▓'*filled}{'░'*empty}"
+    persen = f" {ratio*100:.1f}%"
 
     text = Text()
     text.append(f"{angka}\n", style="bold")
     text.append(bar, style=color)
+    text.append(persen, style=color)
     return text
-
 
 def show_main_menu(profile: dict, display_quota: str, segments: dict):
     clear_screenx()
@@ -49,12 +52,12 @@ def show_main_menu(profile: dict, display_quota: str, segments: dict):
     info_table.add_column(justify="left", style=get_theme_style("border_info"))
     info_table.add_column(justify="left", style=get_theme_style("text_body"))
 
-    info_table.add_row(" Nomor", f": 📞 [bold {theme['text_body']}]{profile['number']}[/]")
-    info_table.add_row(" Type", f": 🧾 [{theme['text_body']}]{profile['subscription_type']} ({profile['subscriber_id']})[/]")
-    info_table.add_row(" Pulsa", f": 💰 Rp [{theme['text_money']}]{pulsa_str}[/]")
+    info_table.add_row(" Nomor", f":📞 [bold {theme['text_body']}]{profile['number']}[/]")
+    info_table.add_row(" Type", f":🧾 [{theme['text_body']}]{profile['subscription_type']} ({profile['subscriber_id']})[/]")
+    info_table.add_row(" Pulsa", f":💰 Rp [{theme['text_money']}]{pulsa_str}[/]")
     info_table.add_row(" Kuota", Text(":") + display_quota)
-    info_table.add_row(" Tiering", f": 🏅 [{theme['text_date']}]{profile['point_info']}[/]")
-    info_table.add_row(" Masa Aktif", f": ⏳ [{theme['text_date']}]{expired_at_dt}[/]")
+    info_table.add_row(" Tiering", f":🏅 [{theme['text_date']}]{profile['point_info']}[/]")
+    info_table.add_row(" Masa Aktif", f":⏳ [{theme['text_date']}]{expired_at_dt}[/]")
 
     console.print(
         Panel(
