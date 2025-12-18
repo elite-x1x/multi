@@ -46,7 +46,7 @@ def send_api_request(api_key: str, path: str, payload_dict: dict, id_token: str,
         "x-signature": x_sig,
         "x-request-id": str(uuid.uuid4()),
         "x-request-at": java_like_timestamp(now),
-        "x-version-app": "8.9.1",
+        "x-version-app": "8.10.0",
     }
 
     url = f"{BASE_API_URL}/{path}"
