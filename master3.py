@@ -49,7 +49,7 @@ def show_main_menu(profile: dict, display_quota: str, segments: dict):
     pulsa_str = get_rupiah(profile.get("balance", 0))
 
     info_table = Table.grid(padding=(0, 1))
-    info_table.add_column(justify="left", style=get_theme_style("border_info"))
+    info_table.add_column(justify="left", style=get_theme_style("text_sub"))
     info_table.add_column(justify="left", style=get_theme_style("text_body"))
 
     info_table.add_row(" Nomor", f":📞 [bold {theme['text_body']}]{profile['number']}[/]")
