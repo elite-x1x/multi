@@ -459,13 +459,13 @@ def get_packages_by_family(
         simple_number()
 
         info_text = Text()
-        info_text.append("Nama Family: ", style=theme["border_info"])
+        info_text.append("Nama Family: ", style=theme["text_sub"])
         info_text.append(f"{data['package_family']['name']}\n", style=theme["text_value"])
-        info_text.append("Kode Family: ", style=theme["border_info"])
+        info_text.append("Kode Family: ", style=theme["text_sub"])
         info_text.append(f"{family_code}\n", style=theme["border_warning"])
-        info_text.append("Tipe Paket: ", style=theme["border_info"])
+        info_text.append("Tipe Paket: ", style=theme["text_sub"])
         info_text.append(f"{data['package_family']['package_family_type']}\n", style=theme["text_value"])
-        info_text.append("Jumlah Varian: ", style=theme["border_info"])
+        info_text.append("Jumlah Varian: ", style=theme["text_sub"])
         info_text.append(f"{len(data['package_variants'])}\n", style=theme["text_value"])
 
         console.print(Panel(
