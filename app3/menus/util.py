@@ -171,7 +171,7 @@ def nav_range(label: str, count: int) -> str:
 
 
 def live_loading(text: str, theme: dict):
-    return console.status(f"[{theme['border_info']}]{text}[/{theme['border_info']}]", spinner="dots")
+    return console.status(f"[{theme['text_body']}]{text}[/{theme['text_body']}]", spinner="dots")
 
 
 def delay_inline(seconds: int):
