@@ -73,7 +73,7 @@ def show_package_details(api_key, tokens, package_option_code, is_enterprise, op
     ensure_git()
 
     info_table = Table.grid(padding=(0, 1))
-    info_table.add_column(justify="left", style=theme["border_info"])
+    info_table.add_column(justify="left", style=theme["text_sub"])
     info_table.add_column(justify="left")
     info_table.add_row("Nama", f": [bold {theme['text_body']}]{title}[/]")
     info_table.add_row("Harga", f": Rp [{theme['text_money']}]{formatted_price}[/]")
