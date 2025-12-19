@@ -81,22 +81,12 @@ def get_profile(api_key: str, access_token: str, id_token: str, use_loading: boo
                          api_key, path, payload, id_token, "POST").get("data")
 
 
-#def get_balance(api_key: str, id_token: str, use_loading: bool = True) -> dict | None:
-#    path = "api/v8/packages/balance-and-credit"
-#    payload = {"is_enterprise": False, "lang": "en"}
-#    res = _with_loading("💰 Mengambil saldo...", send_api_request, use_loading, get_theme(),
-#                        api_key, path, payload, id_token, "POST")
-#    return res.get("data", {}).get("balance")
-
 def get_balance(api_key: str, id_token: str, use_loading: bool = True) -> dict | None:
     path = "api/v8/packages/balance-and-credit"
     payload = {"is_enterprise": False, "lang": "en"}
     res = _with_loading("💰 Mengambil saldo...", send_api_request, use_loading, get_theme(),
                         api_key, path, payload, id_token, "POST")
-    data = res.get("data", {})
-    bal = data.get("balance", {})
-    cred = data.get("credit", {})   # <-- kalau ada masa tenggang biasanya di sini
-    return {**bal, **cred}
+    return res.get("data", {}).get("balance")
 
 
 def get_family(api_key: str, tokens: dict, family_code: str,
