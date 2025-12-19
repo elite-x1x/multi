@@ -286,7 +286,7 @@ def main():
                 quota = get_quota(AuthInstance.api_key, active_user["tokens"]["id_token"]) or {}
                 set_cache(account_id, "quota", quota)
 
-            # Segments cache (pakai dash_segments sebagai sumber tiering dan poin)
+            # Segments cache
             segments = get_cache(account_id, "segments", ttl=290, use_file=True)
             if not segments:
                 segments = dash_segments(
@@ -308,12 +308,12 @@ def main():
             else:
                 display_quota = Text("-", style=theme["text_err"])
 
-            # Tiering info langsung dari segments
+            # Tiering
             loyalty = segments.get("loyalty", {})
             tiering_point = loyalty.get("current_point", 0)
             tier_name = loyalty.get("tier_name", "").strip()
             
-            # Mapping warna sesuai tier resmi myXL
+            # Mapping warna
             tier_colors = {
                 "Blue": "blue",
                 "Silver": "bright_white",
@@ -325,12 +325,11 @@ def main():
                 tiering_status = tier_name
                 tiering_color = tier_colors[tier_name]
             else:
-                # fallback: kalau server tidak kirim tier_name, tentukan dari poin
                 tiering_status, tiering_color = map_point_to_status(tiering_point)
             
             point_info = str(tiering_point)
 
-            # Profile dict lengkap
+            # Profile
             profile = {
                 "number": active_user["number"],
                 "subscriber_id": active_user["subscriber_id"],
