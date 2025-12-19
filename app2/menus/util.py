@@ -1,6 +1,6 @@
 import os, re, time, textwrap
 from html.parser import HTMLParser
-
+from app.service.auth import AuthInstance
 from rich.progress import Progress, BarColumn, TextColumn, TimeRemainingColumn
 from rich.console import Console
 from rich.panel import Panel
