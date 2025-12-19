@@ -42,8 +42,6 @@ def render_quota_bar(remaining: int, total: int) -> Text:
     text.append(persen, style=color)
     return text
 
-def format_theme_name(name: str) -> str:
-    return name.replace("_", " ").title()
 
 def show_main_menu(profile: dict, display_quota: Text | None, segments: dict):
     clear_screenx()
