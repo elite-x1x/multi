@@ -23,36 +23,6 @@ def map_point_to_status(point: int) -> tuple[str, str]:
         return ("Blue", "blue")
 
 
-def render_quota_bar2(remaining: int, total: int) -> Text:
-    if total <= 0:
-        return Text("Tidak ada kuota", style="bold red")
-    ratio = remaining / total
-    if ratio > 1:
-        ratio = 1
-    bar_length = 20
-    filled = int(ratio * bar_length)
-    empty = bar_length - filled
-
-    if ratio > 0.5:
-        color = "green"
-        emoji = "📶"
-    elif ratio > 0.2:
-        color = "yellow"
-        emoji = "📉"
-    else:
-        color = "red"
-        emoji = "⛔"
-
-    angka = f"{emoji} {remaining/1e9:.2f} / {total/1e9:.2f} GB"
-    bar = f":📊 {'▓'*filled}{'░'*empty}"
-    persen = f" {ratio*100:.1f}%"
-
-    text = Text()
-    text.append(f"{angka}\n", style="bold")
-    text.append(bar, style=color)
-    text.append(persen, style=color)
-    return text
-
 def render_quota_bar(remaining: int, total: int) -> Text:
     if total <= 0:
         return Text("Tidak ada kuota", style="bold red")
@@ -64,13 +34,13 @@ def render_quota_bar(remaining: int, total: int) -> Text:
     filled = int(ratio * bar_length)
     empty = bar_length - filled
 
-    if ratio > 0.75:
+    if ratio > 0.7:
         color = "green"
         emoji = "💚"
-    elif ratio > 0.5:
+    elif ratio > 0.4:
         color = "yellow"
         emoji = "💛"
-    elif ratio > 0.25:
+    elif ratio > 0.2:
         color = "orange1"
         emoji = "🧡"
     else:
