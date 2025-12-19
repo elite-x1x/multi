@@ -66,7 +66,7 @@ def show_main_menu(profile: dict, display_quota: Text | None, segments: dict):
     if account_name and account_name != "-":
         nomor_text = (
             f": [bold {theme['text_body']}]{masked_number}[/] "
-            f"[{theme['text_sub']}]({account_name})[/]"
+            f"[{theme['text_body']}]({account_name})[/]"
         )
     else:
         nomor_text = f": [bold {theme['text_body']}]{masked_number}[/]"
