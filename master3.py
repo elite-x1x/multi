@@ -22,13 +22,13 @@ def render_quota_bar(remaining: int, total: int) -> Text:
 
     if ratio > 0.5:
         color = "green"
-        emoji = "🚀"
+        emoji = "📶"
     elif ratio > 0.2:
         color = "yellow"
-        emoji = "⚠️"
+        emoji = "📉"
     else:
         color = "red"
-        emoji = "⚠️"
+        emoji = "⛔"
 
     angka = f"{emoji} {remaining/1e9:.2f} / {total/1e9:.2f} GB"
     bar = f":📊 {'▓'*filled}{'░'*empty}"
