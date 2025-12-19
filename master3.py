@@ -40,6 +40,9 @@ def render_quota_bar(remaining: int, total: int) -> Text:
     text.append(persen, style=color)
     return text
 
+def get_grace_period(balance: dict) -> int | None:
+    return balance.get("grace_period_end")
+
 def show_main_menu(profile: dict, display_quota: str, segments: dict):
     clear_screenx()
     theme = get_theme()
@@ -59,6 +62,22 @@ def show_main_menu(profile: dict, display_quota: str, segments: dict):
     info_table.add_row(" Tiering", f":🏅 [{theme['text_money']}]{profile['point_info']}[/]")
     info_table.add_row(" Masa Aktif", f":⏳ [{theme['text_date']}]{expired_at_dt}[/]")
 
+    #grace_dt = "-"
+    #if profile.get("grace_period_end"):
+    #    grace_dt = datetime.fromtimestamp(profile["grace_period_end"]).strftime("%Y-%m-%d %H:%M:%S")
+    #info_table.add_row(" Masa Tenggang", f":⏳ [{theme['text_date']}]{grace_dt}[/]")
+
+    grace_dt = "-"
+    grace_style = theme["text_date"]
+    if profile.get("grace_period_end"):
+        grace_ts = profile["grace_period_end"]
+        grace_dt = datetime.fromtimestamp(grace_ts).strftime("%Y-%m-%d %H:%M:%S")
+        if grace_ts < datetime.now().timestamp():
+            grace_style = theme["text_err"]
+        else:
+            grace_style = theme["border_warning"]
+    info_table.add_row(" Masa Tenggang", f":⏳ [{grace_style}]{grace_dt}[/]")
+    
     console.print(
         Panel(
             info_table,
@@ -254,13 +273,16 @@ def main():
                 balance = get_balance(AuthInstance.api_key, active_user["tokens"]["id_token"])
                 set_cache(account_id, "balance", balance)
 
-            # Quota cache per akun (TTL 60 detik)
+            # Ambil masa tenggang dari balance (kalau ada)
+            grace_period = get_grace_period(balance)
+
+            # Quota cache per akun (TTL 70 detik)
             quota = get_cache(account_id, "quota", ttl=70)
             if not quota:
                 quota = get_quota(AuthInstance.api_key, active_user["tokens"]["id_token"]) or {}
                 set_cache(account_id, "quota", quota)
 
-            # Segments cache per akun (TTL 300 detik, file-based)
+            # Segments cache per akun (TTL 290 detik, file-based)
             segments = get_cache(account_id, "segments", ttl=290, use_file=True)
             if not segments:
                 segments = dash_segments(
@@ -270,10 +292,10 @@ def main():
                 ) or {}
                 set_cache(account_id, "segments", segments, use_file=True)
 
+            # Render quota bar
             remaining = quota.get("remaining", 0)
             total = quota.get("total", 0)
             has_unlimited = quota.get("has_unlimited", False)
-            
             if has_unlimited:
                 display_quota = Text("♾️ Unlimited", style=theme["text_money"])
             elif total > 0:
@@ -281,35 +303,39 @@ def main():
             else:
                 display_quota = Text("-", style=theme["text_err"])
 
+            # Tiering info
             point_info = "Points: N/A | Tier: N/A"
             if active_user["subscription_type"] == "PREPAID":
-                # Tiering cache per akun (TTL 240 detik)
                 tiering_data = get_cache(account_id, "tiering", ttl=250)
                 if not tiering_data:
                     tiering_data = get_tiering_info(AuthInstance.api_key, active_user["tokens"])
                     set_cache(account_id, "tiering", tiering_data)
                 point_info = f"Points: {tiering_data.get('current_point',0)} | Tier: {tiering_data.get('tier',0)}"
 
+            # Profile dict lengkap
             profile = {
                 "number": active_user["number"],
                 "subscriber_id": active_user["subscriber_id"],
                 "subscription_type": active_user["subscription_type"],
                 "balance": balance.get("remaining"),
                 "balance_expired_at": balance.get("expired_at"),
+                "grace_period_end": grace_period,   # masa tenggang
                 "point_info": point_info,
             }
 
+            # Tampilkan menu utama
             show_main_menu(profile, display_quota, segments)
 
+            # Input pilihan menu
             choice = console.input(f"[{theme['text_sub']}]👉 Pilih menu bro:[/{theme['text_sub']}] ").strip()
 
+            # --- Routing pilihan menu ---
             if choice.lower() == "t":
                 pause()
             elif choice == "1":
                 selected_user_number = show_account_menu()
                 if selected_user_number:
                     AuthInstance.set_active_user(selected_user_number)
-                    #print_panel("✅ Mantap", f"Akun aktif diganti ke {selected_user_number}")
                 else:
                     print_panel("⚠️ Ups", "Nggak ada user terpilih bro 🚨")
                 continue
@@ -324,31 +350,28 @@ def main():
                 show_hot_menu2()
             elif choice == "6":
                 option_code = console.input(f"[{theme['text_sub']}]🔎 Masukin option code bro:[/{theme['text_sub']}] ")
-                if option_code == "99":
-                    continue
-                show_package_details(AuthInstance.api_key, active_user["tokens"], option_code, False)
+                if option_code != "99":
+                    show_package_details(AuthInstance.api_key, active_user["tokens"], option_code, False)
             elif choice == "7":
                 family_code = console.input(f"[{theme['text_sub']}]🔎 Masukin family code bro:[/{theme['text_sub']}] ")
-                if family_code == "99":
-                    continue
-                get_packages_by_family(family_code)
+                if family_code != "99":
+                    get_packages_by_family(family_code)
             elif choice == "8":
                 family_code = console.input(f"[{theme['text_sub']}]🔎 Masukin family code bro:[/{theme['text_sub']}] ")
-                if family_code == "99":
-                    continue
-                start_from_option = console.input(f"[{theme['text_sub']}]Mulai dari option number (default 1):[/{theme['text_sub']}] ")
-                try:
-                    start_from_option = int(start_from_option)
-                except ValueError:
-                    start_from_option = 1
-                use_decoy = console.input(f"[{theme['text_sub']}]Gunakan decoy package? (y/n):[/{theme['text_sub']}] ").lower() == "y"
-                pause_on_success = console.input(f"[{theme['text_sub']}]Pause tiap sukses? (y/n):[/{theme['text_sub']}] ").lower() == "y"
-                delay_seconds = console.input(f"[{theme['text_sub']}]Delay antar pembelian (0 = tanpa delay):[/{theme['text_sub']}] ")
-                try:
-                    delay_seconds = int(delay_seconds)
-                except ValueError:
-                    delay_seconds = 0
-                purchase_by_family(family_code, use_decoy, pause_on_success, delay_seconds, start_from_option)
+                if family_code != "99":
+                    start_from_option = console.input(f"[{theme['text_sub']}]Mulai dari option number (default 1):[/{theme['text_sub']}] ")
+                    try:
+                        start_from_option = int(start_from_option)
+                    except ValueError:
+                        start_from_option = 1
+                    use_decoy = console.input(f"[{theme['text_sub']}]Gunakan decoy package? (y/n):[/{theme['text_sub']}] ").lower() == "y"
+                    pause_on_success = console.input(f"[{theme['text_sub']}]Pause tiap sukses? (y/n):[/{theme['text_sub']}] ").lower() == "y"
+                    delay_seconds = console.input(f"[{theme['text_sub']}]Delay antar pembelian (0 = tanpa delay):[/{theme['text_sub']}] ")
+                    try:
+                        delay_seconds = int(delay_seconds)
+                    except ValueError:
+                        delay_seconds = 0
+                    purchase_by_family(family_code, use_decoy, pause_on_success, delay_seconds, start_from_option)
             elif choice == "9":
                 family_code = console.input(f"[{theme['text_sub']}]Masukin family code bro:[/{theme['text_sub']}] ")
                 try:
@@ -371,29 +394,18 @@ def main():
                     if not should_continue:
                         break
                 continue
-
-            #elif choice == "10":
-            #    try:
-            #        loop_count = int(console.input("Berapa kali looping ? ") or 1)
-            #    except ValueError:
-            #        loop_count = 1
-            #    pause_on_success = console.input("Pause setiap sukses? (y/n): ").lower() == "y"
-            #    redeem_looping(loop_count, pause_on_success)
-  
             elif choice == "10":
                 unlock_code = console.input(f"[{theme['text_sub']}]Masukkan kode unlock:[/{theme['text_sub']}] ").strip()
                 if unlock_code != "barbex":
                     print_panel("Kesalahan", "Kode unlock salah, akses ditolak.")
                     pause()
                     continue
-            
                 try:
                     loop_count = int(console.input(f"[{theme['text_sub']}]Berapa kali looping? :[/{theme['text_sub']}] ") or 1)
                 except ValueError:
                     loop_count = 1
                 pause_on_success = console.input(f"[{theme['text_sub']}]Pause setiap sukses? (y/n): [/{theme['text_sub']}] ").lower() == "y"
                 redeem_looping(loop_count, pause_on_success)
-
             elif choice.lower() == "d":
                 show_bundle_menu()
             elif choice.lower() == "f":
@@ -426,9 +438,9 @@ def main():
             selected_user_number = show_account_menu()
             if selected_user_number:
                 AuthInstance.set_active_user(selected_user_number)
-                #print_panel("✅ Mantap", f"Akun aktif diganti ke {selected_user_number}")
             else:
                 print_panel("⚠️ Ups", "Nggak ada user terpilih bro 🚨")
+
 
 if __name__ == "__main__":
     try:
