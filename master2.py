@@ -4,7 +4,7 @@ load_dotenv()
 import sys, json, random
 from datetime import datetime
 from app2.config.imports import *
-from app2.config.theme_config import get_theme_name
+from app2.config.theme_config import get_theme_name, format_theme_name
 from app2.menus.util import clear_screenx
 from app2.menus.sharing import show_balance_allotment_menu
 from app2.menus.purchase import redeem_looping
