@@ -40,7 +40,7 @@ def render_quota_bar(remaining: int, total: int) -> Text:
     text.append(persen, style=color)
     return text
 
-def show_main_menu(profile: dict, display_quota: str, segments: dict):
+def show_main_menu(profile: dict, display_quota: Text | None, segments: dict):
     clear_screenx()
     theme = get_theme()
 
@@ -55,13 +55,15 @@ def show_main_menu(profile: dict, display_quota: str, segments: dict):
     info_table.add_row(" Nomor", f":📞 [bold {theme['text_body']}]{profile['number']}[/]")
     info_table.add_row(" Type", f":🧾 [{theme['text_body']}]{profile['subscription_type']} ({profile['subscriber_id']})[/]")
     info_table.add_row(" Pulsa", f":💰 Rp [{theme['text_money']}]{pulsa_str}[/]")
-    info_table.add_row(" Kuota", Text(":") + display_quota)
+
+    if display_quota and str(display_quota).strip() not in ["-", "Tidak ada kuota"]:
+        info_table.add_row(" Kuota", Text(":") + display_quota)
 
     tiering_status = profile.get("tiering_status", "N/A")
     tiering_color = profile.get("tiering_color", theme["text_money"])
     tiering_point_val = int(profile.get("point_info", 0))
 
-    poin_text = f"[bold cyan]🌟 XL Poin:[/] [bold {theme['text_date']}]{tiering_point_val:,}[/]"
+    poin_text = f"[bold cyan]🌟 XL Poin:[/] [bold {theme['text_body']}]{tiering_point_val:,}[/]"
 
     info_table.add_row(
         " Tingkatan",
