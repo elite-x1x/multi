@@ -357,6 +357,9 @@ def get_theme_name():
     global _cached_theme_name
     return _cached_theme_name or get_active_theme_name()
 
+def format_theme_name(name: str) -> str:
+    return name.replace("_", " ").title()
+
 def get_theme_style(key: str, default: str = "red") -> str:
     theme = get_theme()
     return theme.get(key, default)
