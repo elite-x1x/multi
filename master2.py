@@ -65,7 +65,7 @@ def show_main_menu(profile: dict, display_quota: Text | None, segments: dict):
 
     active_theme_name = get_theme_name()
     formatted_theme_name = format_theme_name(active_theme_name)
-    info_table.add_row(" Tema Aktif", f": [{theme['text_title']}]{formatted_theme_name}[/]")
+    info_table.add_row(" Tema Aktif", f": [{theme['text_sub']}]{formatted_theme_name}[/]")
 
     console.print(
         Panel(
