@@ -64,7 +64,7 @@ def show_hot_menu():
                 p.get("source", "local")
             )
 
-        console.print(Panel(table, border_style=theme["border_info"], expand=True))
+        console.print(Panel(table, border_style=theme["border_info"], padding=(0, 0), expand=True))
 
         nav_table = Table(show_header=False, box=MINIMAL_DOUBLE_HEAD, expand=True)
         nav_table.add_column(justify="right", style=theme["text_key"], width=6)
