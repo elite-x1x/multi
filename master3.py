@@ -61,24 +61,11 @@ def show_main_menu(profile: dict, display_quota: str, segments: dict):
     tiering_color = profile.get("tiering_color", theme["text_money"])
     tiering_point = profile.get("point_info", "").replace("Points:", "").strip()
 
-    poin_text = f"[bold cyan]🌟 XL Poin: {tiering_point}[/]"
+    poin_text = f"[bold cyan]🌟 XL Poin:[/] [bold {theme['text_money']}]{tiering_point}[/]"
     
     info_table.add_row(
-        " Tiering",
+        " Tingkatan",
         f":🏅 [{tiering_color}]{tiering_status}[/] | {poin_text}"
-    )
-
-    info_table.add_row(" Masa Aktif", f":⏳ [{theme['text_date']}]{expired_at_dt}[/]")
-
-    console.print(
-        Panel(
-            info_table,
-            title=f"[{get_theme_style('text_title')}][ Informasi Akun ][/]",
-            title_align="center",
-            border_style=get_theme_style("border_info"),
-            padding=(1, 2),
-            expand=True,
-        )
     )
 
     special_packages = segments.get("special_packages", [])
