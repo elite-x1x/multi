@@ -61,7 +61,7 @@ def show_main_menu(profile: dict, display_quota: str, segments: dict):
     tiering_color = profile.get("tiering_color", theme["text_money"])
     tiering_point = profile.get("point_info", "").replace("Points:", "").strip()
 
-    poin_text = f"[bold cyan]🌟 XL Poin {tiering_point}[/]"
+    poin_text = f"[bold cyan]🌟 XL Poin: {tiering_point}[/]"
     
     info_table.add_row(
         " Tiering",
