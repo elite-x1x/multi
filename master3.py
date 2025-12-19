@@ -61,7 +61,7 @@ def show_main_menu(profile: dict, display_quota: str, segments: dict):
     tiering_color = profile.get("tiering_color", theme["text_money"])
     tiering_point_val = int(profile.get("point_info", 0))
 
-    poin_text = f"[bold cyan]🌟 XL Poin:[/] [bold {theme['text_money']}]{tiering_point_val:,}[/]"
+    poin_text = f"[bold cyan]🌟 XL Poin:[/] [bold {theme['text_date']}]{tiering_point_val:,}[/]"
 
     info_table.add_row(
         " Tingkatan",
@@ -287,7 +287,7 @@ def main():
             total = quota.get("total", 0)
             has_unlimited = quota.get("has_unlimited", False)
             if has_unlimited:
-                display_quota = Text("♾️  Unlimited", style=theme["text_money"])
+                display_quota = Text(" ♾️ Unlimited", style=theme["text_money"])
             elif total > 0:
                 display_quota = render_quota_bar(remaining, total)
             else:
