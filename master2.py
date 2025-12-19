@@ -66,12 +66,12 @@ def show_main_menu(profile: dict, display_quota: Text | None, segments: dict):
     if account_name and account_name != "-":
         nomor_text = (
             f": [bold {theme['text_body']}]{masked_number}[/] "
-            f"[{theme['text_body']}]({account_name})[/]"
+            f"[{theme['text_body']}] | {account_name}[/]"
         )
     else:
         nomor_text = f": [bold {theme['text_body']}]{masked_number}[/]"
 
-    info_table.add_row(" Nomor/Akun", nomor_text)
+    info_table.add_row(" Nomor|Akun", nomor_text)
     info_table.add_row(" Tipe", f": [{theme['text_body']}]{profile['subscription_type']} ({profile['subscriber_id']})[/]")
     info_table.add_row(" Pulsa", f": Rp [{theme['text_money']}]{pulsa_str}[/]")
     if display_quota and str(display_quota).strip() not in ["-", "Tidak ada kuota"]:
