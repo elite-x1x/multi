@@ -5,7 +5,7 @@ import sys, json, random
 from datetime import datetime
 from app2.config.imports import *
 from app2.config.theme_config import get_theme_name, format_theme_name
-from app2.menus.util import clear_screenx
+from app2.menus.util import clear_screenx, mask_number
 from app2.menus.sharing import show_balance_allotment_menu
 from app2.menus.purchase import redeem_looping
 from app2.menus.family import show_family_input_menu
@@ -62,8 +62,13 @@ def show_main_menu(profile: dict, display_quota: Text | None, segments: dict):
     formatted_theme_name = format_theme_name(active_theme_name)
     info_table.add_row(" Tema Aktif", f": [{theme['text_sub']}]{formatted_theme_name}[/]")
 
-    info_table.add_row(" Nomor", f": [bold {theme['text_body']}]{profile['number']}[/] " f"[{theme['text_sub']}]({account_name})[/]")
-    #info_table.add_row(" Nomor", f": [{theme['text_body']}]{profile['number']}[/]")
+    masked_number = mask_number(profile['number'])
+    info_table.add_row(
+        " Nomor",
+        f": [bold {theme['text_body']}]{masked_number}[/] "
+        f"[{theme['text_sub']}]({account_name})[/]"
+    )
+
     info_table.add_row(" Tipe", f": [{theme['text_body']}]{profile['subscription_type']} ({profile['subscriber_id']})[/]")
     info_table.add_row(" Pulsa", f": Rp [{theme['text_money']}]{pulsa_str}[/]")
     if display_quota and str(display_quota).strip() not in ["-", "Tidak ada kuota"]:
