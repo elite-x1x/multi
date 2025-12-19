@@ -18,15 +18,19 @@ def render_quota_bar(remaining: int, total: int) -> Text:
     ratio = remaining / total
     if ratio > 1:
         ratio = 1
+
     bar_length = 20
     filled = int(ratio * bar_length)
     empty = bar_length - filled
 
-    if ratio > 0.5:
+    if ratio > 0.7:
         color = "green"
         emoji = ""
-    elif ratio > 0.2:
+    elif ratio > 0.45:
         color = "yellow"
+        emoji = ""
+    elif ratio > 0.2:
+        color = "orange1"
         emoji = ""
     else:
         color = "red"
