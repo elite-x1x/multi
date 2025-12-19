@@ -22,7 +22,7 @@ def mask_number(number: str) -> str:
     """Sensor 4 digit di tengah nomor dengan bintang."""
     num_str = str(number)
     if len(num_str) < 8:
-        return num_str  # terlalu pendek, tidak perlu masking
+        return num_str
     start = num_str[:4]
     end = num_str[-4:]
     return f"{start}{'*'*4}{end}"
@@ -90,7 +90,7 @@ def simple_number():
         masked_number = mask_number(number)
         account_name = active_user.get("name", "")
         if account_name and account_name != "-":
-            text = f"[bold {theme['text_title']}]✨ Akun aktif: {masked_number} | {account_name} ✨[/]"
+            text = f"[bold {theme['text_title']}]✨ Akun aktif: 👥 {masked_number} | {account_name} ✨[/]"
         else:
             text = f"[bold {theme['text_title']}]Akun aktif ✨ {masked_number} ✨[/]"
 
