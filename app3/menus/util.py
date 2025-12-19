@@ -17,6 +17,17 @@ console = Console()
 
 ascii_art = banner.load("https://d17e22l2uh4h4n.cloudfront.net/corpweb/pub-xlaxiata/2019-03/xl-logo.png", globals())
 
+
+def mask_number(number: str) -> str:
+    """Sensor 4 digit di tengah nomor dengan bintang."""
+    num_str = str(number)
+    if len(num_str) < 8:
+        return num_str  # terlalu pendek, tidak perlu masking
+    start = num_str[:4]
+    end = num_str[-4:]
+    return f"{start}{'*'*4}{end}"
+
+
 def clear_screenx():
     try:
         os.system('cls' if os.name == 'nt' else 'clear')
