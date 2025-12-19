@@ -23,7 +23,7 @@ def map_point_to_status(point: int) -> tuple[str, str]:
         return ("Blue", "blue")
 
 
-def render_quota_bar(remaining: int, total: int) -> Text:
+def render_quota_bar2(remaining: int, total: int) -> Text:
     if total <= 0:
         return Text("Tidak ada kuota", style="bold red")
     ratio = remaining / total
@@ -53,6 +53,41 @@ def render_quota_bar(remaining: int, total: int) -> Text:
     text.append(persen, style=color)
     return text
 
+def render_quota_bar(remaining: int, total: int, levels: int = 5) -> Text:
+    if total <= 0:
+        return Text("Tidak ada kuota", style="bold red")
+    ratio = remaining / total
+    if ratio > 1:
+        ratio = 1
+
+    bar_length = 20
+    filled = int(ratio * bar_length)
+    empty = bar_length - filled
+
+    color_levels = {
+        3: [("green", 0.5), ("yellow", 0.2), ("red", 0.0)],
+        4: [("green", 0.75), ("cyan", 0.5), ("yellow", 0.25), ("red", 0.0)],
+        5: [("green", 0.8), ("cyan", 0.6), ("yellow", 0.4), ("magenta", 0.2), ("red", 0.0)]
+    }
+
+    chosen_color = "green"
+    for color, threshold in color_levels.get(levels, color_levels[3]):
+        if ratio > threshold:
+            chosen_color = color
+            break
+
+    emoji = f"[{chosen_color}]💚[/]"
+
+    angka = f"{emoji} {remaining/1e9:.2f} / {total/1e9:.2f} GB"
+    bar = f": {'▓'*filled}{'░'*empty}"
+    persen = f" {ratio*100:.1f}%"
+
+    text = Text()
+    text.append(f"{angka}\n", style="bold")
+    text.append(bar, style=chosen_color)
+    text.append(persen, style=chosen_color)
+    return text
+
 
 def show_main_menu(profile: dict, display_quota: Text | None, segments: dict):
     clear_screenx()
@@ -71,7 +106,7 @@ def show_main_menu(profile: dict, display_quota: Text | None, segments: dict):
 
     active_theme_name = get_theme_name()
     formatted_theme_name = format_theme_name(active_theme_name)
-    info_table.add_row(" Tema Aktif", f":🖌️ [{theme['text_sub']}]{formatted_theme_name}[/]")
+    info_table.add_row(" Tema Aktif", f":🖼️ [{theme['text_sub']}]{formatted_theme_name}[/]")
 
     masked_number = mask_number(profile['number'])
     if account_name and account_name != "-":
