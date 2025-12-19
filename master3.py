@@ -10,6 +10,18 @@ from app3.menus.purchase import redeem_looping
 from app3.menus.family import show_family_input_menu
 from rich.text import Text
 
+
+def map_point_to_status(point: int) -> tuple[str, str]:
+    if point >= 500:
+        return ("Platinum", "magenta")
+    elif point >= 300:
+        return ("Gold", "yellow")
+    elif point >= 150:
+        return ("Silver", "bright_white")
+    else:
+        return ("Blue", "blue")
+
+
 def render_quota_bar(remaining: int, total: int) -> Text:
     if total <= 0:
         return Text("Tidak ada kuota", style="bold red")
@@ -39,6 +51,7 @@ def render_quota_bar(remaining: int, total: int) -> Text:
     text.append(bar, style=color)
     text.append(persen, style=color)
     return text
+
 
 def show_main_menu(profile: dict, display_quota: Text | None, segments: dict):
     clear_screenx()
