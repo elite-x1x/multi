@@ -271,7 +271,9 @@ def main():
             balance = get_cache(account_id, "balance", ttl=90)
             if not balance:
                 balance = get_balance(AuthInstance.api_key, active_user["tokens"]["id_token"])
-                set_cache(account_id, "balance", balance)
+                set_cache(account_id, "balance", balance
+
+            print("DEBUG balance:", balance)
 
             # Ambil masa tenggang dari balance (kalau ada)
             grace_period = get_grace_period(balance)
