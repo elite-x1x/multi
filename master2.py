@@ -276,7 +276,7 @@ def main():
             has_unlimited = quota.get("has_unlimited", False)
 
             if has_unlimited:
-                display_quota = "Unlimited"
+                display_quota = " Unlimited"
             elif total > 0:
                 display_quota = render_quota_bar(remaining, total)
             else:
