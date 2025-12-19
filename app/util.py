@@ -53,14 +53,12 @@ def merge_hot1(api_url: str, prefer_server: bool = True):
                     local_data = []
             except json.JSONDecodeError:
                 local_data = []
-            #print(f"Memuat {len(local_data)} item dari {local_file}")
             for pkg in local_data:
                 key = f"{pkg.get('family_code','')}-{pkg.get('order','')}-{pkg.get('variant_name','')}"
                 pkg["source"] = "local"
                 merged[key] = pkg
     except FileNotFoundError:
-        #print(f"{local_file} tidak ditemukan.")
-        pass  # tetap silent
+        pass
 
     try:
         response = requests.get(api_url, timeout=30)
@@ -68,16 +66,13 @@ def merge_hot1(api_url: str, prefer_server: bool = True):
             api_data = response.json()
             for pkg in api_data:
                 key = f"{pkg.get('family_code','')}-{pkg.get('order','')}-{pkg.get('variant_name','')}"
-                pkg["source"] = "server"
+                pkg["source"] = "url"
                 if prefer_server or key not in merged:
                     merged[key] = pkg
         else:
-            #print("Gagal ambil data hot1 dari server.")
-            pass  # tetap silent
+            pass
     except requests.RequestException as e:
-        #print(f"Error API hot1: {e}")
-        pass  # tetap silent
-
+        pass
     return list(merged.values())
 
 
@@ -93,14 +88,12 @@ def merge_hot2(api_url: str, prefer_server: bool = True):
                     local_data = []
             except json.JSONDecodeError:
                 local_data = []
-            #print(f"Memuat {len(local_data)} item dari {local_file}")
             for pkg in local_data:
                 key = f"{pkg.get('name','')}-{pkg.get('price','')}-{pkg.get('order','')}"
                 pkg["source"] = "local"
                 merged[key] = pkg
     except FileNotFoundError:
-        #print(f"{local_file} tidak ditemukan.")
-        pass  # tetap silent
+        pass
 
     try:
         response = requests.get(api_url, timeout=30)
@@ -108,14 +101,12 @@ def merge_hot2(api_url: str, prefer_server: bool = True):
             api_data = response.json()
             for pkg in api_data:
                 key = f"{pkg.get('name','')}-{pkg.get('price','')}-{pkg.get('order','')}"
-                pkg["source"] = "server"
+                pkg["source"] = "url"
                 if prefer_server or key not in merged:
                     merged[key] = pkg
         else:
-            #print("Gagal ambil data hot2 dari server.")
-            pass  # tetap silent
+            pass
     except requests.RequestException as e:
-        #print(f"Error API hot2: {e}")
-        pass  # tetap silent
+        pass
 
     return list(merged.values())
