@@ -61,7 +61,8 @@ class Auth:
                 "number": int(number),
                 "subscriber_id": sub_id,
                 "subscription_type": sub_type,
-                "refresh_token": refresh_token
+                "refresh_token": refresh_token,
+                "name": "-"
             })
 
         self.write_tokens_to_file()
@@ -93,11 +94,14 @@ class Auth:
         subscriber_id = profile_data["profile"]["subscriber_id"]
         subscription_type = profile_data["profile"]["subscription_type"]
 
+        account_name = rt_entry.get("name", "-")
+
         self.active_user = {
             "number": int(number),
             "subscriber_id": subscriber_id,
             "subscription_type": subscription_type,
-            "tokens": tokens
+            "tokens": tokens,
+            "name": account_name
         }
 
         rt_entry["subscriber_id"] = subscriber_id
@@ -162,6 +166,8 @@ class Auth:
         for user in self.refresh_tokens:
             if user["number"] == number:
                 user["name"] = new_name
+                if self.active_user and self.active_user["number"] == number:
+                    self.active_user["name"] = new_name
                 break
         self.write_tokens_to_file()
 
