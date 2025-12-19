@@ -603,9 +603,17 @@ def format_unix_date_with_diff(ts: int, mode: str = "future") -> str:
         return str(ts)
 
 def render_quota_bar(remaining: int, total: int) -> Text:
-    if total <= 0:
+    if total is None or total <= 0:
         return Text("Tidak ada kuota", style="bold red")
+
+    if remaining is None or remaining < 0:
+        remaining = 0
     ratio = remaining / total
+    if ratio < 0:
+        ratio = 0
+    elif ratio > 1:
+        ratio = 1
+
     bar_length = 20
     filled = int(ratio * bar_length)
     empty = bar_length - filled
@@ -707,16 +715,34 @@ def fetch_my_packages():
                 
                     if dt == "DATA":
                         if has_unlimited:
-                            quota_bar = Text("♾️ Unlimited", style="bold green")
+                            quota_bar = Text("♾️ Unlimited", style=theme["text_success"])
                         else:
                             quota_bar = render_quota_bar(r, t)
+                
                     elif dt == "VOICE":
-                        quota_bar = f"{r/60:.2f} / {t/60:.2f} menit"
+                        if has_unlimited:
+                            quota_bar = Text("♾️ Unlimited menit", style=theme["text_success"])
+                        else:
+                            if t and t > 0:
+                                quota_bar = f"{r/60:.2f} / {t/60:.2f} menit"
+                            else:
+                                quota_bar = f"{r/60:.2f} menit"
+                
                     elif dt == "TEXT":
-                        quota_bar = f"{r} / {t} SMS"
+                        if has_unlimited:
+                            quota_bar = Text("♾️ Unlimited SMS", style=theme["text_success"])
+                        else:
+                            if t and t > 0:
+                                quota_bar = f"{r} / {t} SMS"
+                            else:
+                                quota_bar = f"{r} SMS"
+                
                     else:
-                        quota_bar = f"{r} / {t}"
-
+                        if has_unlimited:
+                            quota_bar = Text("♾️ Unlimited", style=theme["text_success"])
+                        else:
+                            quota_bar = f"{r} / {t}"
+                
                     benefit_table.add_row(name, dt, quota_bar)
 
             package_details = get_package(api_key, tokens, quota_code)
