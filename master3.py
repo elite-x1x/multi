@@ -298,19 +298,19 @@ def main():
             tiering_point = loyalty.get("current_point", 0)
             tier_name = loyalty.get("tier_name", "").strip()
             
-            # Mapping warna sesuai tier
+            # Mapping warna sesuai tier resmi myXL
             tier_colors = {
                 "Blue": "blue",
                 "Silver": "bright_white",
                 "Gold": "yellow",
                 "Platinum": "magenta",
-                "Basic": "white",
             }
             
-            if tier_name:
+            if tier_name in tier_colors:
                 tiering_status = tier_name
-                tiering_color = tier_colors.get(tier_name, theme["text_money"])
+                tiering_color = tier_colors[tier_name]
             else:
+                # fallback: kalau server tidak kirim tier_name, tentukan dari poin
                 tiering_status, tiering_color = map_point_to_status(tiering_point)
             
             point_info = str(tiering_point)
