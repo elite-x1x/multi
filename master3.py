@@ -285,13 +285,14 @@ def main():
                 quota = get_quota(AuthInstance.api_key, active_user["tokens"]["id_token"]) or {}
                 set_cache(account_id, "quota", quota)
 
-            # Segments cache
+            # Segments cache (pakai dash_segments sebagai sumber tiering dan poin)
             segments = get_cache(account_id, "segments", ttl=290, use_file=True)
             if not segments:
                 segments = dash_segments(
                     AuthInstance.api_key,
                     active_user["tokens"]["id_token"],
-                    active_user["tokens"]["access_token"]
+                    active_user["tokens"]["access_token"],
+                    balance.get("remaining", 0)
                 ) or {}
                 set_cache(account_id, "segments", segments, use_file=True)
 
@@ -306,26 +307,20 @@ def main():
             else:
                 display_quota = Text("-", style=theme["text_err"])
 
-            # Tiering info
-            tiering_point = 0
-            tiering_status, tiering_color = ("N/A", "white")
+            # Tiering info langsung dari segments
+            loyalty = segments.get("loyalty", {})
+            tiering_point = loyalty.get("current_point", 0)
+            tier_name = loyalty.get("tier_name", "").strip()
 
-            if active_user["subscription_type"] == "PREPAID":
-                tiering_data = get_cache(account_id, "tiering", ttl=250)
-                if not tiering_data:
-                    tiering_data = get_tiering_info(AuthInstance.api_key, active_user["tokens"])
-                    set_cache(account_id, "tiering", tiering_data)
+            if tier_name:
+                tiering_status = tier_name
+                tiering_color = theme["text_money"]  # pakai warna default
+            else:
+                tiering_status, tiering_color = map_point_to_status(tiering_point)
 
-                tiering_point = tiering_data.get("current_point", 0)
-                tier_name = tiering_data.get("tier_name")
-                if tier_name:
-                    tiering_status = tier_name
-                    tiering_color = "blue" if tier_name.lower() == "blue" else "yellow"
-                else:
-                    tiering_status, tiering_color = map_point_to_status(tiering_point)
+            point_info = str(tiering_point)
 
-            point_info = f"Points: {tiering_point}"
-
+            # Profile dict lengkap
             profile = {
                 "number": active_user["number"],
                 "subscriber_id": active_user["subscriber_id"],
