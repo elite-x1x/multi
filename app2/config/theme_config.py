@@ -346,11 +346,13 @@ def get_theme(force_reload=False):
 
     if force_reload or _cached_theme is None:
         theme_name = get_active_theme_name()
-        _cached_theme = THEMES.get(theme_name, THEMES["emerald_glass"])
+        theme = THEMES.get(theme_name, THEMES["emerald_glass"]).copy()
+        theme["name"] = theme_name
+        _cached_theme = theme
         _cached_theme_name = theme_name
 
     return _cached_theme
-theme_sets = "xl"
+
 def get_theme_name():
     global _cached_theme_name
     return _cached_theme_name or get_active_theme_name()
