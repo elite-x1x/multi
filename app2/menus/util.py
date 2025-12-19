@@ -1,6 +1,6 @@
 import os, re, time, textwrap
 from html.parser import HTMLParser
-from app.service.auth import AuthInstance
+
 from rich.progress import Progress, BarColumn, TextColumn, TimeRemainingColumn
 from rich.console import Console
 from rich.panel import Panel
@@ -118,6 +118,7 @@ def simple_number2():
 
 def simple_number():
     """Tampilkan nomor akun aktif, atau info jika tidak ada."""
+    from app.service.auth import AuthInstance
     theme = get_theme()
     active_user = AuthInstance.get_active_user()
 
