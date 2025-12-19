@@ -273,6 +273,11 @@ def main():
             account_id = active_user["number"]
 
             # Balance cache per akun (TTL 90 detik)
+            #balance = get_cache(account_id, "balance", ttl=90)
+            #if not balance:
+            #    balance = get_balance(AuthInstance.api_key, active_user["tokens"]["id_token"])
+            #    set_cache(account_id, "balance", balance)
+
             balance = get_cache(account_id, "balance", ttl=90)
             if not balance:
                 balance = get_balance(AuthInstance.api_key, active_user["tokens"]["id_token"])
@@ -326,7 +331,7 @@ def main():
                 "subscription_type": active_user["subscription_type"],
                 "balance": balance.get("remaining"),
                 "balance_expired_at": balance.get("expired_at"),
-                "grace_period_end": grace_period,   # masa tenggang
+                "grace_period_end": balance.get("grace_period_end"),   # masa tenggang
                 "point_info": point_info,
             }
 
