@@ -41,6 +41,9 @@ def render_quota_bar(remaining: int, total: int) -> Text:
     text.append(persen, style=color)
     return text
 
+def format_theme_name(name: str) -> str:
+    return name.replace("_", " ").title()
+
 def show_main_menu(profile: dict, display_quota: Text | None, segments: dict):
     clear_screenx()
     theme = get_theme()
@@ -61,7 +64,8 @@ def show_main_menu(profile: dict, display_quota: Text | None, segments: dict):
     info_table.add_row(" Tiering", f": [{theme['text_date']}]{profile['point_info']}[/]")
     info_table.add_row(" Masa Aktif", f": [{theme['text_date']}]{expired_at_dt}[/]")
 
-    active_theme_name = theme.get("name", "Default")
+    active_theme_name = get_theme_name()
+    formatted_theme_name = format_theme_name(active_theme_name)
     info_table.add_row(" Tema Aktif", f": [{theme['text_title']}]{active_theme_name}[/]")
 
     console.print(
