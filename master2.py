@@ -56,12 +56,13 @@ def show_main_menu(profile: dict, display_quota: Text | None, segments: dict):
     info_table.add_row(" Nomor", f": [{theme['text_body']}]{profile['number']}[/]")
     info_table.add_row(" Tipe", f": [{theme['text_body']}]{profile['subscription_type']} ({profile['subscriber_id']})[/]")
     info_table.add_row(" Pulsa", f": Rp [{theme['text_money']}]{pulsa_str}[/]")
-
     if display_quota and str(display_quota).strip() not in ["-", "Tidak ada kuota"]:
         info_table.add_row(" Kuota", Text(":") + display_quota)
-
     info_table.add_row(" Tiering", f": [{theme['text_date']}]{profile['point_info']}[/]")
     info_table.add_row(" Masa Aktif", f": [{theme['text_date']}]{expired_at_dt}[/]")
+
+    active_theme_name = theme.get("name", "Default")
+    info_table.add_row(" Tema Aktif", f": [{theme['text_title']}]{active_theme_name}[/]")
 
     console.print(
         Panel(
