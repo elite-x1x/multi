@@ -51,6 +51,9 @@ def show_main_menu(profile: dict, display_quota: Text | None, segments: dict):
     expired_at_dt = datetime.fromtimestamp(expired_at_ts).strftime("%Y-%m-%d %H:%M:%S") if expired_at_ts else "-"
     pulsa_str = get_rupiah(profile.get("balance", 0))
 
+    active_user = AuthInstance.get_active_user()
+    account_name = active_user.get("name", "-") if active_user else "-"
+
     info_table = Table.grid(padding=(0, 1))
     info_table.add_column(justify="left", style=get_theme_style("border_info"))
     info_table.add_column(justify="left", style=get_theme_style("text_body"))
@@ -59,7 +62,8 @@ def show_main_menu(profile: dict, display_quota: Text | None, segments: dict):
     formatted_theme_name = format_theme_name(active_theme_name)
     info_table.add_row(" Tema Aktif", f": [{theme['text_sub']}]{formatted_theme_name}[/]")
 
-    info_table.add_row(" Nomor", f": [{theme['text_body']}]{profile['number']}[/]")
+    info_table.add_row(" Nomor", f": [bold {theme['text_body']}]{profile['number']}[/] " f"[{theme['text_sub']}]({account_name})[/]")
+    #info_table.add_row(" Nomor", f": [{theme['text_body']}]{profile['number']}[/]")
     info_table.add_row(" Tipe", f": [{theme['text_body']}]{profile['subscription_type']} ({profile['subscriber_id']})[/]")
     info_table.add_row(" Pulsa", f": Rp [{theme['text_money']}]{pulsa_str}[/]")
     if display_quota and str(display_quota).strip() not in ["-", "Tidak ada kuota"]:
