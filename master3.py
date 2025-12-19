@@ -40,20 +40,6 @@ def render_quota_bar(remaining: int, total: int) -> Text:
     text.append(persen, style=color)
     return text
 
-
-def map_point_to_status(point: int) -> tuple[str, str]:
-    if point >= 500:
-        return ("Platinum", "magenta")
-    elif point >= 300:
-        return ("Gold", "yellow")
-    elif point >= 150:
-        return ("Silver", "bright_white")
-    elif point >= 50:
-        return ("Blue", "blue")
-    else:
-        return ("Basic", "white")
-
-
 def show_main_menu(profile: dict, display_quota: str, segments: dict):
     clear_screenx()
     theme = get_theme()
@@ -311,13 +297,22 @@ def main():
             loyalty = segments.get("loyalty", {})
             tiering_point = loyalty.get("current_point", 0)
             tier_name = loyalty.get("tier_name", "").strip()
-
+            
+            # Mapping warna sesuai tier
+            tier_colors = {
+                "Blue": "blue",
+                "Silver": "bright_white",
+                "Gold": "yellow",
+                "Platinum": "magenta",
+                "Basic": "white",
+            }
+            
             if tier_name:
                 tiering_status = tier_name
-                tiering_color = theme["text_money"]  # pakai warna default
+                tiering_color = tier_colors.get(tier_name, theme["text_money"])
             else:
                 tiering_status, tiering_color = map_point_to_status(tiering_point)
-
+            
             point_info = str(tiering_point)
 
             # Profile dict lengkap
