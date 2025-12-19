@@ -41,7 +41,11 @@ def render_quota_bar(remaining: int, total: int) -> Text:
     return text
 
 def get_grace_period(balance: dict) -> int | None:
-    return balance.get("grace_period_end")
+    return (
+        balance.get("grace_period_end")
+        or balance.get("grace_end_date")
+        or balance.get("suspend_date")
+    )
 
 def show_main_menu(profile: dict, display_quota: str, segments: dict):
     clear_screenx()
