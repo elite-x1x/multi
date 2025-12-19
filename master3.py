@@ -138,7 +138,7 @@ def show_main_menu(profile: dict, display_quota: Text | None, segments: dict):
     menu_table.add_row("8", "🛒 Borong semua paket di Family Code")
     menu_table.add_row("9", "🔂 Auto Loop target Paket by Family")
     menu_table.add_row("", "")
-    menu_table.add_row("10", "🎁 Claim Bonus Bebas Puas (Looping)")
+    menu_table.add_row("10", "🎁 Redeem Bonus Bebas Puas (Looping)")
     menu_table.add_row("", "   -Kuota Youtube & Tiktok 3.13 GB ")
     menu_table.add_row("", "   -Kuota Utama 1.25 GB ")
     menu_table.add_row("", "   -Kuota Malam 3.75 GB ")
