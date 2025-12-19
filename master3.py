@@ -76,11 +76,11 @@ def show_main_menu(profile: dict, display_quota: Text | None, segments: dict):
     masked_number = mask_number(profile['number'])
     if account_name and account_name != "-":
         nomor_text = (
-            f":📞  [bold {theme['text_body']}]{masked_number}[/] "
+            f":👥 [bold {theme['text_body']}]{masked_number}[/] "
             f"[{theme['text_body']}]| {account_name}[/]"
         )
     else:
-        nomor_text = f":📞 [bold {theme['text_body']}]{masked_number}[/]"
+        nomor_text = f":👥 [bold {theme['text_body']}]{masked_number}[/]"
 
     info_table.add_row(" Nomor(akun)", nomor_text)
     #info_table.add_row(" Nomor", f":📞 [bold {theme['text_body']}]{profile['number']}[/]")
