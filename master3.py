@@ -45,6 +45,7 @@ def get_grace_period(balance: dict) -> int | None:
         balance.get("grace_period_end")
         or balance.get("grace_end_date")
         or balance.get("suspend_date")
+        or balance.get("grace_period")
     )
 
 def show_main_menu(profile: dict, display_quota: str, segments: dict):
