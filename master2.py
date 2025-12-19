@@ -55,6 +55,10 @@ def show_main_menu(profile: dict, display_quota: Text | None, segments: dict):
     info_table.add_column(justify="left", style=get_theme_style("border_info"))
     info_table.add_column(justify="left", style=get_theme_style("text_body"))
 
+    active_theme_name = get_theme_name()
+    formatted_theme_name = format_theme_name(active_theme_name)
+    info_table.add_row(" Tema Aktif", f": [{theme['text_sub']}]{formatted_theme_name}[/]")
+
     info_table.add_row(" Nomor", f": [{theme['text_body']}]{profile['number']}[/]")
     info_table.add_row(" Tipe", f": [{theme['text_body']}]{profile['subscription_type']} ({profile['subscriber_id']})[/]")
     info_table.add_row(" Pulsa", f": Rp [{theme['text_money']}]{pulsa_str}[/]")
@@ -62,10 +66,6 @@ def show_main_menu(profile: dict, display_quota: Text | None, segments: dict):
         info_table.add_row(" Kuota", Text(":") + display_quota)
     info_table.add_row(" Tiering", f": [{theme['text_date']}]{profile['point_info']}[/]")
     info_table.add_row(" Masa Aktif", f": [{theme['text_date']}]{expired_at_dt}[/]")
-
-    active_theme_name = get_theme_name()
-    formatted_theme_name = format_theme_name(active_theme_name)
-    info_table.add_row(" Tema Aktif", f": [{theme['text_sub']}]{formatted_theme_name}[/]")
 
     console.print(
         Panel(
