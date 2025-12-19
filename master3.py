@@ -4,8 +4,8 @@ load_dotenv()
 import sys, json, random
 from datetime import datetime
 from app3.config.imports import *
-from app2.config.theme_config import get_theme_name, format_theme_name
-from app2.menus.util import clear_screenx, mask_number
+from app3.config.theme_config import get_theme_name, format_theme_name
+from app3.menus.util import clear_screenx, mask_number
 from app3.menus.sharing import show_balance_allotment_menu
 from app3.menus.purchase import redeem_looping
 from app3.menus.family import show_family_input_menu
