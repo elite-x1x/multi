@@ -287,7 +287,7 @@ def main():
             total = quota.get("total", 0)
             has_unlimited = quota.get("has_unlimited", False)
             if has_unlimited:
-                display_quota = Text("📊 Unlimited", style=theme["text_money"]) #♾️
+                display_quota = Text("📊 Unlimited ♾️", style=theme["text_money"])
             elif total > 0:
                 display_quota = render_quota_bar(remaining, total)
             else:
