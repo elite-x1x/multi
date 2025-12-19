@@ -78,7 +78,7 @@ def render_quota_bar(remaining: int, total: int) -> Text:
         emoji = "❤️"
 
     angka = f"{emoji} {remaining/1e9:.2f} / {total/1e9:.2f} GB"
-    bar = f": {'▓'*filled}{'░'*empty}"
+    bar = f" {'▓'*filled}{'░'*empty}"
     persen = f" {ratio*100:.1f}%"
 
     text = Text()
@@ -105,7 +105,7 @@ def show_main_menu(profile: dict, display_quota: Text | None, segments: dict):
 
     active_theme_name = get_theme_name()
     formatted_theme_name = format_theme_name(active_theme_name)
-    info_table.add_row(" Tema Aktif", f":🖼️ [{theme['text_sub']}]{formatted_theme_name}[/]")
+    info_table.add_row(" Tema Aktif", f":🎨 [{theme['text_sub']}]{formatted_theme_name}[/]")
 
     masked_number = mask_number(profile['number'])
     if account_name and account_name != "-":
