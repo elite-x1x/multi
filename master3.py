@@ -62,6 +62,9 @@ def show_main_menu(profile: dict, display_quota: Text | None, segments: dict):
     expired_at_dt = datetime.fromtimestamp(expired_at_ts).strftime("%Y-%m-%d %H:%M:%S") if expired_at_ts else "-"
     pulsa_str = get_rupiah(profile.get("balance", 0))
 
+    active_user = AuthInstance.get_active_user()
+    account_name = active_user.get("name", "-") if active_user else "-"
+
     info_table = Table.grid(padding=(0, 1))
     info_table.add_column(justify="left", style=get_theme_style("text_sub"))
     info_table.add_column(justify="left", style=get_theme_style("text_body"))
