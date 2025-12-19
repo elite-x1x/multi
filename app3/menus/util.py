@@ -90,7 +90,7 @@ def simple_number():
         masked_number = mask_number(number)
         account_name = active_user.get("name", "")
         if account_name and account_name != "-":
-            text = f"[bold {theme['text_title']}]✨Akun aktif: {masked_number} ({account_name})✨[/]"
+            text = f"[bold {theme['text_title']}]✨ Akun aktif: {masked_number} | {account_name} ✨[/]"
         else:
             text = f"[bold {theme['text_title']}]Akun aktif ✨ {masked_number} ✨[/]"
 
