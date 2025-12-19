@@ -602,6 +602,7 @@ def format_unix_date_with_diff(ts: int, mode: str = "future") -> str:
     except Exception:
         return str(ts)
 
+
 def render_quota_bar(remaining: int, total: int) -> Text:
     if total is None or total <= 0:
         return Text("Tidak ada kuota", style="bold red")
@@ -618,19 +619,25 @@ def render_quota_bar(remaining: int, total: int) -> Text:
     filled = int(ratio * bar_length)
     empty = bar_length - filled
 
-    if ratio > 0.5:
+    if ratio > 0.9:
         color = "green"
-    elif ratio > 0.2:
+    elif ratio > 0.7:
+        color = "chartreuse3"
+    elif ratio > 0.5:
         color = "yellow"
+    elif ratio > 0.3:
+        color = "orange1"
     else:
         color = "red"
 
     angka = f"{remaining/1e9:.2f} / {total/1e9:.2f} GB"
     bar = f"{'▓'*filled}{'░'*empty}"
+    persen = f" {ratio*100:.1f}%"
 
     text = Text()
     text.append(f"{angka}\n", style="bold")
     text.append(bar, style=color)
+    text.append(persen, style=color)
     return text
 
 
