@@ -71,7 +71,7 @@ def show_main_menu(profile: dict, display_quota: Text | None, segments: dict):
 
     active_theme_name = get_theme_name()
     formatted_theme_name = format_theme_name(active_theme_name)
-    info_table.add_row(" Tema Aktif", f":🎨 [{theme['text_sub']}]{formatted_theme_name}[/]")
+    info_table.add_row(" Tema Aktif", f":🖌️ [{theme['text_sub']}]{formatted_theme_name}[/]")
 
     masked_number = mask_number(profile['number'])
     if account_name and account_name != "-":
