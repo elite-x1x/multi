@@ -73,7 +73,24 @@ def show_main_menu(profile: dict, display_quota: str, segments: dict):
 
     tiering_status = profile.get("tiering_status", "N/A")
     tiering_color = profile.get("tiering_color", theme["text_money"])
-    info_table.add_row(" Tiering", f":🏅 [{tiering_color}]{tiering_status} ({profile['point_info']})[/]")
+    tiering_point = profile.get("point_info", "").replace("Points:", "").strip()
+
+    tier_emojis = {
+        "Blue": "🔵",
+        "Silver": "⚪",
+        "Gold": "🟡",
+        "Platinum": "🟣",
+        "Basic": "⬜",
+    }
+    tier_emoji = tier_emojis.get(tiering_status, "🏅")
+
+    poin_text = f"[bold cyan]🌟 XL Poin {tiering_point}[/]"
+    
+    info_table.add_row(
+        " Tiering",
+        f":{tier_emoji} [{tiering_color}]{tiering_status}[/] | {poin_text}"
+    )
+
     info_table.add_row(" Masa Aktif", f":⏳ [{theme['text_date']}]{expired_at_dt}[/]")
 
     console.print(
