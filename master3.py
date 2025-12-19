@@ -265,19 +265,19 @@ def main():
         if active_user is not None:
             account_id = active_user["number"]
 
-            # Balance cache per akun (TTL 90 detik)
+            # Balance cache
             balance = get_cache(account_id, "balance", ttl=90)
             if not balance:
                 balance = get_balance(AuthInstance.api_key, active_user["tokens"]["id_token"])
                 set_cache(account_id, "balance", balance)
 
-            # Quota cache per akun (TTL 60 detik)
+            # Quota cache
             quota = get_cache(account_id, "quota", ttl=70)
             if not quota:
                 quota = get_quota(AuthInstance.api_key, active_user["tokens"]["id_token"]) or {}
                 set_cache(account_id, "quota", quota)
 
-            # Segments cache per akun (TTL 300 detik, file-based)
+            # Segments cache
             segments = get_cache(account_id, "segments", ttl=290, use_file=True)
             if not segments:
                 segments = dash_segments(
@@ -301,18 +301,23 @@ def main():
             # Tiering info
             tiering_point = 0
             tiering_status, tiering_color = ("N/A", "white")
-            
+
             if active_user["subscription_type"] == "PREPAID":
                 tiering_data = get_cache(account_id, "tiering", ttl=250)
                 if not tiering_data:
                     tiering_data = get_tiering_info(AuthInstance.api_key, active_user["tokens"])
                     set_cache(account_id, "tiering", tiering_data)
+
                 tiering_point = tiering_data.get("current_point", 0)
-                tiering_status, tiering_color = map_point_to_status(tiering_point)
-            
+                tier_name = tiering_data.get("tier_name")
+                if tier_name:
+                    tiering_status = tier_name
+                    tiering_color = "blue" if tier_name.lower() == "blue" else "yellow"
+                else:
+                    tiering_status, tiering_color = map_point_to_status(tiering_point)
+
             point_info = f"Points: {tiering_point}"
 
-            # Profile dict lengkap
             profile = {
                 "number": active_user["number"],
                 "subscriber_id": active_user["subscriber_id"],
@@ -324,10 +329,8 @@ def main():
                 "tiering_color": tiering_color,
             }
 
-            # Tampilkan menu utama
             show_main_menu(profile, display_quota, segments)
 
-            # Input pilihan menu
             choice = console.input(f"[{theme['text_sub']}]👉 Pilih menu bro:[/{theme['text_sub']}] ").strip()
 
             # Routing pilihan menu
