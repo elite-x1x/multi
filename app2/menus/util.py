@@ -96,7 +96,7 @@ def print_banner():
     ))
 
 
-def simple_number():
+def simple_number2():
     """Display active account number or information if none is active."""
     from app.service.auth import AuthInstance
     theme = get_theme()
@@ -107,6 +107,30 @@ def simple_number():
     else:
         number = active_user.get("number", "-")
         text = f"[bold {theme['text_sub']}]Akun aktif: {number}[/]"
+
+    console.print(Panel(
+        Align.center(text),
+        border_style=theme["border_primary"],
+        padding=(0, 0),
+        expand=True
+    ))
+
+
+def simple_number():
+    """Tampilkan nomor akun aktif, atau info jika tidak ada."""
+    theme = get_theme()
+    active_user = AuthInstance.get_active_user()
+
+    if not active_user:
+        text = f"[bold {theme['text_err']}]Tidak ada akun aktif.[/]"
+    else:
+        number = active_user.get("number", "-")
+        masked_number = mask_number(number)
+        account_name = active_user.get("name", "")
+        if account_name and account_name != "-":
+            text = f"[bold {theme['text_sub']}]Akun aktif: {masked_number} ({account_name})[/]"
+        else:
+            text = f"[bold {theme['text_sub']}]Akun aktif: {masked_number}[/]"
 
     console.print(Panel(
         Align.center(text),
