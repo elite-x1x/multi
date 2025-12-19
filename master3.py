@@ -41,15 +41,17 @@ def render_quota_bar(remaining: int, total: int) -> Text:
     return text
 
 
-def map_tier_to_status(tier: int) -> tuple[str, str]:
-    mapping = {
-        0: ("Basic", "white"),
-        1: ("Blue", "blue"),
-        2: ("Silver", "bright_white"),
-        3: ("Gold", "yellow"),
-        4: ("Platinum", "magenta"),
-    }
-    return mapping.get(tier, ("Unknown", "red"))
+def map_point_to_status(point: int) -> tuple[str, str]:
+    if point >= 500:
+        return ("Platinum", "magenta")
+    elif point >= 300:
+        return ("Gold", "yellow")
+    elif point >= 150:
+        return ("Silver", "bright_white")
+    elif point >= 50:
+        return ("Blue", "blue")
+    else:
+        return ("Basic", "white")
 
 
 def show_main_menu(profile: dict, display_quota: str, segments: dict):
@@ -72,7 +74,6 @@ def show_main_menu(profile: dict, display_quota: str, segments: dict):
     tiering_status = profile.get("tiering_status", "N/A")
     tiering_color = profile.get("tiering_color", theme["text_money"])
     info_table.add_row(" Tiering", f":🏅 [{tiering_color}]{tiering_status} ({profile['point_info']})[/]")
-
     info_table.add_row(" Masa Aktif", f":⏳ [{theme['text_date']}]{expired_at_dt}[/]")
 
     console.print(
@@ -298,20 +299,10 @@ def main():
                 display_quota = Text("-", style=theme["text_err"])
 
             # Tiering info
-            tiering_point = 0
-            tiering_level = 0
-            tiering_status, tiering_color = ("N/A", "white")
-
-            if active_user["subscription_type"] == "PREPAID":
-                tiering_data = get_cache(account_id, "tiering", ttl=250)
-                if not tiering_data:
-                    tiering_data = get_tiering_info(AuthInstance.api_key, active_user["tokens"])
-                    set_cache(account_id, "tiering", tiering_data)
-                tiering_point = tiering_data.get("current_point", 0)
-                tiering_level = tiering_data.get("tier", 0)
-                tiering_status, tiering_color = map_tier_to_status(tiering_level)
-
-            point_info = f"Points: {tiering_point} | Tier: {tiering_level}"
+            tiering_point = tiering_data.get("current_point", 0)
+            tiering_status, tiering_color = map_point_to_status(tiering_point)
+            
+            point_info = f"Points: {tiering_point}"
 
             # Profile dict lengkap
             profile = {
