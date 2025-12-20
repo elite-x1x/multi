@@ -1,8 +1,8 @@
 import os
 import urllib.parse
 import urllib.request
+from pathlib import Path
 from ascii_magic import AsciiArt
-from PIL import Image   # pip install pillow
 
 PNG_SIGNATURE = b"\x89PNG\r\n\x1a\n"
 
@@ -36,12 +36,11 @@ def load_any(source: str, context: dict):
             # --- Mode file lokal ---
             if not os.path.exists(source):
                 raise FileNotFoundError(f"File tidak ditemukan: {source}")
-            # baca raw bytes untuk parse chunk
+            # gunakan file:// URI agar kompatibel dengan AsciiArt.from_url
+            file_uri = Path(source).resolve().as_uri()
+            ascii_art = AsciiArt.from_url(file_uri)
             with open(source, "rb") as f:
                 content = f.read()
-            # buka image dengan Pillow untuk ASCII
-            img = Image.open(source)
-            ascii_art = AsciiArt.from_image(img)
 
         # validasi signature PNG
         if not content.startswith(PNG_SIGNATURE):
