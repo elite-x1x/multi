@@ -20,7 +20,7 @@ console = Console()
 ascii_art = banner.load("https://raw.githubusercontent.com/elite-x1x/multi/refs/heads/main/logo.png", globals())
 
 
-def clear_screenxx():
+def clear_screenx():
     """Clear screen and display banner with ASCII art."""
     try:
         os.system('cls' if os.name == 'nt' else 'clear')
