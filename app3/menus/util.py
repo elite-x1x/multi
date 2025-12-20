@@ -2,6 +2,7 @@ import os, re, time, textwrap
 import app3.menus.banner as banner
 from html.parser import HTMLParser
 
+from app3.menus.banner import load_any
 from rich.progress import Progress, BarColumn, TextColumn, TimeRemainingColumn
 from rich.console import Console
 from rich.panel import Panel
