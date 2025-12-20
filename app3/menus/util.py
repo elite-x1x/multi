@@ -15,8 +15,8 @@ import app3.menus.banner as banner
 
 console = Console()
 
-ascii_art = banner.load("https://d17e22l2uh4h4n.cloudfront.net/corpweb/pub-xlaxiata/2019-03/xl-logo.png", globals())
-
+#ascii_art = banner.load("https://d17e22l2uh4h4n.cloudfront.net/corpweb/pub-xlaxiata/2019-03/xl-logo.png", globals())
+ascii_art = banner.load_any("logo.png", globals())
 
 def mask_number(number: str) -> str:
     """Sensor 4 digit di tengah nomor dengan bintang."""
