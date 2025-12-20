@@ -11,7 +11,7 @@ from rich.padding import Padding
 from rich import box
 
 from app3.config.theme_config import get_theme, get_theme_style
-import app3.menus.banner as banner
+import app3.menus.banner as banner, load_any
 
 console = Console()
 
