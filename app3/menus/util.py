@@ -14,13 +14,12 @@ from rich import box
 from app3.config.theme_config import get_theme, get_theme_style
 
 
-
 console = Console()
 
-#ascii_art = banner.load("https://d17e22l2uh4h4n.cloudfront.net/corpweb/pub-xlaxiata/2019-03/xl-logo.png", globals())
 
 ctx = {}
-art = banner.load("https://d17e22l2uh4h4n.cloudfront.net/corpweb/pub-xlaxiata/2019-03/xl-logo.png", ctx)
+#art = banner.load("https://d17e22l2uh4h4n.cloudfront.net/corpweb/pub-xlaxiata/2019-03/xl-logo.png", ctx)
+art = banner.load_local("logo.png", ctx)
 
 
 def clear_screenx():
