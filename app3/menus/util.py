@@ -17,8 +17,10 @@ from app3.config.theme_config import get_theme, get_theme_style
 
 console = Console()
 
-ascii_art = banner.load("https://d17e22l2uh4h4n.cloudfront.net/corpweb/pub-xlaxiata/2019-03/xl-logo.png", globals())
+#ascii_art = banner.load("https://d17e22l2uh4h4n.cloudfront.net/corpweb/pub-xlaxiata/2019-03/xl-logo.png", globals())
 
+ctx = {}
+art = banner.load("https://d17e22l2uh4h4n.cloudfront.net/corpweb/pub-xlaxiata/2019-03/xl-logo.png", ctx)
 
 
 def clear_screenx():
@@ -28,9 +30,9 @@ def clear_screenx():
     except Exception:
         print("\n" * 100)
 
-    if ascii_art:
+    if art:
         try:
-            ascii_art.to_terminal(columns=55)
+            art.to_terminal(columns=55)
         except Exception:
             pass
     print_banner()
