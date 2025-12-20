@@ -15,18 +15,8 @@ import app3.menus.banner as banner
 
 console = Console()
 
-#ascii_art = banner.load("https://d17e22l2uh4h4n.cloudfront.net/corpweb/pub-xlaxiata/2019-03/xl-logo.png", globals())
-ascii_art = banner.load_any("logo.png", globals())
-
-def mask_number(number: str) -> str:
-    """Sensor 4 digit di tengah nomor dengan bintang."""
-    num_str = str(number)
-    if len(num_str) < 8:
-        return num_str
-    start = num_str[:4]
-    end = num_str[-4:]
-    return f"{start}{'*'*4}{end}"
-
+ctx = {}
+ascii_art = load_any("logo.png", ctx)   # simpan ke variabel global
 
 def clear_screenx():
     try:
@@ -34,7 +24,7 @@ def clear_screenx():
     except Exception:
         print("\n" * 100)
 
-    if ascii_art:
+    if ascii_art:   # pakai variabel global
         try:
             ascii_art.to_terminal(columns=55)
         except Exception:
