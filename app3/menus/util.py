@@ -26,7 +26,7 @@ ctx = {}
 
 file_uri = Path("logo.png").resolve().as_uri()  # contoh: file:///data/data/com.termux/files/home/multi/logo.png
 art = AsciiArt.from_url(file_uri)
-art.to_terminal(columns=55)
+
 
 
 def clear_screenx():
