@@ -24,7 +24,7 @@ ctx = {}
 #art = banner.load_local("logo.png", ctx)
 
 
-file_uri = Path("logo.png").resolve().as_uri()  # contoh: file:///data/data/com.termux/files/home/multi/logo.png
+file_uri = Path("file:///data/data/com.termux/files/home/multi/logo.png").resolve().as_uri()  # contoh: file:///data/data/com.termux/files/home/multi/logo.png
 art = AsciiArt.from_url(file_uri)
 
 
