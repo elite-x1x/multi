@@ -17,9 +17,9 @@ from app3.config.theme_config import get_theme, get_theme_style
 
 console = Console()
 
-ctx = {}
-art = banner.load_any("logo.png", ctx)
+art = load_local("logo.png", ctx)
 #art = banner.load_any("https://d17e22l2uh4h4n.cloudfront.net/corpweb/pub-xlaxiata/2019-03/xl-logo.png", ctx)
+
 def clear_screenx():
     global art
     try:
@@ -30,9 +30,10 @@ def clear_screenx():
     if art:
         try:
             art.to_terminal(columns=55)
-        except Exception:
-            pass
+        except Exception as e:
+            print(f"Gagal tampilkan logo: {e}")
     print_banner()
+
 
 
 def mask_number(number: str) -> str:
