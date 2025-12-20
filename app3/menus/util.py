@@ -35,6 +35,15 @@ def clear_screenx():
     print_banner()
 
 
+def mask_number(number: str) -> str:
+    """Sensor 4 digit di tengah nomor dengan bintang."""
+    num_str = str(number)
+    if len(num_str) < 8:
+        return num_str  # terlalu pendek, tidak perlu masking
+    start = num_str[:4]
+    end = num_str[-4:]
+    return f"{start}{'*'*4}{end}"
+
 
 def print_banner():
     theme = get_theme()
