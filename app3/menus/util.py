@@ -13,13 +13,20 @@ from rich import box
 
 from app3.config.theme_config import get_theme, get_theme_style
 
+from ascii_magic import AsciiArt
+from pathlib import Path
 
 console = Console()
 
 
 ctx = {}
 #art = banner.load("https://d17e22l2uh4h4n.cloudfront.net/corpweb/pub-xlaxiata/2019-03/xl-logo.png", ctx)
-art = banner.load_local("logo.png", ctx)
+#art = banner.load_local("logo.png", ctx)
+
+
+file_uri = Path("logo.png").resolve().as_uri()  # contoh: file:///data/data/com.termux/files/home/multi/logo.png
+art = AsciiArt.from_url(file_uri)
+art.to_terminal(columns=55)
 
 
 def clear_screenx():
