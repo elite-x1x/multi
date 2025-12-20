@@ -4,7 +4,7 @@ import urllib.parse
 from ascii_magic import AsciiArt
 
 PNG_SIGNATURE = b"\x89PNG\r\n\x1a\n"
-ALLOWED_DOMAINS = {"d17e22l2uh4h4n.cloudfront.net"}
+ALLOWED_DOMAINS = {"https://github.com/"}
 
 
 def parse_png_chunks(data: bytes):
