@@ -14,6 +14,10 @@ from rich import box
 
 from app3.config.theme_config import get_theme, get_theme_style
 
+from ascii_magic import AsciiArt
+from PIL import Image
+
+
 
 console = Console()
 
@@ -34,6 +38,12 @@ def clear_screenx():
             print(f"Gagal tampilkan logo: {e}")
     print_banner()
 
+def load_local(path: str):
+    if not os.path.exists(path):
+        raise FileNotFoundError(f"File tidak ditemukan: {path}")
+    img = Image.open(path)
+    ascii_art = AsciiArt.from_image(img)
+    return ascii_art
 
 
 def mask_number(number: str) -> str:
