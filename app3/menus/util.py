@@ -21,7 +21,7 @@ ascii_art = banner.load("https://d17e22l2uh4h4n.cloudfront.net/corpweb/pub-xlaxi
 
 
 
-def clear_screenxx():
+def clear_screenx():
     """Clear screen and display banner with ASCII art."""
     try:
         os.system('cls' if os.name == 'nt' else 'clear')
