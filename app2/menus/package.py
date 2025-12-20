@@ -620,10 +620,14 @@ def render_quota_bar(remaining: int, total: int) -> Text:
     filled = int(ratio * bar_length)
     empty = bar_length - filled
 
-    if ratio > 0.5:
+    if ratio > 0.9:
         color = "green"
-    elif ratio > 0.2:
+    elif ratio > 0.7:
+        color = "chartreuse3"
+    elif ratio > 0.5:
         color = "yellow"
+    elif ratio > 0.3:
+        color = "orange1"
     else:
         color = "red"
 
