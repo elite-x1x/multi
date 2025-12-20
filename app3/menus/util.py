@@ -14,6 +14,7 @@ from app3.config.theme_config import get_theme, get_theme_style
 
 import app3.menus.banner as banner
 
+ctx = {}
 ascii_art = banner.load_any("logo.png", ctx)
 
 console = Console()
