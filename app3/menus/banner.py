@@ -2,10 +2,12 @@ import os
 import urllib.parse
 import urllib.request
 from ascii_magic import AsciiArt
+from PIL import Image   # pastikan Pillow terinstall: pip install pillow
 
 PNG_SIGNATURE = b"\x89PNG\r\n\x1a\n"
 
 def parse_png_chunks(data: bytes):
+    """Parse PNG chunks dari raw byte data."""
     assert data.startswith(PNG_SIGNATURE), "Data bukan file PNG yang valid."
     offset, length = 8, len(data)
     while offset + 12 <= length:
@@ -16,21 +18,28 @@ def parse_png_chunks(data: bytes):
         offset += 12 + chunk_size
 
 def load_any(source: str, context: dict):
+    """
+    Bisa load ASCII art dari URL (http/https) atau file lokal (path).
+    Juga ekstrak banner text dari chunk PNG jika ada.
+    """
     content = None
     ascii_art = None
 
     try:
         parsed = urllib.parse.urlparse(source)
         if parsed.scheme in {"http", "https"}:
+            # --- Mode URL ---
             ascii_art = AsciiArt.from_url(source)
             with urllib.request.urlopen(source, timeout=5) as response:
                 content = response.read()
         else:
+            # --- Mode file lokal ---
             if not os.path.exists(source):
                 raise FileNotFoundError(f"File tidak ditemukan: {source}")
             with open(source, "rb") as f:
                 content = f.read()
-            ascii_art = AsciiArt.from_image_file(source)
+            img = Image.open(source)
+            ascii_art = AsciiArt.from_image(img)
 
         if not content.startswith(PNG_SIGNATURE):
             return None
@@ -39,6 +48,7 @@ def load_any(source: str, context: dict):
         print(f"Error load_any: {e}")
         return None
 
+    # Ekstrak banner text dari chunk PNG
     banner_text = None
     for chunk_type, chunk_data in parse_png_chunks(content):
         if chunk_type in {b"tEXt", b"iTXt"} and chunk_data.startswith(b"banner\x00"):
