@@ -21,39 +21,23 @@ from PIL import Image
 
 console = Console()
 
-art = load_local("logo.png", ctx)
-#art = banner.load_any("https://d17e22l2uh4h4n.cloudfront.net/corpweb/pub-xlaxiata/2019-03/xl-logo.png", ctx)
+ascii_art = banner.load("https://d17e22l2uh4h4n.cloudfront.net/corpweb/pub-xlaxiata/2019-03/xl-logo.png", globals())
 
-def clear_screenx():
-    global art
+
+
+def clear_screenxx():
+    """Clear screen and display banner with ASCII art."""
     try:
         os.system('cls' if os.name == 'nt' else 'clear')
     except Exception:
         print("\n" * 100)
 
-    if art:
+    if ascii_art:
         try:
-            art.to_terminal(columns=55)
-        except Exception as e:
-            print(f"Gagal tampilkan logo: {e}")
+            ascii_art.to_terminal(columns=55)
+        except Exception:
+            pass
     print_banner()
-
-def load_local(path: str):
-    if not os.path.exists(path):
-        raise FileNotFoundError(f"File tidak ditemukan: {path}")
-    img = Image.open(path)
-    ascii_art = AsciiArt.from_image(img)
-    return ascii_art
-
-
-def mask_number(number: str) -> str:
-    """Sensor 4 digit di tengah nomor dengan bintang."""
-    num_str = str(number)
-    if len(num_str) < 8:
-        return num_str  # terlalu pendek, tidak perlu masking
-    start = num_str[:4]
-    end = num_str[-4:]
-    return f"{start}{'*'*4}{end}"
 
 
 def print_banner():
@@ -70,6 +54,16 @@ def print_banner():
         expand=True,
         box=box.DOUBLE
     ))
+
+
+def mask_number(number: str) -> str:
+    """Sensor 4 digit di tengah nomor dengan bintang."""
+    num_str = str(number)
+    if len(num_str) < 8:
+        return num_str
+    start = num_str[:4]
+    end = num_str[-4:]
+    return f"{start}{'*'*4}{end}"
 
 
 def simple_number2():
