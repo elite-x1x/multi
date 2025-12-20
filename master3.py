@@ -101,7 +101,7 @@ def show_main_menu(profile: dict, display_quota: Text | None, segments: dict):
     poin_text = f"[bold cyan]🌟 XL Poin:[/] [bold {theme['text_body']}]{tiering_point_val:,}[/]"
 
     info_table.add_row(
-        " Tingkatan",
+        " Levelan",
         f":🏅 [{tiering_color}]{tiering_status}[/] | {poin_text}"
     )
 
