@@ -98,7 +98,7 @@ def show_main_menu(profile: dict, display_quota: Text | None, segments: dict):
     tiering_color = profile.get("tiering_color", theme["text_money"])
     tiering_point_val = int(profile.get("point_info", 0))
 
-    poin_text = f"[bold cyan]🌟 XL Poin:[/] [bold {theme['text_body']}]{tiering_point_val:,}[/]"
+    poin_text = f"[bold cyan]🌟 XL Poin:[/] [bold {theme['text_money']}]{tiering_point_val:,}[/]"
 
     info_table.add_row(
         " Levelan",
