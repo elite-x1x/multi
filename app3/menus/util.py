@@ -19,13 +19,15 @@ from pathlib import Path
 console = Console()
 
 
-ctx = {}
 #art = banner.load("https://d17e22l2uh4h4n.cloudfront.net/corpweb/pub-xlaxiata/2019-03/xl-logo.png", ctx)
-#art = banner.load_local("logo.png", ctx)
 
 
-file_uri = Path("file:///data/data/com.termux/files/home/multi/logo.png").resolve().as_uri()  # contoh: file:///data/data/com.termux/files/home/multi/logo.png
-art = AsciiArt.from_url(file_uri)
+# ambil path base project (dua level di atas util.py)
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
+LOGO_PATH = BASE_DIR / "logo.png"
+
+ctx = {}
+art = banner.load_local(str(LOGO_PATH), ctx)
 
 
 
