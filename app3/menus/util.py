@@ -1,4 +1,5 @@
 import os, re, time, textwrap
+import app3.menus.banner as banner
 from html.parser import HTMLParser
 
 from rich.progress import Progress, BarColumn, TextColumn, TimeRemainingColumn
@@ -12,13 +13,12 @@ from rich import box
 
 from app3.config.theme_config import get_theme, get_theme_style
 
-import app3.menus.banner as banner
-
-ctx = {}
-ascii_art = banner.load_any("logo.png", ctx)
 
 console = Console()
 
+
+ctx = {}
+ascii_art = load_any("logo.png", ctx)   # simpan ke variabel global
 
 def clear_screenx():
     try:
