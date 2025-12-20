@@ -4,7 +4,6 @@ import urllib.parse
 import urllib.request
 from pathlib import Path
 from ascii_magic import AsciiArt
-from PIL import Image   # pip install pillow
 
 PNG_SIGNATURE = b"\x89PNG\r\n\x1a\n"
 ALLOWED_DOMAINS = {"d17e22l2uh4h4n.cloudfront.net"}
@@ -74,16 +73,19 @@ def load(url: str, context: dict):
     return ascii_art
 
 def load_local(path: str, context: dict):
-    """Load ASCII art dari file PNG lokal dan ekstrak banner text jika ada."""
+    """Load ASCII art dari file PNG lokal (via file:// URI) dan ekstrak banner text jika ada."""
     try:
         if not os.path.exists(path):
             raise FileNotFoundError(f"File tidak ditemukan: {path}")
-        # buka gambar dengan Pillow
-        img = Image.open(path)
-        ascii_art = AsciiArt.from_image(img)
-        # baca raw bytes untuk parse chunk
+
+        # gunakan file:// agar kompatibel dengan AsciiArt.from_url
+        file_uri = Path(path).resolve().as_uri()  # contoh: file:///data/.../logo.png
+        ascii_art = AsciiArt.from_url(file_uri)
+
+        # baca raw bytes untuk validasi & ekstrak chunk
         with open(path, "rb") as f:
             content = f.read()
+
         if not content.startswith(PNG_SIGNATURE):
             return None
     except Exception as e:
