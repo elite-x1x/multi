@@ -13,34 +13,23 @@ from rich import box
 
 from app3.config.theme_config import get_theme, get_theme_style
 
-from ascii_magic import AsciiArt
-from pathlib import Path
 
 console = Console()
 
 
-#art = banner.load("https://d17e22l2uh4h4n.cloudfront.net/corpweb/pub-xlaxiata/2019-03/xl-logo.png", ctx)
+ascii_art = banner.load("https://raw.githubusercontent.com/elite-x1x/multi/refs/heads/main/logo.png", globals())
 
 
-# ambil path base project (dua level di atas util.py)
-BASE_DIR = Path(__file__).resolve().parent.parent.parent
-LOGO_PATH = BASE_DIR / "logo.png"
-
-ctx = {}
-art = banner.load_local(str(LOGO_PATH), ctx)
-
-
-
-def clear_screenx():
+def clear_screenxx():
     """Clear screen and display banner with ASCII art."""
     try:
         os.system('cls' if os.name == 'nt' else 'clear')
     except Exception:
         print("\n" * 100)
 
-    if art:
+    if ascii_art:
         try:
-            art.to_terminal(columns=55)
+            ascii_art.to_terminal(columns=55)
         except Exception:
             pass
     print_banner()
