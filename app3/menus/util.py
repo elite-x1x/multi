@@ -2,7 +2,6 @@ import os, re, time, textwrap
 import app3.menus.banner as banner
 from html.parser import HTMLParser
 
-from app3.menus.banner import load_any
 from rich.progress import Progress, BarColumn, TextColumn, TimeRemainingColumn
 from rich.console import Console
 from rich.panel import Panel
@@ -13,9 +12,6 @@ from rich.padding import Padding
 from rich import box
 
 from app3.config.theme_config import get_theme, get_theme_style
-
-from ascii_magic import AsciiArt
-from PIL import Image
 
 
 
