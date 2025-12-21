@@ -2,7 +2,7 @@ from app3.client.store.redeemables import get_redeemables
 from app.service.auth import AuthInstance
 from app3.menus.util import print_panel, pause
 from app3.config.imports import *
-from app3.client.store.package import get_package
+from app3.client.engsel import get_package
 from app3.menus.package import settlement_bounty
 
 def auto_redeem_bonus(is_enterprise: bool = False, pause_on_success: bool = False):
