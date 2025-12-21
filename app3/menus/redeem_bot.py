@@ -1,12 +1,13 @@
 from app3.client.store.redeemables import get_redeemables
 from app.service.auth import AuthInstance
-from app3.menus.package import show_package_details, get_packages_by_family
 from app3.menus.util import print_panel, pause
 from app3.config.imports import *
+from app3.client.store.package import get_package
+from app3.menus.package import settlement_bounty
 
 def auto_redeem_bonus(is_enterprise: bool = False, pause_on_success: bool = False):
     """
-    Bot loop: otomatis masuk ke menu 16 → A1, lalu redeem semua paket dengan pembayaran B (bonus).
+    Bot loop: otomatis masuk ke menu 16 → A1, lalu redeem semua paket bonus dengan opsi B.
     """
     api_key = AuthInstance.api_key
     tokens = AuthInstance.get_active_tokens()
@@ -36,16 +37,32 @@ def auto_redeem_bonus(is_enterprise: bool = False, pause_on_success: bool = Fals
 
         print_panel("➡️ Redeem", f"{code} - {name} (pakai bonus B)")
 
-        # langsung paksa opsi B
-        if action_type == "PLP":
-            get_packages_by_family(action_param, is_enterprise, "B")
-        elif action_type == "PDP":
-            # show_package_details biasanya minta input, kita override ke B
-            show_package_details(api_key, tokens, action_param, is_enterprise)
-            # langsung trigger settlement_bounty di dalam show_package_details
-            # bisa juga bikin wrapper khusus kalau mau full silent
-        else:
-            print_panel("ℹ️ Info", f"Tipe belum didukung: {action_type}")
+        # ambil detail paket
+        package = get_package(api_key, tokens, action_param)
+        if not package:
+            print_panel("⚠️ Ups", f"Gagal ambil detail paket {code}")
+            continue
+
+        option = package.get("package_option", {})
+        variant = package.get("package_detail_variant", {})
+        price = option.get("price", 0)
+        token_confirmation = package.get("token_confirmation", "")
+        ts_to_sign = package.get("timestamp", "")
+        option_name = option.get("name", "")
+        variant_name = variant.get("name", "")
+
+        # langsung eksekusi settlement_bounty (opsi B)
+        settlement_bounty(
+            api_key=api_key,
+            tokens=tokens,
+            token_confirmation=token_confirmation,
+            ts_to_sign=ts_to_sign,
+            payment_target=action_param,
+            price=price,
+            item_name=variant_name or option_name
+        )
+
+        #print_panel("✅ Mantap", f"Bonus {name} berhasil diambil 🎁")
 
         if pause_on_success:
             pause()
