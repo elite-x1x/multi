@@ -216,7 +216,6 @@ def show_main_menu(profile: dict, display_quota: Text | None, segments: dict):
     menu_table.add_row("", "   -Kuota Youtube & Tiktok 3.13 GB ")
     menu_table.add_row("", "   -Kuota Utama 1.25 GB ")
     menu_table.add_row("", "   -Kuota Malam 3.75 GB ")
-    menu_table.add_row("11", "🎁 Bot Redeem A1 (Looping)")
     menu_table.add_row("", "")
     menu_table.add_row("[D]", "🎭 Bikin bundle paket ala decoy")
     menu_table.add_row("[F]", "💾 Save/Kelola Family Code lo")
