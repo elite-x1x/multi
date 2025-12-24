@@ -502,7 +502,7 @@ def main():
                 pause_on_success = console.input(f"[{theme['text_sub']}]Pause setiap sukses? (y/n): [/{theme['text_sub']}] ").lower() == "y"
                 redeem_looping(loop_count, pause_on_success)
 
-            elif choice.upper() == "k":
+            elif choice.lower() == "k":
                 msisdn = console.input(f"[{theme['text_sub']}]Masukkan nomor XL (628xx):[/{theme['text_sub']}] ").strip()
                 if msisdn.startswith("628"):
                     result = cek_kuota(msisdn)
