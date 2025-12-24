@@ -12,7 +12,7 @@ import json
 
 from app.menus.util import clear_screen, pause
 from app.client.engsel import get_balance, send_api_request, get_package_details
-from app.client.balance import settlement_balance
+from app.client.purchase.balance import settlement_balance
 from app.service.auth import AuthInstance
 from app.menus.account import show_account_menu
 
