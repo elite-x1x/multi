@@ -31,16 +31,14 @@ class Auth:
                     json.dump([], f, indent=4)
 
             self.load_active_number()
-            self.last_refresh_time = int(time.time())
+            self.last_refresh_time = time.time()
             self._initialized_ = True
 
     def load_tokens(self):
         with open("refresh-tokens.json", "r", encoding="utf-8") as f:
             refresh_tokens = json.load(f)
 
-            if len(refresh_tokens) != 0:
-                self.refresh_tokens = []
-
+            self.refresh_tokens = []
             for rt in refresh_tokens:
                 if "number" in rt and "refresh_token" in rt:
                     self.refresh_tokens.append(rt)
@@ -50,12 +48,15 @@ class Auth:
         if existing:
             existing["refresh_token"] = refresh_token
         else:
-            tokens = get_new_token(self.api_key, refresh_token, "")
-            if not tokens:
-                return
+            tokens = get_new_token(self.api_key, refresh_token, None)
+            if not tokens or "id_token" not in tokens:
+                return False
             profile_data = get_profile(self.api_key, tokens["access_token"], tokens["id_token"])
-            sub_id = profile_data["profile"]["subscriber_id"]
-            sub_type = profile_data["profile"]["subscription_type"]
+            if not profile_data or "profile" not in profile_data:
+                return False
+
+            sub_id = profile_data["profile"].get("subscriber_id")
+            sub_type = profile_data["profile"].get("subscription_type")
 
             self.refresh_tokens.append({
                 "number": int(number),
@@ -66,7 +67,7 @@ class Auth:
             })
 
         self.write_tokens_to_file()
-        self.set_active_user(number)
+        return self.set_active_user(number)
 
     def remove_refresh_token(self, number: int):
         self.refresh_tokens = [rt for rt in self.refresh_tokens if rt["number"] != number]
@@ -75,7 +76,7 @@ class Auth:
         if self.active_user and self.active_user["number"] == number:
             if len(self.refresh_tokens) != 0:
                 first_rt = self.refresh_tokens[0]
-                tokens = get_new_token(self.api_key, first_rt["refresh_token"], first_rt.get("subscriber_id", ""))
+                tokens = get_new_token(self.api_key, first_rt["refresh_token"], first_rt.get("subscriber_id"))
                 if tokens:
                     self.set_active_user(first_rt["number"])
             else:
@@ -86,14 +87,16 @@ class Auth:
         if not rt_entry:
             return False
 
-        tokens = get_new_token(self.api_key, rt_entry["refresh_token"], rt_entry.get("subscriber_id", ""))
-        if not tokens:
+        tokens = get_new_token(self.api_key, rt_entry["refresh_token"], rt_entry.get("subscriber_id"))
+        if not tokens or "id_token" not in tokens:
             return False
 
         profile_data = get_profile(self.api_key, tokens["access_token"], tokens["id_token"])
-        subscriber_id = profile_data["profile"]["subscriber_id"]
-        subscription_type = profile_data["profile"]["subscription_type"]
+        if not profile_data or "profile" not in profile_data:
+            return False
 
+        subscriber_id = profile_data["profile"].get("subscriber_id")
+        subscription_type = profile_data["profile"].get("subscription_type")
         account_name = rt_entry.get("name", "-")
 
         self.active_user = {
@@ -109,16 +112,16 @@ class Auth:
         rt_entry["refresh_token"] = tokens["refresh_token"]
 
         self.write_tokens_to_file()
-        self.last_refresh_time = int(time.time())
+        self.last_refresh_time = time.time()
         self.write_active_number()
         return True
 
     def renew_active_user_token(self):
         if self.active_user:
             tokens = get_new_token(self.api_key, self.active_user["tokens"]["refresh_token"], self.active_user["subscriber_id"])
-            if tokens:
+            if tokens and "id_token" in tokens:
                 self.active_user["tokens"] = tokens
-                self.last_refresh_time = int(time.time())
+                self.last_refresh_time = time.time()
                 self.add_refresh_token(self.active_user["number"], self.active_user["tokens"]["refresh_token"])
                 return True
         return False
@@ -127,12 +130,12 @@ class Auth:
         if not self.active_user:
             if len(self.refresh_tokens) != 0:
                 first_rt = self.refresh_tokens[0]
-                tokens = get_new_token(self.api_key, first_rt["refresh_token"], first_rt.get("subscriber_id", ""))
-                if tokens:
+                tokens = get_new_token(self.api_key, first_rt["refresh_token"], first_rt.get("subscriber_id"))
+                if tokens and "id_token" in tokens:
                     self.set_active_user(first_rt["number"])
             return None
 
-        if self.last_refresh_time is None or (int(time.time()) - self.last_refresh_time) > 300:
+        if self.last_refresh_time is None or (time.time() - self.last_refresh_time) > 300:
             self.renew_active_user_token()
             self.last_refresh_time = time.time()
 
