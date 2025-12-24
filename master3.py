@@ -9,6 +9,7 @@ from app3.menus.util import clear_screenx, mask_number
 from app3.menus.sharing import show_balance_allotment_menu
 from app3.menus.purchase import redeem_looping
 from app3.menus.family import show_family_input_menu
+from app3.menus.account import enc_json
 from rich.text import Text
 
 
@@ -41,6 +42,7 @@ def login_with_refresh_token():
             json.dump(data, f, indent=2)
 
         print_panel("✅ Mantap", f"Login dengan token berhasil untuk nomor {number}")
+        enc_json()
         pause()
         return number
     except Exception as e:
