@@ -622,7 +622,7 @@ def render_quota_bar(remaining: int, total: int) -> Text:
         color = "green"
     elif ratio >= 0.4:
         color = "yellow"
-    elif ratio >= 0.2:
+    elif ratio >= 0.15:
         color = "orange1"
     else:
         color = "red"
