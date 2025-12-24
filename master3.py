@@ -48,6 +48,7 @@ def login_with_refresh_token():
         pause()
         return None
 
+
 def map_point_to_status(point: int) -> tuple[str, str]:
     if point >= 500:
         return ("Platinum", "magenta")
