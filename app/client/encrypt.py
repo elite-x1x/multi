@@ -69,15 +69,15 @@ def load_ax_fp() -> str:
 
     # Generate new if not found/empty
     dev = DeviceInfo(
-        manufacturer="infinix" + str(randint(1000, 9999)),
-        model="infinixX657C" + str(randint(1000, 9999)),
+        manufacturer="samsung" + str(randint(1000, 9999)),
+        model="SM-N93" + str(randint(1000, 9999)),
         lang="en",
-        resolution="720x1600",
+        resolution="720x1540",
         tz_short="GMT07:00",
         ip="192.169.69.69",
         font_scale=1.0,
-        android_release="10",
-        msisdn="6285939006496",
+        android_release="13",
+        msisdn="6281398370564",
     )
     new_fp = ax_fingerprint(dev, AX_FP_KEY)
     with open(fp_path, "w", encoding="utf-8") as f:
