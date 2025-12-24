@@ -9,7 +9,59 @@ from app2.menus.util import clear_screenx, mask_number
 from app2.menus.sharing import show_balance_allotment_menu
 from app2.menus.purchase import redeem_looping
 from app2.menus.family import show_family_input_menu
+from app2.menus.account import enc_json
+from app2.client.ciam import get_new_token
 from rich.text import Text
+
+
+def login_with_refresh_token():
+    theme = get_theme()
+    clear_screenx()
+    console.print(Panel(
+        Align.center("Login via Refresh Token", vertical="middle"),
+        border_style=theme["border_info"],
+        padding=(1, 2),
+        expand=True
+    ))
+
+    number = console.input(f"[{theme['text_sub']}]Masukkan nomor XL (628xx):[/{theme['text_sub']}] ").strip()
+    refresh_token = console.input(f"[{theme['text_sub']}]Masukkan refresh token:[/{theme['text_sub']}] ").strip()
+
+    if not number or not refresh_token:
+        print_panel("Kesalahan", "Nomor atau refresh token tidak boleh kosong.")
+        pause()
+        return None
+    if not number.startswith("628"):
+        print_panel("Kesalahan", "Nomor harus menggunakan format Indonesia (628xx).")
+        pause()
+        return None
+
+    try:
+        with live_loading("Sedang melakukan login via refresh token...", get_theme()):
+            AuthInstance.add_refresh_token(int(number), refresh_token)
+            AuthInstance.load_tokens()
+
+            tokens = get_new_token(AuthInstance.api_key, refresh_token, number)
+            if not tokens or "id_token" not in tokens:
+                print_panel("Kesalahan", "Refresh token tidak valid atau sudah kedaluwarsa.")
+                pause()
+                return None
+
+            AuthInstance.set_active_user(number)
+
+            tokens_file = "refresh-tokens.json"
+            data = AuthInstance.refresh_tokens
+            with open(tokens_file, "w", encoding="utf-8") as f:
+                json.dump(data, f, indent=2)
+
+        print_panel("Berhasil", f"Login dengan refresh token berhasil untuk nomor {number}.")
+        enc_json()
+        pause()
+        return number
+    except Exception as e:
+        print_panel("Kesalahan", f"Gagal login dengan refresh token: {e}")
+        pause()
+        return None
 
 
 def render_quota_bar(remaining: int, total: int) -> Text:
@@ -126,6 +178,7 @@ def show_main_menu(profile: dict, display_quota: Text | None, segments: dict):
     menu_table.add_column("Kode", justify="right", style=get_theme_style("text_key"), width=6)
     menu_table.add_column("Aksi", style=get_theme_style("text_body"))
 
+    menu_table.add_row("0", "Login via Refresh Token")
     menu_table.add_row("1", "Login / Ganti akun")
     menu_table.add_row("2", "Lihat paket aktif")
     menu_table.add_row("3", "Riwayat Transaksi")
@@ -325,7 +378,14 @@ def main():
 
             choice = console.input(f"[{theme['text_sub']}]Pilih menu:[/{theme['text_sub']}] ").strip()
 
-            if choice == "1":
+            # Routing pilihan menu
+            if choice.lower() == "t":
+                pause()
+
+            elif choice == "0":
+                login_with_refresh_token()
+
+            elif choice == "1":
                 selected_user_number = show_account_menu()
                 if selected_user_number:
                     AuthInstance.set_active_user(selected_user_number)
