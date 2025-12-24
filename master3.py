@@ -8,7 +8,6 @@ from app3.config.theme_config import get_theme_name, format_theme_name
 from app3.menus.util import clear_screenx, mask_number
 from app3.menus.sharing import show_balance_allotment_menu
 from app3.menus.purchase import redeem_looping
-from app3.menus.redeem_bot import auto_redeem_bonus
 from app3.menus.family import show_family_input_menu
 from rich.text import Text
 
@@ -486,9 +485,6 @@ def main():
                     loop_count = 1
                 pause_on_success = console.input(f"[{theme['text_sub']}]Pause setiap sukses? (y/n): [/{theme['text_sub']}] ").lower() == "y"
                 redeem_looping(loop_count, pause_on_success)
-
-            elif choice == "11":
-                auto_redeem_bonus(is_enterprise=False, pause_on_success=True)
 
             elif choice.lower() == "d":
                 show_bundle_menu()
