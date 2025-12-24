@@ -69,14 +69,14 @@ def load_ax_fp() -> str:
 
     # Generate new if not found/empty
     dev = DeviceInfo(
-        manufacturer="oppo" + str(randint(1000, 9999)),
-        model="CPH2737" + str(randint(1000, 9999)),
+        manufacturer="samsung" + str(randint(1000, 9999)),
+        model="SM-N93" + str(randint(1000, 9999)),
         lang="en",
-        resolution="1080x2412",
+        resolution="720x1540",
         tz_short="GMT07:00",
         ip="192.169.69.69",
         font_scale=1.0,
-        android_release="14",
+        android_release="13",
         msisdn="6281398370564",
     )
     new_fp = ax_fingerprint(dev, AX_FP_KEY)
