@@ -32,14 +32,15 @@ def login_with_refresh_token():
         return None
 
     try:
-        AuthInstance.add_refresh_token(int(number), refresh_token)
-        AuthInstance.load_tokens()
-        AuthInstance.set_active_user(number)
+        with live_loading("🔄 Lagi login via refresh token...", get_theme()):
+            AuthInstance.add_refresh_token(int(number), refresh_token)
+            AuthInstance.load_tokens()
+            AuthInstance.set_active_user(number)
 
-        tokens_file = "refresh-tokens.json"
-        data = AuthInstance.refresh_tokens
-        with open(tokens_file, "w", encoding="utf-8") as f:
-            json.dump(data, f, indent=2)
+            tokens_file = "refresh-tokens.json"
+            data = AuthInstance.refresh_tokens
+            with open(tokens_file, "w", encoding="utf-8") as f:
+                json.dump(data, f, indent=2)
 
         print_panel("✅ Mantap", f"Login dengan token berhasil untuk nomor {number}")
         enc_json()
