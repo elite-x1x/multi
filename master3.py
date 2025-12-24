@@ -1,7 +1,7 @@
 from dotenv import load_dotenv
 load_dotenv()
 
-import sys, json, random
+import sys, json, os, random
 from datetime import datetime
 from app3.config.imports import *
 from app3.config.theme_config import get_theme_name, format_theme_name
@@ -12,8 +12,6 @@ from app3.menus.redeem_bot import auto_redeem_bonus
 from app3.menus.family import show_family_input_menu
 from rich.text import Text
 
-import json
-import os
 
 def login_with_refresh_token():
     theme = get_theme()
@@ -34,18 +32,16 @@ def login_with_refresh_token():
         return None
 
     try:
-        # Simpan refresh token ke AuthInstance
         AuthInstance.add_refresh_token(int(number), refresh_token)
         AuthInstance.load_tokens()
         AuthInstance.set_active_user(number)
 
-        # Simpan ke file refresh-tokens.json
         tokens_file = "refresh-tokens.json"
         data = AuthInstance.refresh_tokens
         with open(tokens_file, "w", encoding="utf-8") as f:
             json.dump(data, f, indent=2)
 
-        print_panel("✅ Mantap", f"Login berhasil dengan refresh token untuk nomor {number}")
+        print_panel("✅ Mantap", f"Login dengan token berhasil untuk nomor {number}")
         pause()
         return number
     except Exception as e:
@@ -86,7 +82,7 @@ def render_quota_bar(remaining: int, total: int) -> Text:
         emoji = "🧡"
     else:
         color = "red"
-        emoji = "❤️"
+        emoji = "🚨"
 
     angka = f"{emoji} {remaining/1e9:.2f} / {total/1e9:.2f} GB"
     bar = f":📶 {'▓'*filled}{'░'*empty}"
