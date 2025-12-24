@@ -67,8 +67,8 @@ def login_prompt(api_key: str):
             tokens = submit_otp(api_key, "SMS", phone_number, otp)
             if tokens:
                 print_panel("✅ Sukses", f"Login berhasil cuy! Nomor: {phone_number}")
-                enc_json()
                 return phone_number, tokens["refresh_token"]
+                enc_json()
             else:
                 print_panel("⚠️ Ups", "OTP salah atau kadaluarsa, coba lagi bro 🚨")
                 pause()
