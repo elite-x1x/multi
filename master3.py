@@ -77,7 +77,7 @@ def render_quota_bar(remaining: int, total: int) -> Text:
     elif ratio > 0.45:
         color = "yellow"
         emoji = "💛"
-    elif ratio > 0.2:
+    elif ratio > 0.15:
         color = "orange1"
         emoji = "🧡"
     else:
