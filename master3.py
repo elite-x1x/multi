@@ -30,11 +30,22 @@ def login_with_refresh_token():
         print_panel("⚠️ Ups", "Nomor atau refresh token kosong bro 🚨")
         pause()
         return None
+    if not number.startswith("628"):
+        print_panel("⚠️ Ups", "Nomor harus format Indonesia (628xx) 🚨")
+        pause()
+        return None
 
     try:
         with live_loading("🔄 Lagi login via refresh token...", get_theme()):
             AuthInstance.add_refresh_token(int(number), refresh_token)
             AuthInstance.load_tokens()
+
+            tokens = AuthInstance.get_new_token(refresh_token, number)
+            if not tokens or "id_token" not in tokens:
+                print_panel("⚠️ Ups", "Refresh token invalid atau expired 🚨")
+                pause()
+                return None
+
             AuthInstance.set_active_user(number)
 
             tokens_file = "refresh-tokens.json"
