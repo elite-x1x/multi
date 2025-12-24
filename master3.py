@@ -12,6 +12,46 @@ from app3.menus.redeem_bot import auto_redeem_bonus
 from app3.menus.family import show_family_input_menu
 from rich.text import Text
 
+import json
+import os
+
+def login_with_refresh_token():
+    theme = get_theme()
+    clear_screenx()
+    console.print(Panel(
+        Align.center("🔑 Login via Refresh Token", vertical="middle"),
+        border_style=theme["border_info"],
+        padding=(1, 2),
+        expand=True
+    ))
+
+    number = console.input(f"[{theme['text_sub']}]Masukin nomor XL (628xx):[/{theme['text_sub']}] ").strip()
+    refresh_token = console.input(f"[{theme['text_sub']}]Masukin refresh token:[/{theme['text_sub']}] ").strip()
+
+    if not number or not refresh_token:
+        print_panel("⚠️ Ups", "Nomor atau refresh token kosong bro 🚨")
+        pause()
+        return None
+
+    try:
+        # Simpan refresh token ke AuthInstance
+        AuthInstance.add_refresh_token(int(number), refresh_token)
+        AuthInstance.load_tokens()
+        AuthInstance.set_active_user(number)
+
+        # Simpan ke file refresh-tokens.json
+        tokens_file = "refresh-tokens.json"
+        data = AuthInstance.refresh_tokens
+        with open(tokens_file, "w", encoding="utf-8") as f:
+            json.dump(data, f, indent=2)
+
+        print_panel("✅ Mantap", f"Login berhasil dengan refresh token untuk nomor {number}")
+        pause()
+        return number
+    except Exception as e:
+        print_panel("⚠️ Error", f"Gagal login dengan refresh token: {e}")
+        pause()
+        return None
 
 def map_point_to_status(point: int) -> tuple[str, str]:
     if point >= 500:
@@ -151,6 +191,7 @@ def show_main_menu(profile: dict, display_quota: Text | None, segments: dict):
     menu_table.add_column("Kode", justify="right", style=get_theme_style("text_key"), width=6)
     menu_table.add_column("Aksi", style=get_theme_style("text_body"))
 
+    menu_table.add_row("0", "🔑 Login via Refresh Token")
     menu_table.add_row("1", "🔐 Login / Ganti akun")
     menu_table.add_row("2", "📑 Lihat paket aktif")
     menu_table.add_row("3", "📜 Riwayat Transaksi")
@@ -372,6 +413,10 @@ def main():
             # Routing pilihan menu
             if choice.lower() == "t":
                 pause()
+
+            elif choice == "0":
+                login_with_refresh_token()
+
             elif choice == "1":
                 selected_user_number = show_account_menu()
                 if selected_user_number:
