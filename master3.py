@@ -40,7 +40,8 @@ def login_with_refresh_token():
             AuthInstance.add_refresh_token(int(number), refresh_token)
             AuthInstance.load_tokens()
 
-            tokens = AuthInstance.get_new_token(refresh_token, number)
+            # FIX: panggil fungsi global get_new_token
+            tokens = get_new_token(AuthInstance.api_key, refresh_token, number)
             if not tokens or "id_token" not in tokens:
                 print_panel("⚠️ Ups", "Refresh token invalid atau expired 🚨")
                 pause()
