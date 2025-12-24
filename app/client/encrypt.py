@@ -77,7 +77,7 @@ def load_ax_fp() -> str:
         ip="192.169.69.69",
         font_scale=1.0,
         android_release="10",
-        msisdn="6281398370564",
+        msisdn="6285939006496",
     )
     new_fp = ax_fingerprint(dev, AX_FP_KEY)
     with open(fp_path, "w", encoding="utf-8") as f:
