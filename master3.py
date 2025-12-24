@@ -121,10 +121,9 @@ def show_main_menu(profile: dict, display_quota: Text | None, segments: dict):
             f"[{theme['text_body']}]| 👥 {account_name}[/]"
         )
     else:
-        nomor_text = f":👥 [bold {theme['text_body']}]{masked_number}[/]"
+        nomor_text = f":📞 [bold {theme['text_body']}]{masked_number}[/]"
 
     info_table.add_row(" Nomor(akun)", nomor_text)
-    #info_table.add_row(" Nomor", f":📞 [bold {theme['text_body']}]{profile['number']}[/]")
     info_table.add_row(" Type", f":🧾 [{theme['text_body']}]{profile['subscription_type']} ({profile['subscriber_id']})[/]")
     info_table.add_row(" Pulsa", f":💰 Rp [{theme['text_money']}]{pulsa_str}[/]")
 
