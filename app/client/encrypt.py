@@ -69,8 +69,8 @@ def load_ax_fp() -> str:
 
     # Generate new if not found/empty
     dev = DeviceInfo(
-        manufacturer="Infinix" + str(randint(1000, 9999)),
-        model="Infinix X657C" + str(randint(1000, 9999)),
+        manufacturer="infinix" + str(randint(1000, 9999)),
+        model="X657C" + str(randint(1000, 9999)),
         lang="en",
         resolution="720x1600",
         tz_short="GMT07:00",
