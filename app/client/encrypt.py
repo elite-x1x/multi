@@ -69,7 +69,7 @@ def load_ax_fp() -> str:
 
     # Generate new if not found/empty
     dev = DeviceInfo(
-        manufacturer="Oppo" + str(randint(1000, 9999)),
+        manufacturer="oppo" + str(randint(1000, 9999)),
         model="CPH2737" + str(randint(1000, 9999)),
         lang="id",
         resolution="1080x2412",
