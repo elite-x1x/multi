@@ -8,7 +8,7 @@ def cek_kuota(msisdn: str) -> str:
     Mengecek kuota berdasarkan nomor XL (msisdn).
     Return string hasil mentah dari API.
     """
-    api_url = f"https://apigw.kmsp-store.com/sidompul/v3/cek_kuota?msisdn={msisdn}&isJSON=true"
+    api_url = f"https://apigw.kmsp-store.com/sidompul/v4/cek_kuota?msisdn={msisdn}&isJSON=true"
     headers = {
         'Authorization': 'Basic c2lkb21wdWxhcGk6YXBpZ3drbXNw',
         'X-API-Key': '4352ff7d-f4e6-48c6-89dd-21c811621b1c',
