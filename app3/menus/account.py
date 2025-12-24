@@ -66,9 +66,12 @@ def login_prompt(api_key: str):
             print_panel("⏳ Santuy", "Lagi verifikasi OTP...")
             tokens = submit_otp(api_key, "SMS", phone_number, otp)
             if tokens:
+                AuthInstance.add_refresh_token(int(phone_number), tokens["refresh_token"])
+                AuthInstance.load_tokens()
+
                 print_panel("✅ Sukses", f"Login berhasil cuy! Nomor: {phone_number}")
-                return phone_number, tokens["refresh_token"]
                 enc_json()
+                return phone_number, tokens["refresh_token"]
             else:
                 print_panel("⚠️ Ups", "OTP salah atau kadaluarsa, coba lagi bro 🚨")
                 pause()
