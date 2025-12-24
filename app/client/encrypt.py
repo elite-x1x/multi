@@ -71,7 +71,7 @@ def load_ax_fp() -> str:
     dev = DeviceInfo(
         manufacturer="oppo" + str(randint(1000, 9999)),
         model="CPH2737" + str(randint(1000, 9999)),
-        lang="id",
+        lang="en",
         resolution="1080x2412",
         tz_short="GMT07:00",
         ip="192.169.69.69",
