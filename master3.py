@@ -10,6 +10,7 @@ from app3.menus.sharing import show_balance_allotment_menu
 from app3.menus.purchase import redeem_looping
 from app3.menus.family import show_family_input_menu
 from app3.menus.account import enc_json
+from app3.client.ciam import get_new_token
 from rich.text import Text
 
 
