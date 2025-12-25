@@ -18,6 +18,17 @@ if not BASE_API_URL:
     raise ValueError("BASE_API_URL environment variable tidak diset")
 UA = os.getenv("UA")
 
+def get_topups(api_key: str, tokens: dict, option_code: str, use_loading: bool = True) -> dict | None:
+    path = "api/v8/xl-stores/options/topups"
+    payload = {
+        "is_enterprise": False,
+        "lang": "en",
+        "package_option_code": option_code,
+    }
+    res = _with_loading("💳 Mengambil topups...", send_api_request, use_loading, get_theme(),
+                        api_key, path, payload, tokens["id_token"], "POST")
+    return res.get("data") if res.get("status") == "SUCCESS" else None
+
 
 def send_api_request(api_key: str, path: str, payload_dict: dict, id_token: str, method: str = "POST"):
     encrypted_payload = encryptsign_xdata(
