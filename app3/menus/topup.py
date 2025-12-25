@@ -1,17 +1,16 @@
 # app3/menus/topup.py
 
 import sys
-import json
 from rich.table import Table
 from rich.console import Console
 from rich.panel import Panel
 from rich.align import Align
-from rich.text import Text
 
 from app3.config.imports import *
 from app3.config.theme_config import get_theme
 from app3.menus.util import clear_screen, pause, print_panel, simple_number, live_loading
 from app3.client.engsel import get_topups
+from app3.client.store.segments import get_segments   # pastikan wrapper get_segments ada
 
 console = Console()
 
@@ -34,16 +33,29 @@ def show_topup_menu():
         ))
         simple_number()
 
-        # langsung pakai default option_code (bisa disesuaikan sesuai kebutuhan)
-        DEFAULT_OPTION_CODE = "TOPUP_DEFAULT"
+        # ambil semua option_code dari store segments
+        segments = get_segments(api_key, tokens)
+        if not segments:
+            pause()
+            return
 
+        option_codes = []
+        for seg in segments.get("data", {}).get("segments", []):
+            for opt in seg.get("package_options", []):
+                if opt.get("package_option_code"):
+                    option_codes.append(opt["package_option_code"])
+
+        all_topups = []
         with live_loading("Memuat data topup... 🤙", theme):
-            topup_data = get_topups(api_key, tokens, DEFAULT_OPTION_CODE)
+            for code in option_codes:
+                data = get_topups(api_key, tokens, code, use_loading=False)
+                if data and "list" in data:
+                    all_topups.extend(data["list"])
 
-        if not topup_data:
+        if not all_topups:
             print_panel("⚠️ Ups", "Nggak ada data topup bro 🚨")
             pause()
-            return None
+            return
 
         # tampilkan tabel topup
         table = Table(box=MINIMAL_DOUBLE_HEAD, expand=True)
@@ -53,7 +65,7 @@ def show_topup_menu():
         table.add_column("Masa Aktif", style=theme["text_body"])
         table.add_column("Kode", style=theme["text_sub"], justify="right")
 
-        for idx, item in enumerate(topup_data.get("list", []), start=1):
+        for idx, item in enumerate(all_topups, start=1):
             table.add_row(
                 str(idx),
                 item.get("name", ""),
@@ -76,9 +88,13 @@ def show_topup_menu():
             in_topup_menu = False
             return None
 
-        if choice.isdigit() and 1 <= int(choice) <= len(topup_data.get("list", [])):
-            selected = topup_data["list"][int(choice) - 1]
-            print_panel("ℹ️ Info Paket", f"Nama: {selected.get('name')}\nHarga: {selected.get('price')}\nMasa Aktif: {selected.get('validity')}")
+        if choice.isdigit() and 1 <= int(choice) <= len(all_topups):
+            selected = all_topups[int(choice) - 1]
+            print_panel("ℹ️ Info Paket",
+                        f"Nama: {selected.get('name')}\n"
+                        f"Harga: {selected.get('price')}\n"
+                        f"Masa Aktif: {selected.get('validity')}\n"
+                        f"Kode: {selected.get('package_option_code')}")
             pause()
         else:
             print_panel("⚠️ Ups", "Input lo ngaco bro 🚨")
