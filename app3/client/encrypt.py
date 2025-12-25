@@ -69,15 +69,15 @@ def load_ax_fp() -> str:
 
     # Generate new if not found/empty
     dev = DeviceInfo(
-        manufacturer="samsung" + str(randint(1000, 9999)),
-        model="SM-N93" + str(randint(1000, 9999)),
-        lang="en",
-        resolution="720x1540",
+        manufacturer="LENOVO" + str(randint(1000, 9999)),
+        model="Lenovo K6 Note" + str(randint(1000, 9999)),
+        lang="id",
+        resolution="1920x1080",
         tz_short="GMT07:00",
         ip="192.169.69.69",
         font_scale=1.0,
-        android_release="13",
-        msisdn="6281398370564",
+        android_release="11",
+        msisdn="6285939006496",
     )
     new_fp = ax_fingerprint(dev, AX_FP_KEY)
     with open(fp_path, "w", encoding="utf-8") as f:
