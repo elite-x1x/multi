@@ -707,7 +707,7 @@ def fetch_my_packages():
             if benefits:
                 benefit_table = Table(box=MINIMAL_DOUBLE_HEAD, expand=True)
                 benefit_table.add_column("Nama", style=theme["text_body"])
-                benefit_table.add_column("Jenis", style=theme["text_body"])
+                #benefit_table.add_column("Jenis", style=theme["text_body"])
                 benefit_table.add_column("Kuota", style=theme["text_body"], justify="right")
 
                 for b in benefits:
