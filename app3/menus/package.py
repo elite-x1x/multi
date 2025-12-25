@@ -629,12 +629,12 @@ def render_quota_bar(remaining: int, total: int) -> Text:
 
     angka = f"{emoji} {format_quota_byte(remaining)} / {format_quota_byte(total)}"
     bar = f"{'▓'*filled}{'░'*empty}"
-    #persen = f" {ratio*100:.1f}%"
+    persen = f" {ratio*100:.1f}%"
 
     text = Text()
     text.append(f"{angka}\n", style="bold")
     text.append(bar, style=color)
-    #text.append(persen, style=color)
+    text.append(persen, style=color)
     return text
 
 
