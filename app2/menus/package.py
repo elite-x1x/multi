@@ -605,36 +605,38 @@ def format_unix_date_with_diff(ts: int, mode: str = "future") -> str:
         return str(ts)
 
 def render_quota_bar(remaining: int, total: int) -> Text:
-    if total is None or total <= 0:
+    if total <= 0:
         return Text("Tidak ada kuota", style="bold red")
 
-    if remaining is None or remaining < 0:
-        remaining = 0
     ratio = remaining / total
-    if ratio < 0:
-        ratio = 0
-    elif ratio > 1:
+    if ratio > 1:
         ratio = 1
 
-    bar_length = 20
+    bar_length = 14
     filled = int(ratio * bar_length)
     empty = bar_length - filled
 
-    if ratio >= 0.7:
+    if ratio > 0.7:
         color = "green"
-    elif ratio >= 0.4:
+        emoji = ""
+    elif ratio > 0.45:
         color = "yellow"
-    elif ratio >= 0.15:
+        emoji = ""
+    elif ratio > 0.15:
         color = "orange1"
+        emoji = ""
     else:
         color = "red"
+        emoji = ""
 
-    angka = f"{remaining/1e9:.2f} / {total/1e9:.2f} GB"
+    angka = f"{emoji} {format_quota_byte(remaining)} / {format_quota_byte(total)}"
     bar = f"{'▓'*filled}{'░'*empty}"
+    persen = f" {ratio*100:.1f}%"
 
     text = Text()
     text.append(f"{angka}\n", style="bold")
     text.append(bar, style=color)
+    text.append(persen, style=color)
     return text
 
 
@@ -703,7 +705,7 @@ def fetch_my_packages():
             if benefits:
                 benefit_table = Table(box=MINIMAL_DOUBLE_HEAD, expand=True)
                 benefit_table.add_column("Nama", style=theme["text_body"])
-                benefit_table.add_column("Jenis", style=theme["text_body"])
+                #benefit_table.add_column("Jenis", style=theme["text_body"])
                 benefit_table.add_column("Kuota", style=theme["text_body"], justify="right")
 
                 for b in benefits:
@@ -743,7 +745,8 @@ def fetch_my_packages():
                         else:
                             quota_bar = f"{r} / {t}"
                 
-                    benefit_table.add_row(name, dt, quota_bar)
+                    #benefit_table.add_row(name, dt, quota_bar)
+                    benefit_table.add_row(name, quota_bar)
 
             package_details = get_package(api_key, tokens, quota_code)
             if package_details:
