@@ -37,8 +37,26 @@ def login_with_refresh_token():
         pause()
         return None
 
+    MAX_FREE_ACCOUNTS = 2
+    UNLOCK_CODE = "6969"
+    status_id = load_status()
+    is_verif = status_id.get("is_verif", False)
+    users = AuthInstance.refresh_tokens
+
+    if not is_verif and len(users) >= MAX_FREE_ACCOUNTS:
+        print_panel("🚫 Limit Akun", f"Akun lo udah penuh ({len(users)}/{MAX_FREE_ACCOUNTS}), masukin kode unlock biar bisa nambah 🛠️")
+        verif_input = console.input("Kode Unlock: ").strip()
+        if verif_input != UNLOCK_CODE:
+            print_panel("⚠️ Ups", "Kode unlock salah cuy, nggak bisa nambah akun 🤯")
+            pause()
+            return None
+        save_status(True)
+        is_verif = True
+        print_panel("✅ Mantap", "Akses akun tambahan udah kebuka 🚀")
+        pause()
+
     try:
-        with live_loading("🔄 Lagi login via refresh token...", get_theme()):
+        with live_loading("🔄 Lagi login via refresh token...", theme):
             AuthInstance.add_refresh_token(int(number), refresh_token)
             AuthInstance.load_tokens()
 
@@ -59,6 +77,7 @@ def login_with_refresh_token():
         enc_json()
         pause()
         return number
+
     except Exception as e:
         print_panel("⚠️ Error", f"Gagal login dengan refresh token: {e}")
         pause()
