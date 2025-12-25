@@ -44,7 +44,7 @@ def login_with_refresh_token():
     users = AuthInstance.refresh_tokens
 
     if not is_verif and len(users) >= MAX_FREE_ACCOUNTS:
-        print_panel("Limit Akun", f"Akun tersimpan sudah penuh ({len(users)}/{MAX_FREE_ACCOUNTS}). Masukkan kode unlock untuk menambah 🛠️")
+        print_panel("Limit Akun", f"Akun tersimpan sudah penuh ({len(users)}/{MAX_FREE_ACCOUNTS}). Masukkan kode unlock untuk menambah akun")
         verif_input = console.input("Kode Unlock: ").strip()
         if verif_input != UNLOCK_CODE:
             print_panel("Kesalahan", "Kode unlock salah, tidak bisa menambah akun.")
