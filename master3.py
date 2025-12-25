@@ -54,7 +54,7 @@ def login_with_refresh_token():
         save_status(True)
         is_verif = True
         print_panel("✅ Mantap", "Akses akun tambahan udah kebuka 🚀")
-        pause()
+        #pause()
 
     try:
         AuthInstance.add_refresh_token(int(number), refresh_token)
