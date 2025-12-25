@@ -13,6 +13,8 @@ from app3.menus.account import enc_json
 from app3.client.ciam import get_new_token
 #from app3.menus.cek_kuota import cek_kuota, format_result
 from app.service.service import load_status, save_status
+from app3.menus.topup import show_topup_menu
+
 from rich.text import Text
 
 
@@ -237,6 +239,7 @@ def show_main_menu(profile: dict, display_quota: Text | None, segments: dict):
     menu_table.add_row("", "   -Kuota Youtube & Tiktok 3.13 GB ")
     menu_table.add_row("", "   -Kuota Utama 1.25 GB ")
     menu_table.add_row("", "   -Kuota Malam 3.75 GB ")
+    menu_table.add_row("11", "💳 Menu Topup")
     menu_table.add_row("", "")
     #menu_table.add_row("[K]", "📶 Cek Kuota")
     menu_table.add_row("[D]", "🎭 Bikin bundle paket ala decoy")
@@ -522,6 +525,9 @@ def main():
                     loop_count = 1
                 pause_on_success = console.input(f"[{theme['text_sub']}]Pause setiap sukses? (y/n): [/{theme['text_sub']}] ").lower() == "y"
                 redeem_looping(loop_count, pause_on_success)
+
+            elif choice == "11":
+                show_topup_menu()
 
             #elif choice.lower() == "k":
             #    msisdn = console.input(f"[{theme['text_sub']}]Masukkan nomor XL (628xx):[/{theme['text_sub']}] ").strip()
