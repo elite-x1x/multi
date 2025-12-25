@@ -747,7 +747,8 @@ def fetch_my_packages():
                         else:
                             quota_bar = f"{r} / {t}"
                 
-                    benefit_table.add_row(name, dt, quota_bar)
+                    #benefit_table.add_row(name, dt, quota_bar)
+                    benefit_table.add_row(name, quota_bar)
 
             package_details = get_package(api_key, tokens, quota_code)
             if package_details:
