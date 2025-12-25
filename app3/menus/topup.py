@@ -9,8 +9,7 @@ from rich.align import Align
 from app3.config.imports import *
 from app3.config.theme_config import get_theme
 from app3.menus.util import clear_screen, pause, print_panel, simple_number, live_loading
-from app3.client.engsel import get_topups
-from app3.client.store.segments import get_segments   # pastikan wrapper get_segments ada
+from app3.client.engsel import get_family, get_topups
 
 console = Console()
 
@@ -33,24 +32,33 @@ def show_topup_menu():
         ))
         simple_number()
 
-        # ambil semua option_code dari store segments
-        segments = get_segments(api_key, tokens)
-        if not segments:
+        # ambil semua family code dari akun aktif
+        family_codes = []
+        profile = AuthInstance.get_active_user()
+        if not profile:
+            print_panel("⚠️ Ups", "User belum aktif bro 🚨")
             pause()
             return
 
-        option_codes = []
-        for seg in segments.get("data", {}).get("segments", []):
-            for opt in seg.get("package_options", []):
-                if opt.get("package_option_code"):
-                    option_codes.append(opt["package_option_code"])
+        # misalnya ambil dari subscription_type
+        subscription_type = profile.get("subscription_type", "")
+        if subscription_type:
+            family_codes.append(subscription_type)
 
         all_topups = []
         with live_loading("Memuat data topup... 🤙", theme):
-            for code in option_codes:
-                data = get_topups(api_key, tokens, code, use_loading=False)
-                if data and "list" in data:
-                    all_topups.extend(data["list"])
+            for fam_code in family_codes:
+                family_data = get_family(api_key, tokens, fam_code)
+                if not family_data:
+                    continue
+                for variant in family_data.get("package_variants", []):
+                    for option in variant.get("package_options", []):
+                        code = option.get("package_option_code")
+                        if not code:
+                            continue
+                        data = get_topups(api_key, tokens, code, use_loading=False)
+                        if data and "list" in data:
+                            all_topups.extend(data["list"])
 
         if not all_topups:
             print_panel("⚠️ Ups", "Nggak ada data topup bro 🚨")
