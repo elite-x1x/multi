@@ -67,6 +67,7 @@ def login_with_refresh_token():
 def render_quota_bar(remaining: int, total: int) -> Text:
     if total <= 0:
         return Text("Tidak ada kuota", style="bold red")
+
     ratio = remaining / total
     if ratio > 1:
         ratio = 1
@@ -88,7 +89,7 @@ def render_quota_bar(remaining: int, total: int) -> Text:
         color = "red"
         emoji = ""
 
-    angka = f"{emoji} {remaining/1e9:.2f} / {total/1e9:.2f} GB"
+    angka = f"{emoji} {format_quota_byte(remaining)} / {format_quota_byte(total)}"
     bar = f": {'▓'*filled}{'░'*empty}"
     persen = f" {ratio*100:.1f}%"
 
