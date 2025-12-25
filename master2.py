@@ -11,6 +11,7 @@ from app2.menus.purchase import redeem_looping
 from app2.menus.family import show_family_input_menu
 from app2.menus.account import enc_json
 from app2.client.ciam import get_new_token
+from app.service.service import load_status, save_status
 from rich.text import Text
 
 
@@ -36,28 +37,46 @@ def login_with_refresh_token():
         pause()
         return None
 
+    MAX_FREE_ACCOUNTS = 2
+    UNLOCK_CODE = "6969"
+    status_id = load_status()
+    is_verif = status_id.get("is_verif", False)
+    users = AuthInstance.refresh_tokens
+
+    if not is_verif and len(users) >= MAX_FREE_ACCOUNTS:
+        print_panel("🚫 Limit Akun", f"Akun tersimpan sudah penuh ({len(users)}/{MAX_FREE_ACCOUNTS}). Masukkan kode unlock untuk menambah 🛠️")
+        verif_input = console.input("Kode Unlock: ").strip()
+        if verif_input != UNLOCK_CODE:
+            print_panel("Kesalahan", "Kode unlock salah, tidak bisa menambah akun.")
+            pause()
+            return None
+        save_status(True)
+        is_verif = True
+        print_panel("Berhasil", "Akses akun tambahan sudah dibuka 🚀")
+        #pause()
+
     try:
-        with live_loading("Sedang melakukan login via refresh token...", get_theme()):
-            AuthInstance.add_refresh_token(int(number), refresh_token)
-            AuthInstance.load_tokens()
+        AuthInstance.add_refresh_token(int(number), refresh_token)
+        AuthInstance.load_tokens()
 
-            tokens = get_new_token(AuthInstance.api_key, refresh_token, number)
-            if not tokens or "id_token" not in tokens:
-                print_panel("Kesalahan", "Refresh token tidak valid atau sudah kedaluwarsa.")
-                pause()
-                return None
+        tokens = get_new_token(AuthInstance.api_key, refresh_token, number)
+        if not tokens or "id_token" not in tokens:
+            print_panel("Kesalahan", "Refresh token tidak valid atau sudah kedaluwarsa.")
+            pause()
+            return None
 
-            AuthInstance.set_active_user(number)
+        AuthInstance.set_active_user(number)
 
-            tokens_file = "refresh-tokens.json"
-            data = AuthInstance.refresh_tokens
-            with open(tokens_file, "w", encoding="utf-8") as f:
-                json.dump(data, f, indent=2)
+        tokens_file = "refresh-tokens.json"
+        data = AuthInstance.refresh_tokens
+        with open(tokens_file, "w", encoding="utf-8") as f:
+            json.dump(data, f, indent=2)
 
         print_panel("Berhasil", f"Login dengan refresh token berhasil untuk nomor {number}.")
         enc_json()
         pause()
         return number
+
     except Exception as e:
         print_panel("Kesalahan", f"Gagal login dengan refresh token: {e}")
         pause()
