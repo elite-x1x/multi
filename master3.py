@@ -76,23 +76,6 @@ def map_point_to_status(point: int) -> tuple[str, str]:
         return ("Blue", "blue")
 
 
-def format_size(bytes_value: int) -> str:
-    units = [
-        ("TB", 1024**4),
-        ("GB", 1024**3),
-        ("MB", 1024**2),
-        ("KB", 1024),
-        ("B", 1),
-    ]
-    for unit, factor in units:
-        if bytes_value >= factor:
-            value = bytes_value / factor
-            if unit == "B":
-                return f"{int(value)} {unit}"
-            return f"{value:.2f} {unit}"
-    return "0 B"
-
-
 def render_quota_bar(remaining: int, total: int) -> Text:
     if total <= 0:
         return Text("Tidak ada kuota", style="bold red")
@@ -118,7 +101,7 @@ def render_quota_bar(remaining: int, total: int) -> Text:
         color = "red"
         emoji = "🚨"
 
-    angka = f"{emoji} {format_size(remaining)} / {format_size(total)}"
+    angka = f"{emoji} {format_quota_byte(remaining)} / {format_quota_byte(total)}"
     bar = f":📶 {'▓'*filled}{'░'*empty}"
     persen = f" {ratio*100:.1f}%"
 
