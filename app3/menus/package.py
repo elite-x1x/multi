@@ -610,7 +610,7 @@ def render_quota_bar(remaining: int, total: int) -> Text:
     if ratio > 1:
         ratio = 1
 
-    bar_length = 20
+    bar_length = 16
     filled = int(ratio * bar_length)
     empty = bar_length - filled
 
