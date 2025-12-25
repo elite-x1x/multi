@@ -1,3 +1,5 @@
+# app3/menus/topup.py
+
 import sys
 import json
 from rich.table import Table
@@ -5,6 +7,7 @@ from rich.console import Console
 from rich.panel import Panel
 from rich.align import Align
 from rich.text import Text
+
 from app3.config.imports import *
 from app3.config.theme_config import get_theme
 from app3.menus.util import clear_screen, pause, print_panel, simple_number, live_loading
@@ -31,19 +34,16 @@ def show_topup_menu():
         ))
         simple_number()
 
-        option_code = console.input(f"[{theme['text_sub']}]Masukkan package_option_code 👉:[/{theme['text_sub']}] ").strip()
-        if not option_code:
-            print_panel("⚠️ Ups", "option_code wajib diisi bro 🚨")
-            pause()
-            continue
+        # langsung pakai default option_code (bisa disesuaikan sesuai kebutuhan)
+        DEFAULT_OPTION_CODE = "TOPUP_DEFAULT"
 
         with live_loading("Memuat data topup... 🤙", theme):
-            topup_data = get_topups(api_key, tokens, option_code)
+            topup_data = get_topups(api_key, tokens, DEFAULT_OPTION_CODE)
 
         if not topup_data:
             print_panel("⚠️ Ups", "Nggak ada data topup bro 🚨")
             pause()
-            continue
+            return None
 
         # tampilkan tabel topup
         table = Table(box=MINIMAL_DOUBLE_HEAD, expand=True)
