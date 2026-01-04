@@ -1,0 +1,66 @@
+[
+    {
+        "family_name": "BIZ Manufacture",
+        "family_code": "f3303d95-8454-4e80-bb25-38513d358a11",
+        "is_enterprise": true,
+        "variant_name": "BIZ Manufacture",
+        "option_name": "Merah Putih 6GB",
+        "order": 1
+    },
+    {
+        "family_name": "BIZ Data+",
+        "family_code": "53de8ac3-521d-43f5-98ce-749ad0481709",
+        "is_enterprise": true,
+        "variant_name": "BIZ Data+",
+        "option_name": "BIZ Data+ 22GB",
+        "order": 3
+    },
+    {
+        "family_name": "BIZ Data+",
+        "family_code": "53de8ac3-521d-43f5-98ce-749ad0481709",
+        "is_enterprise": true,
+        "variant_name": "BIZ Data+",
+        "option_name": "BIZ Data+ 12GB",
+        "order": 4
+    },
+    {
+        "family_name": "BIZ Prepaid",
+        "family_code": "20342db0-e03e-4dfd-b2d0-cd315d7ddc36",
+        "is_enterprise": true,
+        "variant_name": "BIZ Prepaid",
+        "option_name": "BIZ Starter",
+        "order": 1
+    },
+    {
+        "family_name": "BIZ Prepaid",
+        "family_code": "ae2707e6-2996-45f8-944a-8a391e956f28",
+        "is_enterprise": true,
+        "variant_name": "BIZ E-Commerce",
+        "option_name": "BIZ Starter",
+        "order": 5
+    },
+    {
+        "family_name": "Unlimited Turbo",
+        "family_code": "08a3b1e6-8e78-4e45-a540-b40f06871cfe",
+        "is_enterprise": false,
+        "variant_name": "For Xtra Combo",
+        "option_name": "TikTok",
+        "order": 6
+    },
+    {
+        "family_name": "Newcomer Promo",
+        "family_code": "6bc5a34d-7901-4bf9-8629-5bd7de28c89f",
+        "is_enterprise": false,
+        "variant_name": "Xtra Combo",
+        "option_name": "1GB + 1GB",
+        "order": 1
+    },
+    {
+        "family_name": "Video & Music",
+        "family_code": "b50cef3e-fcd0-4699-83a9-6f5740b7ef31",
+        "is_enterprise": false,
+        "variant_name": "Vidio",
+        "option_name": "Vidio",
+        "order": 1
+    }
+]
