@@ -21,12 +21,12 @@
                 "migration_type": "NONE",
                 "variant_code": "719d093f-6f8d-46a4-8390-6a0003a172ea",
                 "option_name": "",
-                "order": 1
+                "order": 4
             }
         ],
         "payment_for": "BUY_PACKAGE",
         "ask_overwrite": false,
-        "overwrite_amount": 889750,
+        "overwrite_amount": 0,
         "token_confirmation_idx": 0,
         "amount_idx": -1
     },
@@ -84,12 +84,12 @@
                 "migration_type": "NONE",
                 "variant_code": "719d093f-6f8d-46a4-8390-6a0003a172ea",
                 "option_name": "",
-                "order": 1
+                "order": 4
             }
         ],
         "payment_for": "BUY_PACKAGE",
         "ask_overwrite": false,
-        "overwrite_amount": 889750,
+        "overwrite_amount": 0,
         "token_confirmation_idx": 0,
         "amount_idx": -1
     },
