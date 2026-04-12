@@ -1,10 +1,10 @@
 {
-    "family_name": "XL PASS",
-    "family_code": "b0a20d74-0c54-4e3b-8f3f-01e7482e50bf",
-    "is_enterprise": true,
-    "migration_type": "NONE",
-    "variant_code": "719d093f-6f8d-46a4-8390-6a0003a172ea",
-    "option_name": "XL PASS 1 days",
-    "order": 4,
-    "price": 0
+  "family_name": "XL PASS",
+  "family_code": "fff99b6b-5a5d-4ba4-a55b-38f6aca6f91d",
+  "is_enterprise": false,
+  "migration_type": "NONE",
+  "variant_code": "6986897d-9f09-4651-ac24-6efdf3dbcf3d",
+  "option_name": "XL PASS 20 Days",
+  "order": 1,
+  "price": 800000
 }
